@@ -16,7 +16,7 @@ try {
         $stmt = $pdo->prepare("
             SELECT t.*, 
                    m.name AS mission_name, m.official_name AS mission_official, m.launch_date, m.status AS mission_status,
-                   e.id AS equipment_id, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
+                   e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                    a.short_name AS agency_code,
                    d.name AS destination_name
             FROM timeline_events t
@@ -36,7 +36,7 @@ try {
             $cStmt = $pdo->prepare("
                 SELECT t.*, 
                        m.name AS mission_name, m.status AS mission_status,
-                       e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
+                       e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                        a.short_name AS agency_code,
                        d.name AS destination_name
                 FROM timeline_events t
@@ -57,7 +57,7 @@ try {
     $stmt = $pdo->query("
         SELECT t.*, 
                m.name AS mission_name, m.status AS mission_status,
-               e.id AS equipment_id, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
+               e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                a.short_name AS agency_code,
                d.name AS destination_name
         FROM timeline_events t

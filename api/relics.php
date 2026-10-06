@@ -39,7 +39,7 @@ try {
     }
 
     $stmt = $pdo->query("
-        SELECT e.id, e.name, e.official_name, e.type, e.operational_period, 
+        SELECT e.id, e.slug, e.name, e.official_name, e.type, e.operational_period, 
                e.current_status, e.current_location, e.relic_category, e.description,
                e.discoveries, e.legacy,
                m.id AS mission_id, m.name AS mission_name, YEAR(m.launch_date) AS launch_year,
