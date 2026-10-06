@@ -5,7 +5,7 @@
 
 class RelicsExhibition {
   constructor() {
-    this.container = document.getElementById('section-relics');
+    this.container = document.getElementById('relics') || document.getElementById('section-relics');
     this.buttons = document.querySelectorAll('.relic-tab-btn');
     this.imageEl = document.getElementById('relic-display-image');
     this.missionEl = document.getElementById('relic-val-mission');
@@ -42,8 +42,19 @@ class RelicsExhibition {
     }
   }
 
-  switchRelic(relicId) {
-    const relic = this.relicsData.find(r => String(r.id) === String(relicId));
+  async switchRelic(relicId) {
+    let relic = this.relicsData.find(r => String(r.id) === String(relicId));
+    if (!relic) {
+      try {
+        const res = await fetch(`api/relics.php?id=${relicId}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          relic = json.data;
+        }
+      } catch (err) {
+        console.warn('Failed to load relic fallback:', err);
+      }
+    }
     if (!relic) return;
 
     // Fade transition

@@ -152,30 +152,51 @@ function renderSearchResults(data, container) {
     });
   }
 
-  // 2. Equipment & Spacecraft
-  if (data.equipment && data.equipment.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">EQUIPMENT & SPACECRAFT</div>';
-    data.equipment.forEach(e => {
+  // 2. Relics
+  if (data.relics && data.relics.length > 0) {
+    html += '<div class="mono-label" style="color: var(--accent-cyan); margin: 0.8rem 0 0.4rem;">OFF-WORLD RELICS</div>';
+    data.relics.forEach(e => {
       const linkId = e.slug ? e.slug : e.id;
       html += `
-        <a href="equipment.php?id=${linkId}" class="search-item-card">
+        <a href="equipment.php?id=${linkId}" class="search-item-card" style="border-left: 2px solid var(--accent-cyan);">
           <div>
-            <div style="font-weight: 600; color: #fff;">${e.name} ${e.is_relic ? '<span style="color: var(--accent-cyan); font-size: 0.7rem;">[RELIC]</span>' : ''}</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // ${e.mission_name}</div>
+            <div style="font-weight: 600; color: #fff;">${e.name} <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">[${e.relic_category || 'RELIC'}]</span></div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // Mission: ${e.mission_name || 'Archived'}</div>
           </div>
           <div style="text-align: right;">
-            <span class="mono-label">${e.current_status || ''}</span>
+            <span class="mono-label" style="color: var(--accent-orange);">${e.destination_name || ''}</span>
+            <span class="mono-value" style="display: block; font-size: 0.7rem; color: var(--text-muted);">${e.current_status || 'DECOMMISSIONED'}</span>
           </div>
         </a>
       `;
     });
   }
 
-  // 3. Scientific Instruments
+  // 3. Operational Equipment & Spacecraft
+  if (data.equipment && data.equipment.length > 0) {
+    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">OPERATIONAL EQUIPMENT & SPACECRAFT</div>';
+    data.equipment.forEach(e => {
+      const linkId = e.slug ? e.slug : e.id;
+      html += `
+        <a href="equipment.php?id=${linkId}" class="search-item-card">
+          <div>
+            <div style="font-weight: 600; color: #fff;">${e.name}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // ${e.mission_name || ''}</div>
+          </div>
+          <div style="text-align: right;">
+            <span class="mono-label" style="color: var(--accent-emerald);">${e.current_status || 'OPERATIONAL'}</span>
+            <span class="mono-value" style="display: block; font-size: 0.7rem; color: var(--accent-orange);">${e.destination_name || ''}</span>
+          </div>
+        </a>
+      `;
+    });
+  }
+
+  // 4. Scientific Instruments
   if (data.instruments && data.instruments.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-cyan); margin: 0.8rem 0 0.4rem;">SCIENTIFIC INSTRUMENTS</div>';
+    html += '<div class="mono-label" style="color: var(--accent-purple); margin: 0.8rem 0 0.4rem;">SCIENTIFIC INSTRUMENTS</div>';
     data.instruments.forEach(inst => {
-      const parentSlug = inst.equipment_slug || 'perseverance';
+      const parentSlug = inst.equipment_slug || inst.equipment_id || 'perseverance';
       html += `
         <a href="equipment.php?id=${parentSlug}#instruments-section" class="search-item-card">
           <div>
@@ -183,14 +204,15 @@ function renderSearchResults(data, container) {
             <div style="font-size: 0.75rem; color: var(--text-secondary);">${inst.purpose || ''}</div>
           </div>
           <div style="text-align: right;">
-            <span class="mono-label" style="color: var(--accent-orange);">${inst.equipment_name || 'HARDWARE'}</span>
+            <span class="mono-label" style="color: var(--accent-cyan);">${inst.equipment_name || 'HARDWARE'}</span>
+            <span class="mono-value" style="display: block; font-size: 0.7rem; color: var(--text-muted);">${inst.destination_name || ''}</span>
           </div>
         </a>
       `;
     });
   }
 
-  // 4. Agencies
+  // 5. Agencies
   if (data.agencies && data.agencies.length > 0) {
     html += '<div class="mono-label" style="color: var(--accent-blue); margin: 0.8rem 0 0.4rem;">AGENCIES</div>';
     data.agencies.forEach(a => {
@@ -199,6 +221,21 @@ function renderSearchResults(data, container) {
           <div>
             <div style="font-weight: 600; color: #fff;">${a.short_name} - ${a.name}</div>
             <div style="font-size: 0.75rem; color: var(--text-secondary);">${a.country}</div>
+          </div>
+        </a>
+      `;
+    });
+  }
+
+  // 6. Destinations
+  if (data.destinations && data.destinations.length > 0) {
+    html += '<div class="mono-label" style="color: var(--accent-emerald); margin: 0.8rem 0 0.4rem;">DESTINATIONS</div>';
+    data.destinations.forEach(d => {
+      html += `
+        <a href="destinations.php?id=${d.id}" class="search-item-card">
+          <div>
+            <div style="font-weight: 600; color: #fff;">${d.name} <span class="mono-label" style="font-size: 0.65rem;">[${d.type}]</span></div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${d.distance_from_earth || ''}</div>
           </div>
         </a>
       `;

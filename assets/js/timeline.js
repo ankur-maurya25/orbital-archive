@@ -5,7 +5,7 @@
 
 class HumanityTimeline {
   constructor() {
-    this.container = document.getElementById('section-timeline');
+    this.container = document.getElementById('timeline') || document.getElementById('section-timeline');
     this.yearNodes = document.querySelectorAll('.timeline-year-node');
     this.capsuleImg = document.getElementById('timeline-spotlight-image');
     this.labelEl = document.getElementById('timeline-spotlight-label');

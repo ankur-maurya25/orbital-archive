@@ -36,7 +36,9 @@ try {
 
     $stmt = $pdo->query("
         SELECT d.*, 
-               COUNT(m.id) AS calculated_mission_count
+               COUNT(DISTINCT m.id) AS calculated_mission_count,
+               (SELECT COUNT(*) FROM equipment e JOIN missions m2 ON e.mission_id = m2.id WHERE m2.destination_id = d.id) AS calculated_equipment_count,
+               (SELECT GROUP_CONCAT(e.name SEPARATOR ', ') FROM equipment e JOIN missions m3 ON e.mission_id = m3.id WHERE m3.destination_id = d.id ORDER BY e.is_relic DESC, e.id ASC LIMIT 4) AS flagship_examples
         FROM destinations d
         LEFT JOIN missions m ON d.id = m.destination_id
         GROUP BY d.id

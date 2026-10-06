@@ -10,27 +10,42 @@ class DestinationOrbits {
     this.orbitPaths = document.querySelectorAll('.orbital-svg-path');
     this.infoPanel = document.getElementById('destination-hover-card');
 
+    this.destData = {};
     if (!this.container) return;
     this.init();
   }
 
-  init() {
+  async init() {
+    try {
+      const res = await fetch('api/destinations.php');
+      const json = await res.json();
+      if (json.success && json.data) {
+        json.data.forEach(d => {
+          this.destData[d.id] = d;
+        });
+      }
+    } catch (e) {
+      console.warn('Using embedded destination telemetry.', e);
+    }
+
     this.nodes.forEach(node => {
       node.addEventListener('mouseenter', (e) => this.onNodeHover(e.currentTarget));
       node.addEventListener('mouseleave', () => this.onNodeLeave());
       node.addEventListener('click', (e) => {
         const destId = e.currentTarget.getAttribute('data-dest-id');
-        const destName = e.currentTarget.getAttribute('data-dest-name');
         window.location.href = `destinations.php?id=${destId}`;
       });
     });
   }
 
   onNodeHover(node) {
-    const destName = node.getAttribute('data-dest-name');
-    const missionCount = node.getAttribute('data-missions');
-    const distance = node.getAttribute('data-distance');
-    const badge = node.getAttribute('data-badge') || '';
+    const destId = node.getAttribute('data-dest-id');
+    const live = this.destData[destId] || {};
+    const destName = live.name || node.getAttribute('data-dest-name');
+    const missionCount = live.calculated_mission_count !== undefined ? live.calculated_mission_count : node.getAttribute('data-missions');
+    const equipCount = live.calculated_equipment_count !== undefined ? live.calculated_equipment_count : 'Multiple';
+    const flagships = live.flagship_examples ? live.flagship_examples.split(', ').slice(0, 3).join(', ') : '';
+    const distance = live.distance_from_earth || node.getAttribute('data-distance') || 'Varies';
 
     // Highlight connecting SVG orbit path
     const targetOrbit = node.getAttribute('data-orbit-id');
@@ -47,7 +62,8 @@ class DestinationOrbits {
       this.infoPanel.innerHTML = `
         <div class="mono-label" style="color: var(--accent-blue)">DESTINATION TELEMETRY</div>
         <div style="font-size: 1.3rem; font-weight: 700; color: #fff; margin: 4px 0;">${destName}</div>
-        <div class="mono-value" style="color: var(--accent-orange); margin-bottom: 6px;">${missionCount} RECORDED MISSIONS</div>
+        <div class="mono-value" style="color: var(--accent-orange); margin-bottom: 4px;">${missionCount} MISSIONS // ${equipCount} HARDWARE UNITS</div>
+        ${flagships ? `<div style="font-size: 0.78rem; color: var(--accent-cyan); margin-bottom: 4px;">KEY OBJECTS: ${flagships}</div>` : ''}
         <div style="font-size: 0.8rem; color: var(--text-secondary);">DISTANCE: <span style="color: #fff">${distance}</span></div>
         <div class="mono-label" style="margin-top: 8px; color: var(--accent-cyan);">CLICK TO EXPLORE ARCHIVE →</div>
       `;
