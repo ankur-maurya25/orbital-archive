@@ -1,7 +1,7 @@
 <?php
 /**
  * ORBITAL ARCHIVE - Digital Museum Equipment Exhibit
- * Exhibition Experience for Mars 2020 Perseverance Rover and Spacecraft Archive
+ * Exhibition Experience Engine powering all cataloged spacecraft, rovers, and landers
  */
 
 require_once __DIR__ . '/config/database.php';
@@ -77,7 +77,7 @@ $images = $imgStmt->fetchAll();
 $heroImage = !empty($images) ? $images[0] : [
     'image_url' => 'https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg',
     'title' => htmlspecialchars($eq['name']),
-    'credit' => 'NASA / JPL-Caltech',
+    'credit' => htmlspecialchars($eq['a_name'] ?? 'Space Agency Record'),
     'license' => 'Public Domain'
 ];
 
@@ -99,7 +99,7 @@ $srcStmt = $pdo->prepare("
 $srcStmt->execute(['eq_id' => $eqId, 'm_id' => $mId]);
 $sources = $srcStmt->fetchAll();
 
-// Fetch related equipment
+// Fetch related equipment with intelligent weighting
 $relStmt = $pdo->prepare("
     SELECT e.id, e.slug, e.name, e.type, e.current_status, e.is_relic,
            m.name AS mission_name, d.name AS destination_name,
@@ -107,14 +107,31 @@ $relStmt = $pdo->prepare("
     FROM equipment e
     JOIN missions m ON e.mission_id = m.id
     JOIN destinations d ON m.destination_id = d.id
-    WHERE e.id != :eq_id AND (m.destination_id = :d_id OR e.type = :type)
-    ORDER BY e.is_relic DESC, e.id ASC
+    WHERE e.id != :eq_id AND (e.mission_id = :m_id OR m.destination_id = :d_id OR e.type = :type OR m.agency_id = :a_id)
+    ORDER BY (e.mission_id = :m_id2) DESC, (m.destination_id = :d_id2) DESC, e.is_relic DESC, e.id ASC
     LIMIT 6
 ");
-$relStmt->execute(['eq_id' => $eqId, 'd_id' => $eq['d_id'], 'type' => $eq['type']]);
+$relStmt->execute([
+    'eq_id' => $eqId,
+    'm_id' => $eq['mission_id'],
+    'd_id' => $eq['d_id'],
+    'type' => $eq['type'],
+    'a_id' => $eq['a_id'],
+    'm_id2' => $eq['mission_id'],
+    'd_id2' => $eq['d_id']
+]);
 $related = $relStmt->fetchAll();
 
-$pageTitle = htmlspecialchars($eq['name']) . " — Museum Exhibit // ORBITAL ARCHIVE";
+// Universal Dynamic SEO & Open Graph Metadata
+$pageTitle = "ORBITAL ARCHIVE — " . $eq['name'];
+$metaDescription = !empty($eq['description']) 
+    ? substr(strip_tags($eq['description']), 0, 160) . '...' 
+    : "Comprehensive scientific and technical exhibition for {$eq['name']} in ORBITAL ARCHIVE.";
+$ogTitle = $pageTitle;
+$ogDescription = $metaDescription;
+$ogImage = $heroImage['image_url'];
+$canonicalUrl = (isset($_SERVER['HTTP_HOST']) ? (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] : '') . '/equipment.php?id=' . urlencode($eq['slug'] ?? $eq['id']);
+
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
@@ -125,7 +142,7 @@ require_once __DIR__ . '/includes/navbar.php';
     <!-- ==============================================================
          01 — ARCHIVE HEADER & BREADCRUMBS
          ============================================================== -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
       <div style="display: flex; align-items: center; gap: 8px;">
         <a href="index.php" style="color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-mono);">ORBITAL ARCHIVE</a>
         <span class="hud-bracket">//</span>
@@ -139,7 +156,7 @@ require_once __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- ==============================================================
-         02 — HERO
+         02 — HERO SECTION
          ============================================================== -->
     <section style="margin-bottom: 4rem;">
       <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
@@ -147,7 +164,7 @@ require_once __DIR__ . '/includes/navbar.php';
           <div class="mono-label" style="color: var(--accent-blue); margin-bottom: 0.4rem;">
             <?= htmlspecialchars($eq['a_name']) ?> <span class="hud-bracket">//</span> MISSION: <?= strtoupper(htmlspecialchars($eq['m_name'])) ?>
           </div>
-          <h1 style="font-size: 4rem; font-weight: 800; letter-spacing: -0.01em; color: #fff; text-transform: uppercase; line-height: 1;">
+          <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -0.01em; color: #fff; text-transform: uppercase; line-height: 1.1;">
             <?= htmlspecialchars($eq['name']) ?>
           </h1>
           <div style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 0.6rem;">
@@ -165,16 +182,16 @@ require_once __DIR__ . '/includes/navbar.php';
 
       <!-- Cinematic Image Canvas -->
       <div style="position: relative; width: 100%; height: 560px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 25px 80px rgba(0,0,0,0.85); margin-bottom: 1.5rem;">
-        <img src="<?= htmlspecialchars($heroImage['image_url']) ?>" alt="<?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="<?= htmlspecialchars($heroImage['image_url']) ?>" alt="<?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="eager">
         <div class="relic-vignette"></div>
 
         <!-- Image Credit Bar -->
-        <div style="position: absolute; bottom: 12px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,7,11,0.85); backdrop-filter: blur(8px); padding: 6px 14px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.08);">
+        <div style="position: absolute; bottom: 12px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,7,11,0.85); backdrop-filter: blur(8px); padding: 6px 14px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 6px;">
           <span style="font-size: 0.75rem; color: var(--text-secondary);">
             <?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>
           </span>
           <span class="mono-label" style="font-size: 0.65rem; color: var(--text-muted);">
-            CREDIT: <?= htmlspecialchars($heroImage['credit'] ?? 'NASA/JPL-Caltech') ?> // LICENSE: <?= htmlspecialchars($heroImage['license'] ?? 'Public Domain') ?>
+            CREDIT: <?= htmlspecialchars($heroImage['credit'] ?? 'Space Agency Documentation') ?> // LICENSE: <?= htmlspecialchars($heroImage['license'] ?? 'Public Domain') ?>
           </span>
         </div>
       </div>
@@ -182,25 +199,25 @@ require_once __DIR__ . '/includes/navbar.php';
       <!-- Metadata HUD Strip -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; background: rgba(11, 17, 24, 0.85); border: 1px solid var(--border-color); padding: 1.5rem 2rem; border-radius: 4px;">
         <div>
-          <div class="relic-meta-label">STATUS</div>
-          <div class="mono-value" style="font-size: 1.15rem; color: <?= strtolower($eq['current_status']) === 'operational' ? 'var(--accent-emerald)' : 'var(--accent-cyan)' ?>; margin-top: 4px; font-weight: 700;">
+          <div class="relic-meta-label">OPERATIONAL STATUS</div>
+          <div class="mono-value" style="font-size: 1.15rem; color: <?= (strtoupper($eq['current_status']) === 'OPERATIONAL' || strtoupper($eq['current_status']) === 'ACTIVE') ? 'var(--accent-emerald)' : 'var(--accent-cyan)' ?>; margin-top: 4px; font-weight: 700;">
             <?= strtoupper(htmlspecialchars($eq['current_status'])) ?>
           </div>
         </div>
         <div>
-          <div class="relic-meta-label">DESTINATION</div>
+          <div class="relic-meta-label">PRIMARY TARGET</div>
           <div class="mono-value" style="font-size: 1.15rem; color: var(--accent-orange); margin-top: 4px; font-weight: 700;">
             <?= strtoupper(htmlspecialchars($eq['d_name'])) ?>
           </div>
         </div>
         <div>
-          <div class="relic-meta-label">MISSION</div>
+          <div class="relic-meta-label">MISSION DOSSIER</div>
           <div class="mono-value" style="font-size: 1.15rem; color: #fff; margin-top: 4px;">
             <?= htmlspecialchars($eq['m_name']) ?>
           </div>
         </div>
         <div>
-          <div class="relic-meta-label">ARRIVED ON TARGET</div>
+          <div class="relic-meta-label">TARGET ARRIVAL / EPOCH</div>
           <div class="mono-value" style="font-size: 1.15rem; color: var(--accent-cyan); margin-top: 4px;">
             <?= formatTelemetryDate($eq['arrival_date'] ?? $eq['launch_date']) ?>
           </div>
@@ -226,23 +243,29 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
 
         <div class="relic-hud-card" style="padding: 1.8rem;">
-          <div class="mono-label" style="color: var(--accent-blue); margin-bottom: 0.8rem;">PRIMARY SCIENCE GOALS</div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.88rem; color: var(--text-secondary);">
-            <li style="display: flex; gap: 10px;">
-              <span style="color: var(--accent-cyan);">✦</span>
-              <span><strong>Habitability:</strong> Identify past ancient Martian environments capable of supporting microbial life.</span>
+          <div class="mono-label" style="color: var(--accent-blue); margin-bottom: 0.8rem;">MISSION METRICS & OBJECTIVE</div>
+          <div style="margin-bottom: 1rem;">
+            <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.7rem;">OFFICIAL OBJECTIVE</span>
+            <p style="font-size: 0.88rem; color: #fff; margin-top: 4px; line-height: 1.6;">
+              <?= htmlspecialchars($eq['mission_objective'] ?? $eq['purpose'] ?? 'Planetary exploration and scientific investigation') ?>
+            </p>
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.8rem;">
+            <li style="display: flex; justify-content: space-between;">
+              <span class="mono-label">PRIMARY REGION:</span>
+              <span style="color: #fff; font-weight: 600; text-align: right;"><?= htmlspecialchars($eq['primary_region'] ?? $eq['d_name']) ?></span>
             </li>
-            <li style="display: flex; gap: 10px;">
-              <span style="color: var(--accent-cyan);">✦</span>
-              <span><strong>Biosignatures:</strong> Seek signs of ancient biology in specific rock types known to preserve evidence over billions of years.</span>
+            <li style="display: flex; justify-content: space-between;">
+              <span class="mono-label">OPERATING PERIOD:</span>
+              <span style="color: var(--accent-orange); font-weight: 600; text-align: right;"><?= htmlspecialchars($eq['operational_period'] ?? 'Active') ?></span>
             </li>
-            <li style="display: flex; gap: 10px;">
-              <span style="color: var(--accent-cyan);">✦</span>
-              <span><strong>Sample Caching:</strong> Collect and hermetically seal core samples for future Mars Sample Return.</span>
+            <li style="display: flex; justify-content: space-between;">
+              <span class="mono-label">LEAD AGENCY:</span>
+              <span style="color: var(--accent-blue); font-weight: 600; text-align: right;"><?= htmlspecialchars($eq['a_code'] ?? $eq['a_name']) ?></span>
             </li>
-            <li style="display: flex; gap: 10px;">
-              <span style="color: var(--accent-cyan);">✦</span>
-              <span><strong>Human Preparation:</strong> Test oxygen production (MOXIE) and characterize environmental conditions.</span>
+            <li style="display: flex; justify-content: space-between;">
+              <span class="mono-label">VERIFICATION:</span>
+              <span style="color: var(--accent-emerald); font-weight: 700;"><?= htmlspecialchars($eq['verification_status'] ?? 'CONFIRMED') ?></span>
             </li>
           </ul>
         </div>
@@ -250,7 +273,7 @@ require_once __DIR__ . '/includes/navbar.php';
     </section>
 
     <!-- ==============================================================
-         04 — JOURNEY
+         04 — JOURNEY TIMELINE
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
@@ -260,92 +283,152 @@ require_once __DIR__ . '/includes/navbar.php';
         <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-blue);">STAGE 01</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">EARTH ORIGIN</div>
-          <div style="font-size: 0.82rem; color: var(--text-secondary);">Cape Canaveral Space Force Station SLC-41</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary);"><?= htmlspecialchars($eq['launch_location'] ?? 'Space Launch Complex') ?></div>
         </div>
 
         <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-orange);">STAGE 02</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">LIFTOFF</div>
-          <div style="font-size: 0.82rem; color: var(--text-secondary);"><?= formatTelemetryDate($eq['launch_date']) ?> // Atlas V 541</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary);"><?= formatTelemetryDate($eq['launch_date']) ?> // <?= htmlspecialchars($eq['launch_vehicle'] ?? 'Orbital Launch Vehicle') ?></div>
         </div>
 
         <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-cyan);">STAGE 03</span>
-          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">203-DAY CRUISE</div>
-          <div style="font-size: 0.82rem; color: var(--text-secondary);">471 Million km Interplanetary Transfer Arc</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
+            <?= !empty($eq['journey_days']) ? $eq['journey_days'] . '-DAY TRANSIT' : 'CRUISE PHASE' ?>
+          </div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary);">
+            <?= htmlspecialchars($eq['trajectory_type'] ?? 'Hohmann / Direct Interplanetary Transfer Arc') ?>
+          </div>
         </div>
 
         <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-emerald);">STAGE 04</span>
-          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">EDL / SKY CRANE</div>
-          <div style="font-size: 0.82rem; color: var(--text-secondary);">Terrain-Relative Navigation Guided Descent</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
+            <?php
+              if (stripos($eq['type'], 'Rover') !== false || stripos($eq['type'], 'Lander') !== false) {
+                  echo 'DESCENT & LANDING';
+              } elseif (stripos($eq['type'], 'Orbiter') !== false) {
+                  echo 'ORBIT INSERTION';
+              } else {
+                  echo 'ENCOUNTER & TRAJECTORY';
+              }
+            ?>
+          </div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary);">
+            <?= !empty($eq['technology']) ? htmlspecialchars(substr($eq['technology'], 0, 75)) . '...' : 'Target Encounter Sequence' ?>
+          </div>
         </div>
 
         <div>
           <span class="mono-label" style="color: var(--accent-orange);">STAGE 05</span>
-          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">JEZERO CRATER</div>
-          <div style="font-size: 0.82rem; color: var(--text-secondary);">Touchdown 18 Feb 2021 // Octavia E. Butler Site</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
+            <?= strtoupper(htmlspecialchars($eq['d_name'])) ?>
+          </div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary);">
+            <?= !empty($eq['arrival_date']) ? 'Arrival: ' . formatTelemetryDate($eq['arrival_date']) : 'Operational Regime' ?>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ==============================================================
-         05 — THE MACHINE
+         05 — THE MACHINE // ENGINEERING & SUBSYSTEMS
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
         [03] THE MACHINE // ENGINEERING & SUBSYSTEMS
       </h2>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        
+        <!-- Mass & Dimensions (Always shown) -->
         <div class="relic-hud-card">
           <div class="mono-label" style="color: var(--accent-blue);">DIMENSIONS & MASS</div>
           <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">
-            <?= htmlspecialchars($eq['mass'] ?? '1,025 kg') ?>
+            <?= htmlspecialchars($eq['mass'] ?? 'Specification Verified') ?>
           </div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['dimensions'] ?? '3.0 m × 2.7 m × 2.2 m') ?>. Heaviest and most capable mobile rover dispatched to Mars.
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['dimensions'] ?? 'Dimensions archived in engineering records.') ?>
           </p>
         </div>
 
+        <!-- Power System -->
+        <?php if (!empty($eq['power']) && $eq['power'] !== 'Unknown'): ?>
         <div class="relic-hud-card">
           <div class="mono-label" style="color: var(--accent-orange);">POWER SYSTEM</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">MMRTG</div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['power'] ?? 'Plutonium-238 RTG') ?>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">ELECTRICAL BUS</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['power']) ?>
           </p>
         </div>
+        <?php endif; ?>
 
+        <!-- Mobility System (Conditional) -->
+        <?php if (!empty($eq['mobility']) && $eq['mobility'] !== 'Not applicable' && $eq['mobility'] !== 'None'): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-cyan);">MOBILITY CHASSIS</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">ROCKER-BOGIE</div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['mobility'] ?? '6-wheel suspension with titanium cleats') ?>
+          <div class="mono-label" style="color: var(--accent-cyan);">PROPULSION / MOBILITY</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">LOCOMOTION SYSTEM</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['mobility']) ?>
           </p>
         </div>
+        <?php endif; ?>
 
+        <!-- Robotic Arm / Manipulator (Conditional) -->
+        <?php if (!empty($eq['robotic_arm']) && $eq['robotic_arm'] !== 'Not applicable' && $eq['robotic_arm'] !== 'None'): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-emerald);">ROBOTIC ARM & CORER</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">2.1-METER ARTICULATED</div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['robotic_arm'] ?? '5-jointed arm carrying rotary-percussive drill') ?>
+          <div class="mono-label" style="color: var(--accent-emerald);">ROBOTIC MANIPULATOR</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">ARTICULATED ARM</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['robotic_arm']) ?>
           </p>
         </div>
+        <?php endif; ?>
 
+        <!-- Autonomous Navigation (Conditional) -->
+        <?php if (!empty($eq['autonomy']) && $eq['autonomy'] !== 'Not applicable' && $eq['autonomy'] !== 'None'): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-blue);">AUTONOMOUS NAVIGATION</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">AUTONAV & TRN</div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['autonomy'] ?? 'Machine vision real-time hazard avoidance') ?>
+          <div class="mono-label" style="color: var(--accent-blue);">AUTONOMOUS GUIDANCE</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">COMPUTATION & AUTONAV</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['autonomy']) ?>
           </p>
         </div>
+        <?php endif; ?>
 
+        <!-- Sample Caching / Storage (Conditional) -->
+        <?php if (!empty($eq['sample_caching']) && $eq['sample_caching'] !== 'Not applicable' && $eq['sample_caching'] !== 'None'): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-orange);">SAMPLE CACHING ASSEMBLY</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">43 TITANIUM TUBES</div>
-          <p style="font-size: 0.82rem; color: var(--text-secondary);">
-            <?= htmlspecialchars($eq['sample_caching'] ?? 'Hermetic sealing robotics in rover belly') ?>
+          <div class="mono-label" style="color: var(--accent-orange);">SAMPLE CACHING / RETURN</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">RETRIEVAL ASSEMBLY</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['sample_caching']) ?>
           </p>
         </div>
+        <?php endif; ?>
+
+        <!-- Communications -->
+        <?php if (!empty($eq['communication'])): ?>
+        <div class="relic-hud-card">
+          <div class="mono-label" style="color: var(--accent-cyan);">COMMUNICATIONS SUITE</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">TELEMETRY LINK</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['communication']) ?>
+          </p>
+        </div>
+        <?php endif; ?>
+
+        <!-- Technology Overview -->
+        <?php if (!empty($eq['technology'])): ?>
+        <div class="relic-hud-card">
+          <div class="mono-label" style="color: var(--accent-emerald);">ARCHIVAL ARCHITECTURE</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">ENTRY & CRUISE TECH</div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <?= htmlspecialchars($eq['technology']) ?>
+          </p>
+        </div>
+        <?php endif; ?>
+
       </div>
     </section>
 
@@ -354,9 +437,9 @@ require_once __DIR__ . '/includes/navbar.php';
          ============================================================== -->
     <?php if (!empty($instruments)): ?>
     <section style="margin-bottom: 4.5rem;" id="instruments-section">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px;">
         <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); letter-spacing: 0.2em;">
-          [04] SCIENTIFIC PAYLOAD // NORMALIZED INSTRUMENT SYSTEM
+          [04] SCIENTIFIC PAYLOAD // NORMALIZED INSTRUMENT SYSTEM (<?= count($instruments) ?>)
         </h2>
         <span class="mono-label" style="color: var(--text-muted);">CLICK AN INSTRUMENT TO EXPAND SPECIFICATIONS</span>
       </div>
@@ -392,7 +475,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 </div>
               <?php endif; ?>
               <div class="mono-label" style="color: var(--text-muted); font-size: 0.65rem;">
-                MANUFACTURER: <?= htmlspecialchars($inst['manufacturer']) ?>
+                MANUFACTURER / LEAD: <?= htmlspecialchars($inst['manufacturer']) ?>
               </div>
             </div>
 
@@ -406,7 +489,7 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php endif; ?>
 
     <!-- ==============================================================
-         07 — DISCOVERIES & CHEYAVA FALLS
+         07 — DISCOVERIES & SCIENTIFIC FINDINGS
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
@@ -414,47 +497,69 @@ require_once __DIR__ . '/includes/navbar.php';
       </h2>
       <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; align-items: start;">
         <div>
-          <!-- Cheyava Falls Scientific Alert Card -->
-          <div style="background: rgba(16, 26, 38, 0.7); border: 1px solid var(--accent-orange); padding: 2rem; border-radius: 4px; margin-bottom: 2rem; position: relative;">
-            <div class="mono-label" style="color: var(--accent-orange); margin-bottom: 0.6rem; font-weight: 700;">
-              ASTROBIOLOGY INVESTIGATION // CHEYAVA FALLS
-            </div>
-            <h3 style="font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem;">
-              Potential Biosignature Candidate
-            </h3>
-            <p style="font-size: 1rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 1rem;">
-              In July 2024, Perseverance examined the <strong>'Cheyava Falls'</strong> rock in Neretva Vallis, an ancient river valley entering Jezero Crater. The rover identified organic molecules alongside millimeter-scale reaction halos (referred to as 'leopard spots') rich in iron and phosphate. In terrestrial environments, similar geochemical features can be associated with microbial metabolic reduction of hematite.
-            </p>
-            <div style="background: rgba(5,7,11,0.85); border-left: 3px solid var(--accent-cyan); padding: 12px 16px; margin: 1rem 0;">
-              <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 4px;">STRICT SCIENTIFIC CLARIFICATION:</div>
-              <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                <strong>Biological origin remains unconfirmed.</strong> Non-biological chemical reactions involving acidic groundwater or hydrothermal alteration could also produce these features. Further laboratory analysis of returned samples would be required to determine whether the observed features have a biological origin.
+          
+          <!-- Perseverance Special Astrobiology Card -->
+          <?php if ($eq['slug'] === 'perseverance' || $eqId === 9): ?>
+            <div style="background: rgba(16, 26, 38, 0.7); border: 1px solid var(--accent-orange); padding: 2rem; border-radius: 4px; margin-bottom: 2rem; position: relative;">
+              <div class="mono-label" style="color: var(--accent-orange); margin-bottom: 0.6rem; font-weight: 700;">
+                ASTROBIOLOGY INVESTIGATION // CHEYAVA FALLS
+              </div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem;">
+                Potential Biosignature Candidate
+              </h3>
+              <p style="font-size: 1rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 1rem;">
+                In July 2024, Perseverance examined the <strong>'Cheyava Falls'</strong> rock in Neretva Vallis, an ancient river valley entering Jezero Crater. The rover identified organic molecules alongside millimeter-scale reaction halos (referred to as 'leopard spots') rich in iron and phosphate. In terrestrial environments, similar geochemical features can be associated with microbial metabolic reduction of hematite.
               </p>
+              <div style="background: rgba(5,7,11,0.85); border-left: 3px solid var(--accent-cyan); padding: 12px 16px; margin: 1rem 0;">
+                <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 4px;">STRICT SCIENTIFIC CLARIFICATION:</div>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                  <strong>Biological origin remains unconfirmed.</strong> Non-biological chemical reactions involving acidic groundwater or hydrothermal alteration could also produce these features. Further laboratory analysis of returned samples would be required to determine whether the observed features have a biological origin.
+                </p>
+              </div>
             </div>
-          </div>
+          <?php endif; ?>
 
+          <!-- Dynamic Discoveries Box -->
           <div class="relic-hud-card">
-            <h4 style="font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem;">ANCIENT DELTA SEDIMENTS & CRATER FLOOR</h4>
-            <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7;">
-              Perseverance confirmed that Jezero Crater was once filled with a deep lake that sustained a dynamic river delta system ~3.5 billion years ago. The rover has drilled cores from mudstones, sandstones, and volcanic igneous rocks, establishing that liquid water persisted long enough to alter mineral structures.
-            </p>
+            <h4 style="font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 1rem;">
+              CONFIRMED SCIENTIFIC MILESTONES
+            </h4>
+            <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;">
+              <?php 
+                $discText = $eq['discoveries'] ?? 'Scientific telemetry and findings documented in archival logs.';
+                $discLines = explode("\n", $discText);
+                foreach ($discLines as $line):
+                  $trimmed = trim($line);
+                  if (empty($trimmed)) continue;
+              ?>
+                <div style="display: flex; gap: 10px; margin-bottom: 0.8rem; align-items: flex-start;">
+                  <span style="color: var(--accent-cyan); margin-top: 2px;">✦</span>
+                  <span style="color: var(--text-primary);"><?= htmlspecialchars($trimmed) ?></span>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
 
         <div>
+          <!-- Mission Longevity / Output Metrics -->
           <div class="relic-hud-card" style="margin-bottom: 1.5rem;">
-            <div class="mono-label" style="color: var(--accent-emerald);">MOXIE EXPERIMENT</div>
-            <div style="font-size: 1.25rem; font-weight: 700; color: #fff; margin: 6px 0;">122 GRAMS OXYGEN PRODUCED</div>
+            <div class="mono-label" style="color: var(--accent-emerald);">OPERATIONAL PERIOD</div>
+            <div style="font-size: 1.25rem; font-weight: 700; color: #fff; margin: 6px 0;">
+              <?= htmlspecialchars($eq['operational_period'] ?? 'Active Exploration') ?>
+            </div>
             <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-              Extracted breathable oxygen at 98% purity from atmospheric CO2 across 16 runs in varying Martian seasons, proving in-situ propellant and life-support production for future human crews.
+              Destination: <strong><?= htmlspecialchars($eq['d_name']) ?></strong> (<?= htmlspecialchars($eq['primary_region'] ?? 'Target Area') ?>).
             </p>
           </div>
 
           <div class="relic-hud-card">
-            <div class="mono-label" style="color: var(--accent-blue);">INGENUITY COMPANION</div>
-            <div style="font-size: 1.25rem; font-weight: 700; color: #fff; margin: 6px 0;">72 POWERED FLIGHTS</div>
+            <div class="mono-label" style="color: var(--accent-blue);">EXPLORATION FOOTPRINT</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin: 6px 0;">
+              <?= strtoupper(htmlspecialchars($eq['current_status'])) ?>
+            </div>
             <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-              Deployed from Perseverance in April 2021, Ingenuity demonstrated aerial reconnaissance on another world, flying 17 km across 128 minutes before mission retirement in January 2024.
+              Current Location: <span style="color: #fff;"><?= htmlspecialchars($eq['current_location'] ?? 'Space Coordinates Archived') ?></span>
             </p>
           </div>
         </div>
@@ -467,14 +572,14 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php if (!empty($timeline)): ?>
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
-        [06] MISSION CHRONOLOGY // VERIFIED TIMELINE
+        [06] MISSION CHRONOLOGY // VERIFIED TIMELINE (<?= count($timeline) ?> MILESTONES)
       </h2>
       <div style="position: relative; padding-left: 2.5rem; border-left: 1px solid var(--border-color); margin-left: 1rem;">
         <?php foreach ($timeline as $t): ?>
           <div style="position: relative; margin-bottom: 2.5rem;">
             <div style="position: absolute; left: -3.05rem; top: 0.3rem; width: 14px; height: 14px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
             <div class="relic-hud-card" style="padding: 1.4rem;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 6px;">
                 <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.85rem; font-weight: 700;">
                   <?= !empty($t['event_date']) ? formatTelemetryDate($t['event_date']) : $t['year'] ?>
                 </span>
@@ -496,34 +601,48 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php endif; ?>
 
     <!-- ==============================================================
-         09 — CURRENT STATUS / LATEST VERIFIED REGION
+         09 — CURRENT STATUS & FATE
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
-        [07] CURRENT STATUS & LATEST VERIFIED REGION
+        [07] OPERATIONAL STATUS & FATE
       </h2>
-      <div class="relic-hud-card" style="border-left: 3px solid var(--accent-emerald); padding: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <div class="mono-label" style="color: var(--accent-emerald);">MISSION STATUS: <?= strtoupper(htmlspecialchars($eq['current_status'])) ?></div>
+      <?php 
+        $statusUpper = strtoupper($eq['current_status']);
+        $borderColor = ($statusUpper === 'OPERATIONAL' || $statusUpper === 'ACTIVE') 
+          ? 'var(--accent-emerald)' 
+          : (($statusUpper === 'LOST' || $statusUpper === 'DESTROYED') ? 'var(--accent-rose)' : 'var(--accent-orange)');
+      ?>
+      <div class="relic-hud-card" style="border-left: 3px solid <?= $borderColor ?>; padding: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem;">
+          <div style="max-width: 800px;">
+            <div class="mono-label" style="color: <?= $borderColor ?>;">
+              MISSION STATUS: <?= $statusUpper ?> // <?= $eq['is_relic'] ? 'CLASSIFICATION: OFF-WORLD RELIC' : 'ACTIVE FLIGHT PLATFORM' ?>
+            </div>
             <h3 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin: 6px 0;">
-              LATEST VERIFIED REGION: <?= htmlspecialchars($eq['primary_region'] ?? 'Jezero Crater') ?>
+              LATEST VERIFIED REGION: <?= htmlspecialchars($eq['primary_region'] ?? $eq['d_name']) ?>
             </h3>
             <div style="font-size: 1rem; color: var(--text-primary); margin-top: 0.4rem;">
-              Location: <strong><?= htmlspecialchars($eq['current_location']) ?></strong>
+              Coordinates / Site: <strong><?= htmlspecialchars($eq['current_location']) ?></strong>
             </div>
-            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.4rem;">
-              Perseverance is scaling the steep western rim of Jezero Crater toward ancient pre-impact terrains and the Lac de Charmes area.
-            </div>
+            
+            <?php if (!empty($eq['fate'])): ?>
+              <div style="background: rgba(5,7,11,0.6); padding: 12px 16px; border-radius: 2px; border-left: 2px solid <?= $borderColor ?>; margin-top: 1rem;">
+                <div class="mono-label" style="color: var(--accent-cyan); font-size: 0.68rem; margin-bottom: 4px;">FINAL FATE & DISPOSITION:</div>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                  <?= nl2br(htmlspecialchars($eq['fate'])) ?>
+                </p>
+              </div>
+            <?php endif; ?>
           </div>
 
           <div style="text-align: right;">
             <div class="mono-label" style="color: var(--text-muted);">TELEMETRY INTEGRITY</div>
             <div class="mono-value" style="font-size: 1.1rem; color: var(--accent-cyan); font-weight: 700;">
-              LAST VERIFIED: <?= formatTelemetryDate($eq['last_verified'] ?? '2026-03-15') ?>
+              LAST VERIFIED: <?= formatTelemetryDate($eq['last_verified'] ?? '2026-03-20') ?>
             </div>
             <div class="mono-label" style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">
-              SOURCE: NASA JPL MARS 2020 MISSION
+              SOURCE: <?= strtoupper(htmlspecialchars($eq['a_code'] ?? 'OFFICIAL AGENCY')) ?> ARCHIVAL REGISTRY
             </div>
           </div>
         </div>
@@ -535,7 +654,7 @@ require_once __DIR__ . '/includes/navbar.php';
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.2rem; letter-spacing: 0.2em;">
-        [08] LEGACY & FUTURE MARS EXPLORATION
+        [08] LEGACY & HISTORICAL IMPACT
       </h2>
       <div style="background: rgba(11, 17, 24, 0.7); border: 1px solid var(--border-color); padding: 2rem; border-radius: 4px;">
         <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-primary);">
@@ -549,7 +668,7 @@ require_once __DIR__ . '/includes/navbar.php';
          ============================================================== -->
     <section style="margin-bottom: 4.5rem;">
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.2rem; letter-spacing: 0.2em;">
-        [09] VERIFIED ARCHIVAL SOURCES & REPOSITORIES
+        [09] VERIFIED ARCHIVAL SOURCES & REPOSITORIES (<?= count($sources) ?>)
       </h2>
       <div style="display: flex; flex-direction: column; gap: 0.8rem;">
         <?php foreach ($sources as $s): ?>
@@ -559,7 +678,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?= htmlspecialchars($s['source_name']) ?>
               </div>
               <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">
-                Organization: <strong><?= htmlspecialchars($s['organization'] ?? 'NASA') ?></strong> // <?= htmlspecialchars($s['description'] ?? 'Official Registry') ?>
+                Organization: <strong><?= htmlspecialchars($s['organization'] ?? 'Official Registry') ?></strong> // <?= htmlspecialchars($s['description'] ?? 'Authoritative Record') ?>
               </div>
             </div>
             <div style="text-align: right;">
@@ -590,7 +709,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?= htmlspecialchars($rel['name']) ?>
               </h4>
               <div style="font-size: 0.78rem; color: var(--text-secondary);">
-                Mission: <?= htmlspecialchars($rel['mission_name']) ?>
+                Mission: <?= htmlspecialchars($rel['mission_name']) ?> // <?= htmlspecialchars($rel['destination_name']) ?>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.6rem;">

@@ -88,6 +88,7 @@ try {
             'relic_category' => $row['relic_category'],
             'description' => $row['description'],
             'discoveries' => $row['discoveries'],
+            'fate' => $row['fate'] ?? null,
             'legacy' => $row['legacy'],
             'verification_status' => $row['verification_status'] ?? 'CONFIRMED',
             'last_verified' => $row['last_verified']
