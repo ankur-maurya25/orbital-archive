@@ -66,3 +66,23 @@
 .star-twinkle-1 { animation: twinkle 3s infinite ease-in-out; }
 .star-twinkle-2 { animation: twinkle 4.5s infinite ease-in-out 1s; }
 .star-twinkle-3 { animation: twinkle 6s infinite ease-in-out 2s; }
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .radar-sweep-line,
+  .radar-pulse-ring,
+  .launch-trajectory-arc,
+  .beacon-pulse,
+  .floating-element,
+  .cosmic-emblem,
+  .timeline-star-emblem {
+    animation: none !important;
+  }
+}

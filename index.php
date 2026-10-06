@@ -94,16 +94,16 @@ $milestone1969 = $t1969Stmt->fetch();
 
         <div class="hud-metrics">
           <div class="hud-metric-item">
-            <span class="hud-metric-label">OBJECTS ARCHIVED</span>
-            <span class="hud-metric-num" id="stat-objects-archived">14,280+</span>
+            <span class="hud-metric-label">MISSIONS CATALOGED</span>
+            <span class="hud-metric-num" id="stat-missions-count">30+</span>
           </div>
           <div class="hud-metric-item">
-            <span class="hud-metric-label">TOTAL MISSIONS</span>
-            <span class="hud-metric-num" id="stat-missions-count">1,000+</span>
+            <span class="hud-metric-label">HARDWARE RECORDS</span>
+            <span class="hud-metric-num" id="stat-objects-archived">30+</span>
           </div>
           <div class="hud-metric-item">
-            <span class="hud-metric-label">DEEP SPACE OBJECTS</span>
-            <span class="hud-metric-num" id="stat-deep-space">248</span>
+            <span class="hud-metric-label">OFF-WORLD RELICS</span>
+            <span class="hud-metric-num" id="stat-relics-count">18</span>
           </div>
         </div>
 

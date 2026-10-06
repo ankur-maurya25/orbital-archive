@@ -63,8 +63,14 @@ class HumanityTimeline {
       this.descEl.textContent = item.description || 'Milestone recorded in global exploration archive.';
     }
 
-    if (this.linkEl && item.mission_id) {
-      this.linkEl.href = `mission.php?id=${item.mission_id}`;
+    if (this.linkEl) {
+      if (item.equipment_slug || item.equipment_id) {
+        this.linkEl.href = `equipment.php?id=${item.equipment_slug || item.equipment_id}`;
+        this.linkEl.textContent = 'EXPLORE HARDWARE EXHIBIT →';
+      } else if (item.mission_id) {
+        this.linkEl.href = `mission.php?id=${item.mission_id}`;
+        this.linkEl.textContent = 'READ MISSION LOG →';
+      }
     }
   }
 }

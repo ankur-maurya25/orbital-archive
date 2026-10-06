@@ -13,6 +13,12 @@ $missionsCount = $pdo->query("SELECT COUNT(*) FROM missions")->fetchColumn();
 $equipmentCount = $pdo->query("SELECT COUNT(*) FROM equipment")->fetchColumn();
 $relicsCount = $pdo->query("SELECT COUNT(*) FROM equipment WHERE is_relic = 1")->fetchColumn();
 $agenciesCount = $pdo->query("SELECT COUNT(*) FROM agencies")->fetchColumn();
+$instrumentsCount = $pdo->query("SELECT COUNT(*) FROM instruments")->fetchColumn();
+
+// Check security posture
+$userHash = $pdo->query("SELECT password_hash FROM users WHERE username = " . $pdo->quote($_SESSION['admin_username']))->fetchColumn();
+$isDefaultKey = ($userHash && password_verify('admin123', $userHash));
+$isDefaultAdmin = ($_SESSION['admin_username'] === 'admin');
 
 // Recent missions
 $recentMissions = $pdo->query("
@@ -53,14 +59,33 @@ $recentMissions = $pdo->query("
   <main style="max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 6rem; position: relative; z-index: 10;">
     
     <!-- Navigation Tabs -->
-    <div style="display: flex; gap: 8px; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+    <div style="display: flex; gap: 8px; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;">
       <a href="index.php" class="filter-btn active">DASHBOARD OVERVIEW</a>
       <a href="missions.php" class="filter-btn">MANAGE MISSIONS (CRUD)</a>
       <a href="equipment.php" class="filter-btn">MANAGE EQUIPMENT & RELICS</a>
+      <a href="instruments.php" class="filter-btn">SCIENTIFIC INSTRUMENTS (CRUD)</a>
+      <a href="security.php" class="filter-btn">SECURITY CLEARANCE</a>
     </div>
 
+    <!-- Security Advisory Alert if Default Credentials in Use -->
+    <?php if ($isDefaultKey || $isDefaultAdmin): ?>
+      <div class="relic-hud-card" style="margin-bottom: 2rem; border-color: var(--accent-orange); background: rgba(245, 158, 11, 0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div class="mono-label" style="color: var(--accent-orange);">
+            ⚠️ SECURITY ADVISORY // DEFAULT ACCESS CREDENTIALS DETECTED
+          </div>
+          <p style="margin: 4px 0 0; font-size: 0.85rem; color: #fff;">
+            This installation is operating with default credentials (callsign 'admin' and/or default access key). Please update your credentials to safeguard the archive.
+          </p>
+        </div>
+        <a href="security.php" class="cta-button" style="border-color: var(--accent-orange); color: var(--accent-orange); font-size: 0.75rem; padding: 8px 16px;">
+          CONFIGURE SECURITY CLEARANCE →
+        </a>
+      </div>
+    <?php endif; ?>
+
     <!-- Telemetry Metric Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
       <div class="relic-hud-card">
         <div class="mono-label" style="color: var(--accent-blue);">TOTAL MISSIONS</div>
         <div style="font-size: 2.2rem; font-weight: 800; color: #fff; margin: 6px 0;"><?= $missionsCount ?></div>
@@ -83,6 +108,12 @@ $recentMissions = $pdo->query("
         <div class="mono-label" style="color: var(--accent-emerald);">PARTNER AGENCIES</div>
         <div style="font-size: 2.2rem; font-weight: 800; color: #fff; margin: 6px 0;"><?= $agenciesCount ?></div>
         <div class="mono-label" style="font-size: 0.65rem;">Global space organizations</div>
+      </div>
+
+      <div class="relic-hud-card">
+        <div class="mono-label" style="color: var(--accent-purple);">SCIENCE PAYLOADS</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: #fff; margin: 6px 0;"><?= $instrumentsCount ?></div>
+        <div class="mono-label" style="font-size: 0.65rem;">Spectrometers, imagers, sensors</div>
       </div>
     </div>
 
@@ -130,6 +161,8 @@ $recentMissions = $pdo->query("
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <a href="missions.php?action=create" class="cta-button" style="justify-content: center; font-size: 0.75rem; padding: 10px;">+ RECORD NEW MISSION</a>
           <a href="equipment.php?action=create" class="cta-button" style="justify-content: center; font-size: 0.75rem; padding: 10px; border-color: var(--accent-orange); color: var(--accent-orange);">+ CATALOG RELIC / HARDWARE</a>
+          <a href="instruments.php?action=create" class="cta-button" style="justify-content: center; font-size: 0.75rem; padding: 10px; border-color: var(--accent-purple); color: var(--accent-purple);">+ ADD SCIENTIFIC INSTRUMENT</a>
+          <a href="security.php" class="filter-btn" style="text-align: center;">SECURITY CLEARANCE 🔒</a>
           <a href="../api/stats.php" target="_blank" class="filter-btn" style="text-align: center;">TEST /api/stats.php ↗</a>
         </div>
       </div>

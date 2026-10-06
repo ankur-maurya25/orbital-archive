@@ -65,7 +65,8 @@ class RelicsExhibition {
     }
 
     if (this.ctaLink) {
-      this.ctaLink.href = `equipment.php?id=${relic.id}`;
+      const linkId = relic.slug || relic.id;
+      this.ctaLink.href = `equipment.php?id=${linkId}`;
     }
   }
 }

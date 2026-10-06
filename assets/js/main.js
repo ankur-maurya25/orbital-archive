@@ -15,14 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Animate numbers counting up
+ * Animate numbers counting up (honoring prefers-reduced-motion)
  */
 function animateValue(obj, start, end, duration) {
+  if (!obj) return;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    obj.innerHTML = end.toLocaleString() + '+';
+    return;
+  }
+
   let startTimestamp = null;
   const step = (timestamp) => {
     if (!startTimestamp) startTimestamp = timestamp;
     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-    obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString() + '+';
+    obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString() + (end >= 30 ? '+' : '');
     if (progress < 1) {
       window.requestAnimationFrame(step);
     }
@@ -31,20 +38,22 @@ function animateValue(obj, start, end, duration) {
 }
 
 /**
- * Fetch and animate HUD stats
+ * Fetch and animate HUD stats from real MySQL database counts
  */
 async function fetchStats() {
   try {
     const res = await fetch('api/stats.php');
     const json = await res.json();
     if (json.success && json.data) {
-      const objEl = document.getElementById('stat-objects-archived');
       const misEl = document.getElementById('stat-missions-count');
-      const dsEl = document.getElementById('stat-deep-space');
+      const objEl = document.getElementById('stat-objects-archived');
+      const relEl = document.getElementById('stat-relics-count');
+      const agyEl = document.getElementById('stat-agencies-count');
 
-      if (objEl) animateValue(objEl, 14000, json.data.objects_archived, 1200);
-      if (misEl) animateValue(misEl, 950, 1000 + json.data.missions_count, 1200);
-      if (dsEl) animateValue(dsEl, 200, json.data.deep_space_count || 248, 1200);
+      if (misEl) animateValue(misEl, 1, json.data.missions_count, 1000);
+      if (objEl) animateValue(objEl, 1, json.data.equipment_count, 1000);
+      if (relEl) animateValue(relEl, 1, json.data.relics_count, 1000);
+      if (agyEl) animateValue(agyEl, 1, json.data.agencies_count, 1000);
     }
   } catch (e) {
     console.log('Using default telemetry numbers');
@@ -99,7 +108,7 @@ function setupSearch() {
     clearTimeout(debounceTimeout);
     const query = input.value.trim();
     if (query.length < 2) {
-      if (resultsContainer) resultsContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">Type at least 2 characters to search missions, rovers, and probes...</div>';
+      if (resultsContainer) resultsContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">Type at least 2 characters to search missions, rovers, instruments, and probes...</div>';
       return;
     }
 
@@ -117,13 +126,14 @@ function setupSearch() {
 
 function renderSearchResults(data, container) {
   if (!container) return;
-  if (!data || (data.missions.length === 0 && data.equipment.length === 0 && data.agencies.length === 0)) {
+  if (!data || (data.missions.length === 0 && data.equipment.length === 0 && (!data.instruments || data.instruments.length === 0) && data.agencies.length === 0)) {
     container.innerHTML = '<div style="color: var(--text-muted); padding: 1rem 0;">No matching telemetry records found.</div>';
     return;
   }
 
   let html = '';
 
+  // 1. Missions
   if (data.missions && data.missions.length > 0) {
     html += '<div class="mono-label" style="color: var(--accent-cyan); margin: 0.8rem 0 0.4rem;">MISSIONS</div>';
     data.missions.forEach(m => {
@@ -142,11 +152,13 @@ function renderSearchResults(data, container) {
     });
   }
 
+  // 2. Equipment & Spacecraft
   if (data.equipment && data.equipment.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">EQUIPMENT & RELICS</div>';
+    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">EQUIPMENT & SPACECRAFT</div>';
     data.equipment.forEach(e => {
+      const linkId = e.slug ? e.slug : e.id;
       html += `
-        <a href="equipment.php?id=${e.id}" class="search-item-card">
+        <a href="equipment.php?id=${linkId}" class="search-item-card">
           <div>
             <div style="font-weight: 600; color: #fff;">${e.name} ${e.is_relic ? '<span style="color: var(--accent-cyan); font-size: 0.7rem;">[RELIC]</span>' : ''}</div>
             <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // ${e.mission_name}</div>
@@ -159,6 +171,26 @@ function renderSearchResults(data, container) {
     });
   }
 
+  // 3. Scientific Instruments
+  if (data.instruments && data.instruments.length > 0) {
+    html += '<div class="mono-label" style="color: var(--accent-cyan); margin: 0.8rem 0 0.4rem;">SCIENTIFIC INSTRUMENTS</div>';
+    data.instruments.forEach(inst => {
+      const parentSlug = inst.equipment_slug || 'perseverance';
+      html += `
+        <a href="equipment.php?id=${parentSlug}#instruments-section" class="search-item-card">
+          <div>
+            <div style="font-weight: 600; color: #fff;">${inst.name} <span class="mono-label" style="color: var(--accent-blue); font-size: 0.65rem;">[${inst.type}]</span></div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${inst.purpose || ''}</div>
+          </div>
+          <div style="text-align: right;">
+            <span class="mono-label" style="color: var(--accent-orange);">${inst.equipment_name || 'HARDWARE'}</span>
+          </div>
+        </a>
+      `;
+    });
+  }
+
+  // 4. Agencies
   if (data.agencies && data.agencies.length > 0) {
     html += '<div class="mono-label" style="color: var(--accent-blue); margin: 0.8rem 0 0.4rem;">AGENCIES</div>';
     data.agencies.forEach(a => {

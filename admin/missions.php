@@ -140,11 +140,13 @@ if ($action === 'list') {
   <main style="max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 6rem; position: relative; z-index: 10;">
     
     <!-- Tab Nav -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-      <div style="display: flex; gap: 8px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
         <a href="index.php" class="filter-btn">DASHBOARD OVERVIEW</a>
         <a href="missions.php" class="filter-btn active">MANAGE MISSIONS (<?= count($allMissions) ?>)</a>
         <a href="equipment.php" class="filter-btn">MANAGE EQUIPMENT</a>
+        <a href="instruments.php" class="filter-btn">MANAGE INSTRUMENTS</a>
+        <a href="security.php" class="filter-btn">SECURITY CLEARANCE</a>
       </div>
       <?php if ($action === 'list'): ?>
         <a href="missions.php?action=create" class="cta-button" style="padding: 8px 16px; font-size: 0.75rem;">+ NEW MISSION</a>
