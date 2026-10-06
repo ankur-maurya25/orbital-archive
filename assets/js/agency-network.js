@@ -1,0 +1,124 @@
+/**
+ * ORBITAL ARCHIVE - Section 04: Space Agency Networks
+ * Radar / Constellation Visualization with Collaborative Space Ties
+ */
+
+class AgencyNetwork {
+  constructor() {
+    this.viewport = document.getElementById('agency-radar-viewport');
+    this.nodes = document.querySelectorAll('.agency-radar-node');
+    this.svgLinesLayer = document.getElementById('agency-network-lines');
+    this.agencyStatsDrawer = document.getElementById('agency-hover-details');
+
+    if (!this.viewport) return;
+    this.init();
+  }
+
+  init() {
+    this.drawConstellationConnections();
+
+    this.nodes.forEach(node => {
+      node.addEventListener('mouseenter', (e) => this.onAgencyHover(e.currentTarget));
+      node.addEventListener('mouseleave', () => this.onAgencyLeave());
+      node.addEventListener('click', (e) => {
+        const agencyId = e.currentTarget.getAttribute('data-agency-id');
+        window.location.href = `agencies.php?id=${agencyId}`;
+      });
+    });
+  }
+
+  drawConstellationConnections() {
+    if (!this.svgLinesLayer) return;
+
+    // Pairs of agencies that share historic and active collaborative missions
+    const collaborations = [
+      { from: 'agency-nasa', to: 'agency-isro', label: 'NISAR / Deep Space Network' },
+      { from: 'agency-nasa', to: 'agency-esa', label: 'ISS / Hubble / Artemis / Cassini' },
+      { from: 'agency-esa', to: 'agency-jaxa', label: 'BepiColombo' },
+      { from: 'agency-nasa', to: 'agency-jaxa', label: 'Lunar Gateway / SLIM / Hayabusa' },
+      { from: 'agency-nasa', to: 'agency-private', label: 'Commercial Crew / CLPS' },
+      { from: 'agency-isro', to: 'agency-esa', label: 'Tracking Support / Chandrayaan' },
+      { from: 'agency-cnsa', to: 'agency-esa', label: 'Double Star / Scientific Exchange' }
+    ];
+
+    collaborations.forEach(collab => {
+      const elFrom = document.getElementById(collab.from);
+      const elTo = document.getElementById(collab.to);
+      if (!elFrom || !elTo) return;
+
+      const rectView = this.viewport.getBoundingClientRect();
+      const rectFrom = elFrom.getBoundingClientRect();
+      const rectTo = elTo.getBoundingClientRect();
+
+      const x1 = rectFrom.left - rectView.left + rectFrom.width / 2;
+      const y1 = rectFrom.top - rectView.top + rectFrom.height / 2;
+      const x2 = rectTo.left - rectView.left + rectTo.width / 2;
+      const y2 = rectTo.top - rectView.top + rectTo.height / 2;
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', 'rgba(110, 168, 255, 0.2)');
+      line.setAttribute('stroke-width', '1');
+      line.setAttribute('stroke-dasharray', '3 4');
+      line.setAttribute('class', `collab-line ${collab.from} ${collab.to}`);
+
+      this.svgLinesLayer.appendChild(line);
+    });
+  }
+
+  onAgencyHover(node) {
+    this.nodes.forEach(n => n.classList.remove('active'));
+    node.classList.add('active');
+
+    const nodeId = node.id;
+    // Highlight connected lines
+    const lines = document.querySelectorAll('.collab-line');
+    lines.forEach(line => {
+      if (line.classList.contains(nodeId)) {
+        line.setAttribute('stroke', 'var(--accent-cyan)');
+        line.setAttribute('stroke-width', '2');
+        line.style.opacity = '1';
+      } else {
+        line.style.opacity = '0.15';
+      }
+    });
+
+    const name = node.getAttribute('data-name');
+    const country = node.getAttribute('data-country');
+    const total = node.getAttribute('data-total') || '15+';
+    const active = node.getAttribute('data-active') || '8+';
+
+    if (this.agencyStatsDrawer) {
+      this.agencyStatsDrawer.innerHTML = `
+        <div class="mono-label" style="color: var(--accent-cyan)">AGENCY NETWORK PROFILE</div>
+        <div style="font-size: 1.3rem; font-weight: 700; color: #fff;">${name}</div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">${country}</div>
+        <div style="display: flex; gap: 1.5rem; margin-top: 8px;">
+          <div><span class="mono-label">CATALOGED MISSIONS:</span> <span class="mono-value" style="color: #fff">${total}</span></div>
+          <div><span class="mono-label">ACTIVE PROGRAMMES:</span> <span class="mono-value" style="color: var(--accent-emerald)">${active}</span></div>
+        </div>
+      `;
+      this.agencyStatsDrawer.style.opacity = '1';
+    }
+  }
+
+  onAgencyLeave() {
+    const lines = document.querySelectorAll('.collab-line');
+    lines.forEach(line => {
+      line.setAttribute('stroke', 'rgba(110, 168, 255, 0.2)');
+      line.setAttribute('stroke-width', '1');
+      line.style.opacity = '1';
+    });
+
+    if (this.agencyStatsDrawer) {
+      this.agencyStatsDrawer.style.opacity = '0.6';
+    }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  new AgencyNetwork();
+});

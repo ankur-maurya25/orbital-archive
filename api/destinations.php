@@ -1,0 +1,50 @@
+<?php
+/**
+ * REST API: Destinations
+ * GET /api/destinations.php
+ * GET /api/destinations.php?id=1
+ */
+
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/functions.php';
+
+$pdo = getDB();
+$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+
+try {
+    if ($id) {
+        $stmt = $pdo->prepare("SELECT * FROM destinations WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $dest = $stmt->fetch();
+
+        if (!$dest) {
+            jsonResponse(['success' => false, 'error' => 'Destination not found'], 404);
+        }
+
+        $mStmt = $pdo->prepare("
+            SELECT m.*, a.short_name AS agency_code 
+            FROM missions m
+            LEFT JOIN agencies a ON m.agency_id = a.id
+            WHERE m.destination_id = :id
+            ORDER BY m.launch_date DESC
+        ");
+        $mStmt->execute(['id' => $id]);
+        $dest['missions'] = $mStmt->fetchAll();
+
+        jsonResponse(['success' => true, 'data' => $dest]);
+    }
+
+    $stmt = $pdo->query("
+        SELECT d.*, 
+               COUNT(m.id) AS calculated_mission_count
+        FROM destinations d
+        LEFT JOIN missions m ON d.id = m.destination_id
+        GROUP BY d.id
+        ORDER BY d.id ASC
+    ");
+    $destinations = $stmt->fetchAll();
+
+    jsonResponse(['success' => true, 'count' => count($destinations), 'data' => $destinations]);
+} catch (PDOException $e) {
+    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+}

@@ -1,0 +1,129 @@
+/* ==============================================================
+   ORBITAL ARCHIVE - Responsive Design Breakpoints
+   ============================================================== */
+
+@media (max-width: 1200px) {
+  .orbital-header {
+    padding: 1.5rem 2rem;
+  }
+
+  .hero-section {
+    padding: 7rem 2rem 2.5rem;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .earth-canvas-container {
+    width: 700px;
+    height: 700px;
+  }
+
+  .relics-stage-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .orbital-destination-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .destination-sidebar {
+    text-align: center;
+  }
+
+  .destination-big-vertical-text {
+    font-size: 3.5rem;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .orbital-header {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .nav-pill-container {
+    display: none; /* Replaced by mobile drawer toggle */
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  .hero-content-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .hero-telemetry-hud {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .earth-canvas-container {
+    width: 500px;
+    height: 500px;
+    opacity: 0.65;
+  }
+
+  .map-control-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .timeline-spotlight-box {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .capsule-portal-circle {
+    margin: 0 auto;
+  }
+
+  .timeline-scrubber-track {
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 3rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .timeline-year-node {
+    flex-shrink: 0;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2.3rem;
+  }
+
+  .section-mission-map,
+  .section-orbital-destinations,
+  .section-agency-network,
+  .section-relics-showcase,
+  .section-humanity-timeline {
+    padding: 4rem 1.5rem;
+  }
+
+  .relic-main-headline {
+    font-size: 2.4rem;
+  }
+
+  .relic-hero-image-wrap {
+    height: 320px;
+  }
+}

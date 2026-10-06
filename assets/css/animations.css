@@ -1,0 +1,68 @@
+/* ==============================================================
+   ORBITAL ARCHIVE - Keyframes & Ambient Aerospace Motion
+   ============================================================== */
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes beaconGlow {
+  0%, 100% {
+    r: 4;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px var(--accent-cyan));
+  }
+  50% {
+    r: 6;
+    opacity: 1;
+    filter: drop-shadow(0 0 10px var(--accent-cyan));
+  }
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.radar-sweep-line {
+  transform-origin: 500px 325px;
+  animation: radarSweep 12s linear infinite;
+}
+
+.radar-pulse-ring {
+  transform-origin: 500px 325px;
+  animation: slowPulse 6s ease-in-out infinite;
+}
+
+.launch-trajectory-arc {
+  stroke-dasharray: 6 4;
+  animation: dashFlow 15s linear infinite;
+}
+
+.beacon-pulse {
+  animation: beaconGlow 2.5s infinite ease-in-out;
+}
+
+.floating-element {
+  animation: floatSubtle 5s infinite ease-in-out;
+}
+
+/* Subtle Starfield twinkle */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
+}
+
+.star-twinkle-1 { animation: twinkle 3s infinite ease-in-out; }
+.star-twinkle-2 { animation: twinkle 4.5s infinite ease-in-out 1s; }
+.star-twinkle-3 { animation: twinkle 6s infinite ease-in-out 2s; }
