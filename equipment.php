@@ -48,7 +48,8 @@ if (ctype_digit($paramId)) {
 $eq = $stmt->fetch();
 
 if (!$eq) {
-    header('Location: relics.php');
+    http_response_code(404);
+    require_once __DIR__ . '/404.php';
     exit;
 }
 
@@ -191,7 +192,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>
           </span>
           <span class="mono-label" style="font-size: 0.65rem; color: var(--text-muted);">
-            CREDIT: <?= htmlspecialchars($heroImage['credit'] ?? 'Space Agency Documentation') ?> // LICENSE: <?= htmlspecialchars($heroImage['license'] ?? 'Public Domain') ?>
+            ORGANIZATION: <?= htmlspecialchars($heroImage['source_organization'] ?? $eq['a_name'] ?? 'Primary Space Agency') ?> // CREDIT: <?= htmlspecialchars($heroImage['credit'] ?? 'Space Agency Documentation') ?> // LICENSE: <?= !empty($heroImage['license']) ? htmlspecialchars($heroImage['license']) : 'Usage information not explicitly stated in archive record.' ?>
           </span>
         </div>
       </div>
@@ -614,7 +615,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endif; ?>
               </div>
               <div class="mono-label" style="font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 8px;">
-                CREDIT: <?= htmlspecialchars($img['credit'] ?? 'Space Agency Documentation') ?>
+                ORGANIZATION: <?= htmlspecialchars($img['source_organization'] ?? $eq['a_name'] ?? 'Primary Space Agency') ?> // CREDIT: <?= htmlspecialchars($img['credit'] ?? 'Space Agency Documentation') ?> // LICENSE: <?= !empty($img['license']) ? htmlspecialchars($img['license']) : 'Usage information not explicitly stated in archive record.' ?>
               </div>
             </div>
           </div>
@@ -724,26 +725,37 @@ require_once __DIR__ . '/includes/navbar.php';
     </section>
 
     <!-- ==============================================================
-         11 — VERIFIED ARCHIVAL SOURCES
+         11 — ARCHIVE SOURCES (DATA TRUST & PROVENANCE)
          ============================================================== -->
-    <section style="margin-bottom: 4.5rem;">
-      <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.2rem; letter-spacing: 0.2em;">
-        [09] VERIFIED ARCHIVAL SOURCES & REPOSITORIES (<?= count($sources) ?>)
-      </h2>
+    <section style="margin-bottom: 4.5rem;" id="sources-section">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
+        <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); letter-spacing: 0.2em;">
+          [09] ARCHIVE SOURCES & REPOSITORIES (<?= count($sources) ?>)
+        </h2>
+        <span class="mono-label" style="color: var(--text-muted);">AUTHORITATIVE AEROSPACE REPOSITORIES // ZERO UNVERIFIED CLAIMS</span>
+      </div>
       <div style="display: flex; flex-direction: column; gap: 0.8rem;">
         <?php foreach ($sources as $s): ?>
           <a href="<?= htmlspecialchars($s['source_url']) ?>" target="_blank" rel="noopener" class="search-item-card">
             <div>
-              <div style="font-weight: 700; color: #fff; font-size: 0.95rem;">
-                <?= htmlspecialchars($s['source_name']) ?>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 6px; border-radius: 2px;">
+                  <?= strtoupper(htmlspecialchars($s['source_type'] ?? 'OFFICIAL')) ?>
+                </span>
+                <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">
+                  <?= htmlspecialchars($s['source_name']) ?>
+                </span>
               </div>
-              <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">
-                Organization: <strong><?= htmlspecialchars($s['organization'] ?? 'Official Registry') ?></strong> // <?= htmlspecialchars($s['description'] ?? 'Authoritative Record') ?>
+              <div style="font-size: 0.82rem; color: var(--text-secondary);">
+                ORGANIZATION: <strong style="color: #fff;"><?= htmlspecialchars(!empty($s['organization']) ? $s['organization'] : ($eq['a_name'] ?? 'Official Aerospace Agency')) ?></strong>
+                <?php if (!empty($s['description'])): ?>
+                  <span class="hud-bracket">//</span> <?= htmlspecialchars($s['description']) ?>
+                <?php endif; ?>
               </div>
             </div>
-            <div style="text-align: right;">
-              <span class="mono-label" style="color: var(--accent-cyan);">VERIFIED LINK ↗</span>
-              <span class="mono-value" style="display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 2px;">
+            <div style="text-align: right; flex-shrink: 0; margin-left: 1rem;">
+              <span class="mono-label" style="color: var(--accent-cyan);">VERIFIED SOURCE ↗</span>
+              <span class="mono-value" style="display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 3px;">
                 ACCESSED: <?= formatTelemetryDate($s['accessed_at'] ?? $s['verified_date']) ?>
               </span>
             </div>

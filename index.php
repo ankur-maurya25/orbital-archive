@@ -53,7 +53,7 @@ $milestone1969 = $t1969Stmt->fetch();
     <!-- Top left intro tag -->
     <div class="hero-content-top">
       <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
-        RECORD NUMBER // AGY-0094-EARTH-SYS
+        RECORD NUMBER // AGY-0094-EARTH-SYS <span class="hud-bracket">//</span> NASA SPACE APPS 2026 // CHALLENGE: ABANDONED BUT NOT FORGOTTEN
       </div>
     </div>
 
@@ -440,6 +440,9 @@ $milestone1969 = $t1969Stmt->fetch();
     <div class="relics-stage-layout">
       <!-- Left Editorial Story & Relic Spec Card -->
       <div class="relic-editorial-left">
+        <div class="mono-label" style="color: var(--accent-orange); margin-bottom: 0.6rem; letter-spacing: 0.18em;">
+          NASA SPACE APPS CHALLENGE // ABANDONED BUT NOT FORGOTTEN
+        </div>
         <h2 class="relic-main-headline">
           THE MACHINES<br>
           WE LEFT<br>
@@ -447,9 +450,8 @@ $milestone1969 = $t1969Stmt->fetch();
         </h2>
 
         <p class="relic-poetic-quote" id="relic-quote-text">
-          Some completed their mission.<br>
-          Some stopped transmitting.<br>
-          Some are still where humanity left them.
+          Humans dispatched machines into deep space. Many never returned.<br>
+          Their missions ended, but their stories remain permanently etched across extraterrestrial regolith.
         </p>
 
         <!-- Relic HUD Metadata Card -->

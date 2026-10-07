@@ -10,10 +10,10 @@
         ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
       </div>
       <p class="footer-summary-text">
-        An authoritative, normalized digital registry documenting the spacecraft, landers, rovers, and observatories dispatched beyond Earth's atmosphere. Developed with PHP, MySQL, vanilla JavaScript, and Three.js.
+        An authoritative, normalized digital registry documenting the spacecraft, landers, rovers, and observatories dispatched beyond Earth's atmosphere. Built for NASA Space Apps Challenge 2026 — Challenge: "Abandoned But Not Forgotten".
       </p>
       <div class="mono-label" style="color: var(--accent-blue);">
-        LATENCY: 0.04 MS <span class="hud-bracket">//</span> ENGINE: PHP PDO 8.3 <span class="hud-bracket">//</span> ARCHIVE PROTOCOL V4
+        CHALLENGE: ABANDONED BUT NOT FORGOTTEN <span class="hud-bracket">//</span> ENGINE: PHP PDO 8.3 <span class="hud-bracket">//</span> ARCHIVE PROTOCOL V6
       </div>
     </div>
 
@@ -96,13 +96,13 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
           <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
         </svg>
-        ASK THE ARCHIVE — FACT-GROUNDED AI
+        ASK THE ARCHIVE // KNOWLEDGE ASSISTANT
       </div>
       <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close AI dialog">&times;</div>
     </div>
     <div class="modal-body">
       <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
-        Query the verified space history database. All responses are derived strictly from archived mission records.
+        Query the space exploration registry. Answers are grounded in verified archive records.
       </div>
 
       <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.2rem;">
@@ -115,7 +115,7 @@
       <div id="ai-chat-log" style="display: flex; flex-direction: column; min-height: 180px; max-height: 320px; overflow-y: auto; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
         <div style="padding: 10px 14px; background: rgba(11, 17, 24, 0.9); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85rem; color: var(--text-secondary);">
           <span class="mono-label" style="color: var(--accent-blue)">AI ARCHIVE AGENT READY</span><br>
-          Ask questions about any space mission, relic, launch date, planetary discoveries, or space agency program.
+          Ask questions about any space mission, relic, launch date, planetary discoveries, or space agency program. Answers are grounded in verified archive records.
         </div>
       </div>
 

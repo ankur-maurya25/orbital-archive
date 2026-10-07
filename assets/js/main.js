@@ -191,8 +191,11 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="mission.php?id=${m.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff;">${m.name}</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${m.official_name || ''}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: var(--accent-cyan); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[MISSION]</span>
+              ${m.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${m.official_name || ''}</div>
           </div>
           <div style="text-align: right;">
             <span class="mono-label">${m.agency_code || ''}</span>
@@ -205,18 +208,21 @@ function renderSearchResults(data, container, query) {
 
   // 2. Relics
   if (data.relics && data.relics.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-cyan); margin: 0.8rem 0 0.4rem;">OFF-WORLD RELICS</div>';
+    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">OFF-WORLD RELICS (ABANDONED BUT NOT FORGOTTEN)</div>';
     data.relics.forEach(e => {
       const linkId = e.slug ? e.slug : e.id;
       html += `
-        <a href="equipment.php?id=${linkId}" class="search-item-card" style="border-left: 2px solid var(--accent-cyan);">
+        <a href="equipment.php?id=${linkId}" class="search-item-card" style="border-left: 2px solid var(--accent-orange);">
           <div>
-            <div style="font-weight: 600; color: #fff;">${e.name} <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">[${e.relic_category || 'RELIC'}]</span></div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // Mission: ${e.mission_name || 'Archived'}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(217, 154, 91, 0.15); border: 1px solid rgba(217, 154, 91, 0.3); color: var(--accent-orange); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[RELIC]</span>
+              ${e.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${e.type} // Mission: ${e.mission_name || 'Archived'}</div>
           </div>
           <div style="text-align: right;">
             <span class="mono-label" style="color: var(--accent-orange);">${e.destination_name || ''}</span>
-            <span class="mono-value" style="display: block; font-size: 0.7rem; color: var(--text-muted);">${e.current_status || 'DECOMMISSIONED'}</span>
+            <span class="mono-value" style="display: block; font-size: 0.7rem; color: var(--text-muted);">${e.current_status || 'HISTORIC RELIC'}</span>
           </div>
         </a>
       `;
@@ -225,14 +231,17 @@ function renderSearchResults(data, container, query) {
 
   // 3. Operational Equipment & Spacecraft
   if (data.equipment && data.equipment.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-orange); margin: 0.8rem 0 0.4rem;">OPERATIONAL EQUIPMENT & SPACECRAFT</div>';
+    html += '<div class="mono-label" style="color: var(--accent-emerald); margin: 0.8rem 0 0.4rem;">OPERATIONAL EQUIPMENT & SPACECRAFT</div>';
     data.equipment.forEach(e => {
       const linkId = e.slug ? e.slug : e.id;
       html += `
         <a href="equipment.php?id=${linkId}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff;">${e.name}</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${e.type} // ${e.mission_name || ''}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-emerald); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[EQUIPMENT]</span>
+              ${e.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${e.type} // ${e.mission_name || ''}</div>
           </div>
           <div style="text-align: right;">
             <span class="mono-label" style="color: var(--accent-emerald);">${e.current_status || 'OPERATIONAL'}</span>
@@ -245,14 +254,17 @@ function renderSearchResults(data, container, query) {
 
   // 4. Scientific Instruments
   if (data.instruments && data.instruments.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-purple); margin: 0.8rem 0 0.4rem;">SCIENTIFIC INSTRUMENTS</div>';
+    html += '<div class="mono-label" style="color: var(--accent-blue); margin: 0.8rem 0 0.4rem;">SCIENTIFIC INSTRUMENTS</div>';
     data.instruments.forEach(inst => {
       const parentSlug = inst.equipment_slug || inst.equipment_id || 'perseverance';
       html += `
         <a href="equipment.php?id=${parentSlug}#instruments-section" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff;">${inst.name} <span class="mono-label" style="color: var(--accent-blue); font-size: 0.65rem;">[${inst.type}]</span></div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${inst.purpose || ''}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(110, 168, 255, 0.15); border: 1px solid rgba(110, 168, 255, 0.3); color: var(--accent-blue); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[INSTRUMENT]</span>
+              ${inst.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${inst.purpose || ''}</div>
           </div>
           <div style="text-align: right;">
             <span class="mono-label" style="color: var(--accent-cyan);">${inst.equipment_name || 'HARDWARE'}</span>
@@ -265,13 +277,16 @@ function renderSearchResults(data, container, query) {
 
   // 5. Agencies
   if (data.agencies && data.agencies.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-blue); margin: 0.8rem 0 0.4rem;">AGENCIES</div>';
+    html += '<div class="mono-label" style="color: #c084fc; margin: 0.8rem 0 0.4rem;">AGENCIES</div>';
     data.agencies.forEach(a => {
       html += `
         <a href="agencies.php?id=${a.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff;">${a.short_name} - ${a.name}</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${a.country}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[AGENCY]</span>
+              ${a.short_name} - ${a.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${a.country}</div>
           </div>
         </a>
       `;
@@ -280,13 +295,16 @@ function renderSearchResults(data, container, query) {
 
   // 6. Destinations
   if (data.destinations && data.destinations.length > 0) {
-    html += '<div class="mono-label" style="color: var(--accent-emerald); margin: 0.8rem 0 0.4rem;">DESTINATIONS</div>';
+    html += '<div class="mono-label" style="color: var(--accent-rose); margin: 0.8rem 0 0.4rem;">DESTINATIONS</div>';
     data.destinations.forEach(d => {
       html += `
         <a href="destinations.php?id=${d.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff;">${d.name} <span class="mono-label" style="font-size: 0.65rem;">[${d.type}]</span></div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${d.distance_from_earth || ''}</div>
+            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+              <span class="mono-label" style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--accent-rose); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[DESTINATION]</span>
+              ${d.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">${d.distance_from_earth || ''}</div>
           </div>
         </a>
       `;

@@ -11,7 +11,7 @@ $isHome = basename($_SERVER['PHP_SELF']) === 'index.php';
       ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
     </a>
     <div class="logo-tagline">
-      A GLOBAL RECORD OF HUMAN SPACE EXPLORATION <span class="hud-bracket">//</span> BY AGY SCIENTIFIC
+      A GLOBAL RECORD OF HUMAN SPACE EXPLORATION <span class="hud-bracket">//</span> NASA SPACE APPS 2026
     </div>
   </div>
 
