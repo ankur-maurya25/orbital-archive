@@ -73,12 +73,27 @@ class HumanityTimeline {
   async loadYearMilestone(year) {
     try {
       const res = await fetch(`api/timeline.php?year=${year}`);
+      if (!res.ok) throw new Error('API unavailable');
       const json = await res.json();
       if (json.success && json.data) {
         this.renderMilestone(json.data, year);
+        return;
       }
     } catch (err) {
-      console.warn('Timeline API fallback triggered.', err);
+      try {
+        if (!this.cachedTimeline) {
+          const fbRes = await fetch('assets/data/timeline.json');
+          const fbJson = await fbRes.json();
+          this.cachedTimeline = fbJson.data || [];
+        }
+        const item = this.cachedTimeline.find(m => String(m.year) === String(year) || (m.event_date && m.event_date.startsWith(String(year))));
+        if (item) {
+          this.renderMilestone(item, year);
+          return;
+        }
+      } catch (fbErr) {
+        console.warn('Timeline API fallback triggered.', fbErr);
+      }
     }
   }
 

@@ -44,22 +44,37 @@ function animateValue(obj, start, end, duration) {
  * Fetch and animate HUD stats from real MySQL database counts
  */
 async function fetchStats() {
+  const applyStatsData = (data) => {
+    const misEl = document.getElementById('stat-missions-count');
+    const objEl = document.getElementById('stat-objects-archived');
+    const relEl = document.getElementById('stat-relics-count');
+    const agyEl = document.getElementById('stat-agencies-count');
+
+    if (misEl && data.missions_count) animateValue(misEl, 1, data.missions_count, 1000);
+    if (objEl && data.equipment_count) animateValue(objEl, 1, data.equipment_count, 1000);
+    if (relEl && data.relics_count) animateValue(relEl, 1, data.relics_count, 1000);
+    if (agyEl && data.agencies_count) animateValue(agyEl, 1, data.agencies_count, 1000);
+  };
+
   try {
     const res = await fetch('api/stats.php');
+    if (!res.ok) throw new Error('API unavailable');
     const json = await res.json();
     if (json.success && json.data) {
-      const misEl = document.getElementById('stat-missions-count');
-      const objEl = document.getElementById('stat-objects-archived');
-      const relEl = document.getElementById('stat-relics-count');
-      const agyEl = document.getElementById('stat-agencies-count');
-
-      if (misEl) animateValue(misEl, 1, json.data.missions_count, 1000);
-      if (objEl) animateValue(objEl, 1, json.data.equipment_count, 1000);
-      if (relEl) animateValue(relEl, 1, json.data.relics_count, 1000);
-      if (agyEl) animateValue(agyEl, 1, json.data.agencies_count, 1000);
+      applyStatsData(json.data);
+      return;
     }
   } catch (e) {
-    console.log('Using default telemetry numbers');
+    try {
+      const fbRes = await fetch('assets/data/stats.json');
+      const fbJson = await fbRes.json();
+      if (fbJson.success && fbJson.data) {
+        applyStatsData(fbJson.data);
+        return;
+      }
+    } catch (fbErr) {
+      console.log('Using default telemetry numbers');
+    }
   }
 }
 
@@ -166,12 +181,18 @@ function setupSearch() {
     debounceTimeout = setTimeout(async () => {
       try {
         const res = await fetch(`api/search.php?q=${encodeURIComponent(query)}`);
+        if (!res.ok) throw new Error('API unavailable');
         const json = await res.json();
         renderSearchResults(json.results, resultsContainer, query);
       } catch (err) {
-        console.error('Search error', err);
-        if (resultsContainer) {
-          resultsContainer.innerHTML = '<div style="color: var(--accent-rose); padding: 1rem 0;">Archive telemetry query failed. Please retry.</div>';
+        try {
+          const results = await searchStaticCatalog(query);
+          renderSearchResults(results, resultsContainer, query);
+        } catch (staticErr) {
+          console.error('Search error', staticErr);
+          if (resultsContainer) {
+            resultsContainer.innerHTML = '<div style="color: var(--accent-rose); padding: 1rem 0;">Archive telemetry query failed. Please retry.</div>';
+          }
         }
       }
     }, 250);
@@ -378,9 +399,21 @@ function setupAIArchive() {
     chatLog.scrollTop = chatLog.scrollHeight;
 
     try {
-      const res = await fetch(`api/ai-archive.php?q=${encodeURIComponent(q)}`);
-      const json = await res.json();
-      if (json.success && json.answer) {
+      let json = null;
+      try {
+        const res = await fetch(`api/ai-archive.php?q=${encodeURIComponent(q)}`);
+        if (res.ok) {
+          json = await res.json();
+        }
+      } catch (fetchErr) {
+        // API offline / static hosting
+      }
+
+      if (!json || !json.success) {
+        json = await synthesizeStaticAIAnswer(q);
+      }
+
+      if (json && json.answer) {
         let sourcesHtml = '';
         if (json.source_links && json.source_links.length > 0) {
           const links = json.source_links.map(s => 
@@ -402,7 +435,7 @@ function setupAIArchive() {
           ${sourcesHtml}
         `;
       } else {
-        const fallbackMsg = json.error || 'The archive does not currently record verified details on this topic.';
+        const fallbackMsg = (json && json.error) ? json.error : 'The archive does not currently record verified details on this topic.';
         aiMsg.innerHTML = `
           <div class="ai-header-tag" style="color: var(--accent-orange);">
             ARCHIVE NOTICE
@@ -489,5 +522,146 @@ function setupThemeSwitcher() {
       window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: targetTheme } }));
     });
   });
+}
+
+/**
+ * Static JSON Fallbacks for GitHub Pages and Offline Telemetry
+ */
+let _cachedCatalog = null;
+async function getArchiveCatalog() {
+  if (_cachedCatalog) return _cachedCatalog;
+  try {
+    const res = await fetch('assets/data/archive_catalog.json');
+    _cachedCatalog = await res.json();
+    return _cachedCatalog;
+  } catch (err) {
+    console.warn('Failed to load archive catalog fallback', err);
+    return { missions: [], equipment: [], relics: [], instruments: [], agencies: [], destinations: [] };
+  }
+}
+
+async function searchStaticCatalog(query) {
+  const cat = await getArchiveCatalog();
+  const q = query.toLowerCase().trim();
+  const filterByQ = (list, fields) => {
+    if (!list) return [];
+    return list.filter(item => fields.some(f => item[f] && String(item[f]).toLowerCase().includes(q)));
+  };
+
+  return {
+    missions: filterByQ(cat.missions, ['name', 'official_name', 'objective', 'description']).slice(0, 8),
+    relics: filterByQ(cat.relics, ['name', 'type', 'current_location', 'mission_name']).slice(0, 6),
+    equipment: filterByQ(cat.equipment, ['name', 'type', 'mission_name', 'current_status']).slice(0, 6),
+    instruments: filterByQ(cat.instruments, ['name', 'purpose', 'equipment_name']).slice(0, 4),
+    agencies: filterByQ(cat.agencies, ['name', 'short_name', 'country']).slice(0, 4),
+    destinations: filterByQ(cat.destinations, ['name', 'type']).slice(0, 4)
+  };
+}
+
+async function synthesizeStaticAIAnswer(query) {
+  const cat = await getArchiveCatalog();
+  const q = query.toLowerCase().trim();
+
+  // 1. Opportunity
+  if (q.includes('opportunity')) {
+    return {
+      success: true,
+      answer: "Mars Exploration Rover Opportunity (MER-B) landed on Mars in Meridiani Planum in January 2004. Key verified discoveries:\n\n1. Standing Liquid Water: Discovered hematite spherules ('blueberries') and jarosite at Eagle Crater and Endurance Crater, providing definitive proof of an ancient acidic aqueous environment.\n2. Long-Distance Exploration: Completed the first off-world marathon (42.195 km) in March 2015, ultimately driving 45.16 km across the Martian surface.\n3. Clay Minerals: Explored Endeavour Crater, uncovering neutral-pH smectite clay minerals indicative of water benign to potential ancient microbial life.\n4. Historic Longevity: Operated for 14 years and 138 days (5,111 sols), exceeding its planned 90-sol warranty by over 55 times before its final transmission during a planetary dust storm in Perseverance Valley on June 10, 2018.",
+      source_links: [
+        { name: "NASA JPL Mars Exploration Rovers Dossier", url: "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/" },
+        { name: "NASA Planetary Data System (PDS)", url: "https://pds-geosciences.wustl.edu/missions/mer/" }
+      ]
+    };
+  }
+
+  // 2. Chandrayaan-3
+  if (q.includes('chandrayaan')) {
+    return {
+      success: true,
+      answer: "Chandrayaan-3 is an ISRO lunar exploration mission launched on July 14, 2023, which executed a historic soft landing near the Lunar South Pole (69.373° S, 32.319° E) on August 23, 2023. Key verified discoveries:\n\n1. In-Situ Sulfur Detection: Pragyan rover's Laser-Induced Breakdown Spectroscope (LIBS) unambiguously detected sulfur (S) on the lunar surface, along with Al, Ca, Fe, Cr, Ti, Mn, Si, and O.\n2. Surface Thermophysical Profiling: Vikram lander's ChaSTE experiment recorded an 80°C temperature differential between the lunar topsoil (+60°C) and just 8 cm below the surface (-10°C), revealing exceptional lunar thermal insulation.\n3. Lunar Seismology: The ILSA payload recorded an authentic lunar seismic event (moonquake) on August 31, 2023.\n4. Plasma Measurements: The RAMBHA-LP Langmuir probe measured sparse lunar plasma density (5 to 30 million electrons per cubic meter) above the south polar region.",
+      source_links: [
+        { name: "ISRO Official Chandrayaan-3 Mission Dossier", url: "https://www.isro.gov.in/Chandrayaan3.html" }
+      ]
+    };
+  }
+
+  // 3. Missions that landed on Mars
+  if (q.includes('mars') && (q.includes('land') || q.includes('mission') || q.includes('touchdown') || q.includes('which'))) {
+    return {
+      success: true,
+      answer: "Humanity has successfully landed multiple robotic missions on the surface of Mars:\n\n• Viking 1 & Viking 2 (NASA, 1976) — First successful American Mars landers, Chryse Planitia & Utopia Planitia.\n• Mars Pathfinder / Sojourner (NASA, 1997) — First robotic mobile rover, Ares Vallis.\n• Spirit (MER-A) (NASA, 2004) — Gusev Crater explorer, Husband Hill summit.\n• Opportunity (MER-B) (NASA, 2004) — Meridiani Planum, 45.16 km marathon traverse.\n• Phoenix Lander (NASA, 2008) — Arctic plains, confirmed water ice beneath soil.\n• Curiosity (MSL) (NASA, 2012–Present) — Gale Crater, confirmed ancient habitable lake.\n• InSight Lander (NASA, 2018–2022) — Elysium Planitia, recorded over 1,300 marsquakes.\n• Perseverance & Ingenuity (NASA, 2021–Present) — Jezero Crater ancient river delta, first powered atmospheric flight.\n• Tianwen-1 / Zhurong Rover (CNSA, 2021) — Utopia Planitia landing and exploration.",
+      source_links: [
+        { name: "NASA Mars Exploration Program", url: "https://science.nasa.gov/mars/" }
+      ]
+    };
+  }
+
+  // 4. Moon equipment / left behind on the moon
+  if (q.includes('moon') && (q.includes('equipment') || q.includes('left') || q.includes('relic') || q.includes('behind'))) {
+    return {
+      success: true,
+      answer: "Documented historical equipment and relics remaining on the Moon include:\n\n• Apollo Lunar Module Descent Stages (Apollo 11, 12, 14, 15, 16, 17) — Base structures including Eagle at Tranquility Base.\n• Apollo Lunar Roving Vehicles (LRV-001, LRV-002, LRV-003) — Parked at Hadley-Apennine, Descartes Highlands, and Taurus-Littrow.\n• Early Soviet Probes & Rovers — Luna 9, Luna 16, Lunokhod 1 (Mare Imbrium), Lunokhod 2 (Le Monnier crater).\n• Laser Retroreflector Arrays (LRRR) — Passive quartz prisms still targeted by Earth observatories to measure Moon-Earth distance to millimeter precision.\n• Modern Landers & Rovers — Chang'e 3 (Yutu), Chang'e 4 (Yutu-2, lunar far side), Chandrayaan-3 (Vikram & Pragyan at Shiv Shakti Point), SLIM (JAXA).",
+      source_links: [
+        { name: "NASA Apollo Lunar Surface Journal", url: "https://www.nasa.gov/history/alsj/" }
+      ]
+    };
+  }
+
+  // 5. Deep space / interstellar
+  if (q.includes('deep space') || q.includes('interstellar') || q.includes('farthest')) {
+    return {
+      success: true,
+      answer: "Five human-made spacecraft are on trajectories carrying them out of the Solar System into interstellar space:\n\n1. Voyager 1 (NASA, launched 1977) — Farthest human-made object, crossed heliopause August 2012, currently ~163 AU (24.4 billion km) from Earth in interstellar space.\n2. Voyager 2 (NASA, launched 1977) — Crossed heliopause November 2018, exploring interstellar medium ~136 AU away.\n3. Pioneer 10 & Pioneer 11 (NASA, launched 1972/1973) — Inactive, coasting toward outer space beyond the Kuiper Belt.\n4. New Horizons (NASA, launched 2006) — Explored Pluto (2015) and Arrokoth (2019), continuing through the Kuiper Belt (~58 AU away).\n\nAdditionally, deep-space solar observatories operate at Sun-Earth Lagrange points (L1/L2), including SOHO, DSCOVR, JWST, and Aditya-L1.",
+      source_links: [
+        { name: "NASA Voyager Interstellar Mission", url: "https://science.nasa.gov/mission/voyager/" }
+      ]
+    };
+  }
+
+  // 6. Active missions
+  if (q.includes('active') || q.includes('currently operating')) {
+    const active = cat.missions ? cat.missions.filter(m => m.status === 'Active') : [];
+    const list = active.map(m => `• ${m.name} (${m.agency_code}) — Destination: ${m.destination_name}`).join('\n');
+    return {
+      success: true,
+      answer: `The archive records ${active.length} verified active missions currently conducting space operations:\n\n${list}`,
+      source_links: [
+        { name: "Orbital Archive Active Registry", url: "./#global-mission-map" }
+      ]
+    };
+  }
+
+  // 7. Left behind / relics
+  if (q.includes('left behind') || q.includes('relics') || q.includes('abandoned') || q.includes('machines')) {
+    const relics = cat.relics ? cat.relics.slice(0, 8) : [];
+    const list = relics.map(r => `• ${r.name} (${r.type}) — Location: ${r.current_location || r.destination_name}`).join('\n');
+    return {
+      success: true,
+      answer: `Humanity has left behind specialized hardware across celestial bodies for scientific exploration. Notable documented relics include:\n\n${list}\n\nThese machines remain silent monuments to human ingenuity across the solar system.`,
+      source_links: [
+        { name: "NASA Space Apps: Abandoned But Not Forgotten", url: "./#relics" }
+      ]
+    };
+  }
+
+  // Generic keyword search fallback
+  const matchedMission = cat.missions?.find(m => q.includes(m.name.toLowerCase()));
+  if (matchedMission) {
+    return {
+      success: true,
+      answer: `${matchedMission.name} (${matchedMission.official_name || matchedMission.name}) was launched on ${matchedMission.launch_date} by ${matchedMission.agency_name || matchedMission.agency_code}. Destination: ${matchedMission.destination_name}. Status: ${matchedMission.status}.\n\nObjective: ${matchedMission.objective || matchedMission.description}`,
+      source_links: [
+        { name: `${matchedMission.agency_code} Science Records`, url: "./#global-mission-map" }
+      ]
+    };
+  }
+
+  return {
+    success: true,
+    answer: `Verified Archival Record Query: "${query}". You can query the archive about missions like Apollo 11, Opportunity, Voyager 1, Chandrayaan-3, Curiosity, or explore humanity's relics on the Moon and Mars.`,
+    source_links: [
+      { name: "Orbital Archive Exploration Portal", url: "./#where-have-we-been" }
+    ]
+  };
 }
 

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Machines We Left Behind — Off-World Relics Vault — ORBITAL ARCHIVE</title>
+  <meta name="description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+      <link rel="canonical" href="https://ankur-maurya25.github.io/orbital-archive/relics.php">
+  
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Machines We Left Behind — Off-World Relics Vault — ORBITAL ARCHIVE">
+  <meta property="og:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta property="og:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+      <meta property="og:url" content="https://ankur-maurya25.github.io/orbital-archive/relics.php">
+  
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Machines We Left Behind — Off-World Relics Vault — ORBITAL ARCHIVE">
+  <meta name="twitter:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta name="twitter:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236EA8FF'><path d='M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z'/></svg>">
+  
+  <!-- Theme Initialization (Zero-FOUC) -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('orbital_theme') || 'night';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Stable Three.js CDN for photorealistic Earth & orbital rings -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Ambient Global Tech Grid Overlay -->
+  <div class="bg-grid"></div>
+<header class="orbital-header">
+  <div class="logo-area">
+    <a href="./" class="logo-brand">
+      ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+    </a>
+    <div class="logo-tagline">
+      A GLOBAL RECORD OF HUMAN SPACE EXPLORATION <span class="hud-bracket">//</span> NASA SPACE APPS 2026
+    </div>
+  </div>
+
+  <div class="nav-pill-container">
+    <nav class="nav-pill">
+      <a href="explore.php" class="nav-item">
+        EXPLORE <span class="nav-index">[01]</span>
+      </a>
+      <a href="missions.php" class="nav-item">
+        MISSIONS <span class="nav-index">[02]</span>
+      </a>
+      <a href="agencies.php" class="nav-item">
+        AGENCIES <span class="nav-index">[03]</span>
+      </a>
+      <a href="timeline.php" class="nav-item">
+        TIMELINE <span class="nav-index">[04]</span>
+      </a>
+    </nav>
+
+    <!-- Theme Switcher HUD -->
+    <div class="theme-switcher-hud" role="group" aria-label="Archive Visual Theme">
+      <button type="button" class="theme-btn theme-btn-night" data-theme-target="night" aria-pressed="true" title="Switch to Night (Observatory) theme">
+        NIGHT
+      </button>
+      <span class="theme-separator">/</span>
+      <button type="button" class="theme-btn theme-btn-archive" data-theme-target="archive" aria-pressed="false" title="Switch to Archive (Museum) theme">
+        ARCHIVE
+      </button>
+    </div>
+
+    <!-- Search shortcut trigger -->
+    <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Ctrl+K or /)" aria-label="Open Archive Search (Ctrl+K or /)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>SEARCH</span>
+      <span class="search-shortcut">Ctrl+K</span>
+    </button>
+
+    <!-- AI Ask Archive button -->
+    <button type="button" class="search-trigger open-ai-modal ai-nav-trigger" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+      <span class="ai-btn-text">ASK AI</span>
+    </button>
+  </div>
+</header>
+
+<main class="archive-main" style="padding-top: 7rem;">
+  <div style="max-width: 1300px; margin: 0 auto; padding: 2rem 2rem 6rem;">
+    
+    <div style="margin-bottom: 3rem;">
+      <div class="mono-label" style="color: var(--accent-orange); margin-bottom: 0.5rem;">
+        NASA SPACE APPS // THE MACHINES WE LEFT BEHIND
+      </div>
+      <h1 style="font-size: 3.5rem; font-weight: 800; color: #fff; text-transform: uppercase;">
+        OFF-WORLD RELICS VAULT
+      </h1>
+      <p style="color: var(--text-secondary); max-width: 750px; margin-top: 0.8rem; font-size: 1.1rem; line-height: 1.7;">
+        Some completed their mission. Some stopped transmitting. Some are still where humanity left them.<br>
+        A permanent registry of human machinery resting on the Moon, Mars, comets, and interstellar space.
+      </p>
+    </div>
+
+    <!-- Relics Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 2rem;">
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="Apollo 15 Lunar Roving Vehicle" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Apollo 15</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=2" style="color: inherit;">
+                  Apollo 15 Lunar Roving Vehicle                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            The Apollo 15 Lunar Roving Vehicle (LRV-001) was the first wheeled vehicle driven by humans on another celestial body. Built by Boeing and Delco Electronics, it allowed astronauts David Scott and James Irwin to venture 5 kilometers away from the Lunar Module Falcon, covering 27.76 kilometers across the Hadley-Apennine valley.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Station 9A, Hadley-Apennine, Moon (26.13° N, 3.63° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1971            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA17046/PIA17046~orig.jpg" alt="Voyager 1 Spacecraft" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Interstellar Probe / Artifact</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Voyager 1</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=3" style="color: inherit;">
+                  Voyager 1 Spacecraft                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Launched in September 1977, Voyager 1 completed historic flybys of Jupiter (1979) and Saturn (1980) before heading outward along a hyperbolic trajectory out of the ecliptic plane. In August 2012, Voyager 1 crossed the Heliopause to become the first human-made object to enter interstellar space. It is the most distant operational machine in human history.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Interstellar Space (Outer Heliosheath, ~163 AU / 24.4 billion km from the Sun)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">OPERATIONAL</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1977            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA07942/PIA07942~orig.jpg" alt="Spirit Rover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Mars Exploration Rover A: Spirit</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=6" style="color: inherit;">
+                  Spirit Rover                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Spirit was the first of the twin Mars Exploration Rovers to arrive at the Red Planet, touching down inside the volcanic basin of Gusev Crater in January 2004. Defying its planned 90-sol design lifetime, Spirit explored for over 6 Earth years, climbing the Columbia Hills and uncovering ancient hydrothermal hot spring deposits.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Troy sand trap, west side of Home Plate plateau, Gusev Crater, Mars (14.57° S, 175.48° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2003            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA18076/PIA18076~orig.jpg" alt="Opportunity Rover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Mars Exploration Rover B: Opportunity</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=7" style="color: inherit;">
+                  Opportunity Rover                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Opportunity touched down on Mars in January 2004 for a planned 90-day mission. Defying all expectations, the solar-powered rover operated for nearly 15 Earth years (5,111 Martian sols), traversing 45.16 kilometers across Meridiani Planum and uncovering undeniable evidence that liquid water once flowed across Mars.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Perseverance Valley, Endeavour Crater rim, Mars (2.33° S, 354.67° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2003            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA26090/PIA26090~orig.jpg" alt="Vikram Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO // MISSION: Chandrayaan-3</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=14" style="color: inherit;">
+                  Vikram Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Vikram is the ISRO lander that achieved humanity’s first successful soft landing in the lunar south polar region on 23 August 2023. Touchdown occurred at Shiv Shakti Point (69.37° S). Named after Dr. Vikram Sarabhai, the lander operated for one lunar day, deploying the Pragyan rover and executing a historic hop experiment before entering planned sleep.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Shiv Shakti Point, between Manzinus C and Simpelius N craters, Moon (69.373° S, 32.319° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2023            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA26090/PIA26090~orig.jpg" alt="Pragyan Rover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO // MISSION: Chandrayaan-3</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=15" style="color: inherit;">
+                  Pragyan Rover                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Pragyan is the 26-kilogram lunar rover that rolled down Vikram’s ramp onto the lunar south polar surface on 23 August 2023. Over the course of 10 Earth days, it traversed 101.4 meters, avoiding craters and conducting the first direct spectroscopy of untouched south polar regolith.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Shiv Shakti Point, high southern latitude, Moon (69.373° S, 32.319° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2023            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA18899/PIA18899~orig.jpg" alt="Rosetta Spacecraft" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Cometary Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA // MISSION: Rosetta</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=17" style="color: inherit;">
+                  Rosetta Spacecraft                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Rosetta was the landmark European Space Agency mission that achieved the first orbit around a comet nucleus. Launched in 2004, it travelled for a decade across 6.4 billion kilometers before rendezvousing with comet 67P/Churyumov-Gerasimenko in August 2014. It deployed the Philae lander and studied the comet for two years as it rounded the Sun.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Ma’at region pit walls, small lobe, Comet 67P/Churyumov-Gerasimenko</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=17" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2004            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA19041/PIA19041~orig.jpg" alt="Philae Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Cometary Surface Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA // MISSION: Rosetta</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=18" style="color: inherit;">
+                  Philae Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Philae was the robotic lander deployed by Rosetta on 12 November 2014. After descending for 7 hours, its anchoring harpoons and thruster failed to fire, causing it to bounce twice off the comet nucleus before coming to rest in the shadowed crevice of Abydos. It completed 80% of its planned primary science sequence on battery power before entering hibernation.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Abydos crevice, beneath rocky overhang, Comet 67P/Churyumov-Gerasimenko</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=18" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2004            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as11-40-5927/as11-40-5927~orig.jpg" alt="Lunar Module Eagle" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Apollo 11</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=1" style="color: inherit;">
+                  Lunar Module Eagle                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            The descent stage of Apollo 11 Lunar Module Eagle that carried Neil Armstrong and Buzz Aldrin to the surface.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Tranquility Base, Mare Tranquillitatis, Moon (0.67408° N, 23.47297° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=1" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1969            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="SLIM Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Surveyor 1</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=28" style="color: inherit;">
+                  SLIM Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Achieved unprecedented pinpoint landing accuracy, touching down just 55 meters from its target.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Shioli Crater rim slope, Moon (13.3160° S, 25.2510° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=28" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1966            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/AS12-48-7134/AS12-48-7134~medium.jpg" alt="Surveyor 3 Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Lunar Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Surveyor 3</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=29" style="color: inherit;">
+                  Surveyor 3 Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Landed in a crater; later visited by Apollo 12 astronauts Pete Conrad and Alan Bean.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Surveyor Crater, Oceanus Procellarum, Moon (3.0163° S, 23.4180° W)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=29" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1967            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="Sojourner Rover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Mars Pathfinder</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=5" style="color: inherit;">
+                  Sojourner Rover                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            First wheeled rover on another planet, measuring only 65 cm long and weighing 10.5 kg.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Carl Sagan Memorial Station, Ares Vallis, Mars (19.33° N, 33.55° W)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=5" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1996            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/PIA24657/PIA24657~orig.jpg" alt="Ingenuity Helicopter" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Mars Helicopter: Ingenuity</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=10" style="color: inherit;">
+                  Ingenuity Helicopter                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            The Wright Brothers moment of another world; completed 72 flights totaling over 128 minutes.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Airfield Chi, Valinor Hills, Jezero Crater, Mars (18.44° N, 77.45° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=10" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2020            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="Phoenix Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Phoenix Mars Lander</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=11" style="color: inherit;">
+                  Phoenix Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            First spacecraft to land in the Martian arctic permafrost zone.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Green Valley, Vastitas Borealis, Mars (68.2188° N, 234.2508° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=11" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2007            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="InSight Lander" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: InSight Lander</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=12" style="color: inherit;">
+                  InSight Lander                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Stationary geophysical station that listened to the seismic heartbeat of Mars for 4 years.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Elysium Planitia, Mars (4.5024° N, 135.6234° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=12" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2018            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="Zhurong Rover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Martian Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">JAXA // MISSION: SLIM</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=27" style="color: inherit;">
+                  Zhurong Rover                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            First Chinese Mars rover, drove 1,921 meters across the vast northern lowlands.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Southern Utopia Planitia, Mars (25.10° N, 109.90° E)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">COMPLETED</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=27" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 2023            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="Voyager 2 Spacecraft" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Deep Space Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Voyager 2</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=4" style="color: inherit;">
+                  Voyager 2 Spacecraft                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            The only human spacecraft to explore Uranus and Neptune.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Interstellar Space (~136 AU / 20.3 billion km from the Sun)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">OPERATIONAL</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=4" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1977            </span>
+          </div>
+        </div>
+              <div class="relic-hud-card">
+          <!-- Thumbnail Image -->
+          <div style="height: 220px; border-radius: 2px; overflow: hidden; margin-bottom: 1.2rem; position: relative;">
+            <img src="https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg" alt="New Horizons Spacecraft" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(5,7,11,0.85); border: 1px solid var(--accent-cyan); padding: 2px 8px; border-radius: 2px;">
+              <span class="mono-label" style="color: var(--accent-cyan); font-size: 0.65rem;">Deep Space Relic</span>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA // MISSION: Cassini-Huygens</span>
+              <h2 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="equipment.php?id=19" style="color: inherit;">
+                  New Horizons Spacecraft                </a>
+              </h2>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0.8rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            Flew past Pluto at 49,600 km/h in July 2015, then visited contact binary Arrokoth in 2019.          </p>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">RESTING LOCATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange); font-size: 0.78rem;">Outer Kuiper Belt (~58 AU / 8.7 billion km from the Sun)</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">STATUS</span>
+            <span class="relic-meta-val">OPERATIONAL</span>
+          </div>
+
+          <div style="margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;">
+            <a href="equipment.php?id=19" class="relic-cta-link" style="font-size: 0.75rem;">
+              INSPECT RELIC DOSSIER →
+            </a>
+            <span class="mono-label" style="color: var(--text-muted); font-size: 0.68rem;">
+              YEAR: 1997            </span>
+          </div>
+        </div>
+          </div>
+  </div>
+</main>
+
+<footer class="orbital-footer">
+  <div class="footer-top-grid">
+    <div class="footer-brand-summary">
+      <div class="logo-brand" style="font-size: 1.25rem;">
+        ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+      </div>
+      <p class="footer-summary-text">
+        An authoritative, normalized digital registry documenting the spacecraft, landers, rovers, and observatories dispatched beyond Earth's atmosphere. Built for NASA Space Apps Challenge 2026 — Challenge: "Abandoned But Not Forgotten".
+      </p>
+      <div class="mono-label" style="color: var(--accent-blue);">
+        CHALLENGE: ABANDONED BUT NOT FORGOTTEN <span class="hud-bracket">//</span> ENGINE: PHP PDO 8.3 <span class="hud-bracket">//</span> ARCHIVE PROTOCOL V6
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">ARCHIVE SECTIONS</div>
+      <ul class="footer-link-list">
+        <li><a href="explore.php" class="footer-link">Full Catalog Explorer</a></li>
+        <li><a href="missions.php" class="footer-link">Global Missions Database</a></li>
+        <li><a href="relics.php" class="footer-link">Off-World Relics Vault</a></li>
+        <li><a href="timeline.php" class="footer-link">Humanity's Flight Timeline</a></li>
+        <li><a href="destinations.php" class="footer-link">Planetary Destinations</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">SPACE AGENCIES</div>
+      <ul class="footer-link-list">
+        <li><a href="agencies.php?id=1" class="footer-link">NASA (United States)</a></li>
+        <li><a href="agencies.php?id=2" class="footer-link">ISRO (India)</a></li>
+        <li><a href="agencies.php?id=3" class="footer-link">ESA (Europe)</a></li>
+        <li><a href="agencies.php?id=4" class="footer-link">JAXA (Japan)</a></li>
+        <li><a href="agencies.php?id=5" class="footer-link">CNSA (China)</a></li>
+        <li><a href="agencies.php" class="footer-link">Commercial Space Sector</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">DEVELOPER & ADMIN</div>
+      <ul class="footer-link-list">
+        <li><a href="admin/login.php" class="footer-link">Mission Control Login</a></li>
+        <li><a href="api/missions.php" target="_blank" class="footer-link">REST API Documentation</a></li>
+        <li><button type="button" class="footer-link open-ai-modal" style="text-align: left;">Ask The Archive AI</button></li>
+        <li><button type="button" class="footer-link open-search-modal" style="text-align: left;">Search Database (/)</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div>
+      &copy; 2026 ORBITAL ARCHIVE. DATA DERIVED FROM NASA, ISRO, ESA, JAXA PUBLIC DOMAIN SCIENCE ARCHIVES.
+    </div>
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <span>SYSTEM STATUS: <span style="color: var(--accent-emerald);">ONLINE (NOMINAL)</span></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent-blue)">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<!-- 1. SEARCH MODAL -->
+<div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+  <div class="modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="search-modal-title">ORBITAL ARCHIVE TELEMETRY SEARCH</div>
+      <div class="modal-close-btn" id="close-search-modal" role="button" tabindex="0" aria-label="Close search modal">&times;</div>
+    </div>
+    <div class="modal-body">
+      <div class="search-input-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search Opportunity, Apollo 15, Chandrayaan, Voyager, Mars..." autocomplete="off" aria-label="Search the archive">
+      </div>
+      <div id="search-results" class="search-results-list" role="listbox" aria-label="Search results">
+        <div style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">
+          Press <span class="search-shortcut">ESC</span> to dismiss. Use <span class="search-shortcut">↑</span> / <span class="search-shortcut">↓</span> to navigate and <span class="search-shortcut">ENTER</span> to select.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. "ASK THE ARCHIVE" AI MODAL -->
+<div class="modal-overlay" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+  <div class="modal-window ai-modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="ai-modal-title" style="display: flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
+          <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+        </svg>
+        ASK THE ARCHIVE // KNOWLEDGE ASSISTANT
+      </div>
+      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close Ask the Archive dialog">&times;</div>
+    </div>
+    <div class="modal-body ai-modal-body">
+      <div class="ai-intro-section">
+        <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+          Query the space exploration registry. Answers are grounded in verified archive records.
+        </div>
+      </div>
+
+      <div class="ai-chips-container">
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Opportunity discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions landed on Mars?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What equipment is still on the Moon?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which spacecraft are currently in deep space?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Chandrayaan-3 discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions are still active?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What machines were left behind?"</button>
+      </div>
+
+      <div id="ai-chat-log" class="ai-chat-viewport" aria-live="polite">
+        <div class="ai-msg-bubble ai-msg-assistant">
+          <div class="ai-header-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+            </svg>
+            ARCHIVE AGENT READY
+          </div>
+          <div class="ai-answer-body">
+            Welcome to the Orbital Archive knowledge portal. You can inquire about verified missions, off-world relics, launch dates, planetary discoveries, or space agency programs. All responses are derived strictly from documented historical records.
+          </div>
+          <div class="ai-sources-tray">
+            <span class="ai-sources-label">VERIFIED SOURCES:</span> NASA // ISRO // ESA // JAXA // CNSA // ROSCOSMOS
+          </div>
+        </div>
+      </div>
+
+      <div class="search-input-box ai-composer-box">
+        <input type="text" id="ai-question-input" class="search-input-field" placeholder="Ask a factual question about humanity's space history..." aria-label="Ask a question about space exploration history">
+        <button type="button" id="ai-send-btn" class="cta-button" style="padding: 8px 18px; font-size: 0.74rem;">TRANSMIT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Core Modular JavaScript Components -->
+<script src="assets/js/earth.js"></script>
+<script src="assets/js/orbit.js"></script>
+<script src="assets/js/mission-map.js"></script>
+<script src="assets/js/agency-network.js"></script>
+<script src="assets/js/relics.js"></script>
+<script src="assets/js/timeline.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

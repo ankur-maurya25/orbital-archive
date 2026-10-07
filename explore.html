@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore the Complete Space Archive — ORBITAL ARCHIVE</title>
+  <meta name="description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+      <link rel="canonical" href="https://ankur-maurya25.github.io/orbital-archive/explore.php">
+  
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Explore the Complete Space Archive — ORBITAL ARCHIVE">
+  <meta property="og:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta property="og:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+      <meta property="og:url" content="https://ankur-maurya25.github.io/orbital-archive/explore.php">
+  
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Explore the Complete Space Archive — ORBITAL ARCHIVE">
+  <meta name="twitter:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta name="twitter:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236EA8FF'><path d='M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z'/></svg>">
+  
+  <!-- Theme Initialization (Zero-FOUC) -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('orbital_theme') || 'night';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Stable Three.js CDN for photorealistic Earth & orbital rings -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Ambient Global Tech Grid Overlay -->
+  <div class="bg-grid"></div>
+<header class="orbital-header">
+  <div class="logo-area">
+    <a href="./" class="logo-brand">
+      ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+    </a>
+    <div class="logo-tagline">
+      A GLOBAL RECORD OF HUMAN SPACE EXPLORATION <span class="hud-bracket">//</span> NASA SPACE APPS 2026
+    </div>
+  </div>
+
+  <div class="nav-pill-container">
+    <nav class="nav-pill">
+      <a href="explore.php" class="nav-item">
+        EXPLORE <span class="nav-index">[01]</span>
+      </a>
+      <a href="missions.php" class="nav-item">
+        MISSIONS <span class="nav-index">[02]</span>
+      </a>
+      <a href="agencies.php" class="nav-item">
+        AGENCIES <span class="nav-index">[03]</span>
+      </a>
+      <a href="timeline.php" class="nav-item">
+        TIMELINE <span class="nav-index">[04]</span>
+      </a>
+    </nav>
+
+    <!-- Theme Switcher HUD -->
+    <div class="theme-switcher-hud" role="group" aria-label="Archive Visual Theme">
+      <button type="button" class="theme-btn theme-btn-night" data-theme-target="night" aria-pressed="true" title="Switch to Night (Observatory) theme">
+        NIGHT
+      </button>
+      <span class="theme-separator">/</span>
+      <button type="button" class="theme-btn theme-btn-archive" data-theme-target="archive" aria-pressed="false" title="Switch to Archive (Museum) theme">
+        ARCHIVE
+      </button>
+    </div>
+
+    <!-- Search shortcut trigger -->
+    <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Ctrl+K or /)" aria-label="Open Archive Search (Ctrl+K or /)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>SEARCH</span>
+      <span class="search-shortcut">Ctrl+K</span>
+    </button>
+
+    <!-- AI Ask Archive button -->
+    <button type="button" class="search-trigger open-ai-modal ai-nav-trigger" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+      <span class="ai-btn-text">ASK AI</span>
+    </button>
+  </div>
+</header>
+
+<main class="archive-main" style="padding-top: 7rem;">
+  <div style="max-width: 1300px; margin: 0 auto; padding: 2rem 2rem 6rem;">
+    
+    <div style="margin-bottom: 2.5rem;">
+      <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
+        CATALOG // ADVANCED TELEMETRY BROWSER
+      </div>
+      <h1 style="font-size: 3rem; font-weight: 800; color: #fff; letter-spacing: -0.01em;">
+        EXPLORE THE ARCHIVE
+      </h1>
+      <p style="color: var(--text-secondary); max-width: 700px; margin-top: 0.5rem;">
+        Filter through 30 landmark missions, rovers, orbiters, and off-world relics spanning 1957 to the modern era.
+      </p>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <form method="GET" action="explore.php" style="background: rgba(11, 17, 24, 0.85); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 4px; margin-bottom: 3rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;">
+      
+      <!-- Text search -->
+      <div style="flex: 2; min-width: 220px;">
+        <label class="mono-label" style="display: block; margin-bottom: 6px;">SEARCH CATALOG</label>
+        <input type="text" name="q" value="" placeholder="Search Opportunity, Apollo, Mars..." class="search-input-field" style="background: rgba(5, 7, 11, 0.8); border: 1px solid var(--border-color); padding: 9px 14px; border-radius: 2px; width: 100%;">
+      </div>
+
+      <!-- Agency Filter -->
+      <div style="flex: 1; min-width: 160px;">
+        <label class="mono-label" style="display: block; margin-bottom: 6px;">AGENCY</label>
+        <select name="agency" style="background: rgba(5, 7, 11, 0.8); border: 1px solid var(--border-color); padding: 9px 12px; border-radius: 2px; width: 100%; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.8rem;">
+          <option value="">All Agencies</option>
+                      <option value="5" >
+              CNSA            </option>
+                      <option value="3" >
+              ESA            </option>
+                      <option value="9" >
+              Intuitive Machines            </option>
+                      <option value="2" >
+              ISRO            </option>
+                      <option value="4" >
+              JAXA            </option>
+                      <option value="1" >
+              NASA            </option>
+                      <option value="8" >
+              Rocket Lab            </option>
+                      <option value="6" >
+              Roscosmos            </option>
+                      <option value="7" >
+              SpaceX            </option>
+                  </select>
+      </div>
+
+      <!-- Destination Filter -->
+      <div style="flex: 1; min-width: 160px;">
+        <label class="mono-label" style="display: block; margin-bottom: 6px;">DESTINATION</label>
+        <select name="destination" style="background: rgba(5, 7, 11, 0.8); border: 1px solid var(--border-color); padding: 9px 12px; border-radius: 2px; width: 100%; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.8rem;">
+          <option value="">All Destinations</option>
+                      <option value="1" >
+              Earth Orbit            </option>
+                      <option value="2" >
+              Moon            </option>
+                      <option value="3" >
+              Mars            </option>
+                      <option value="4" >
+              Venus            </option>
+                      <option value="5" >
+              Asteroids &amp; Comets            </option>
+                      <option value="6" >
+              Outer Solar System            </option>
+                      <option value="7" >
+              Deep Space / Interstellar            </option>
+                  </select>
+      </div>
+
+      <!-- Status Filter -->
+      <div style="flex: 1; min-width: 140px;">
+        <label class="mono-label" style="display: block; margin-bottom: 6px;">STATUS</label>
+        <select name="status" style="background: rgba(5, 7, 11, 0.8); border: 1px solid var(--border-color); padding: 9px 12px; border-radius: 2px; width: 100%; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.8rem;">
+          <option value="">All Statuses</option>
+          <option value="Active" >Active</option>
+          <option value="Completed" >Completed</option>
+        </select>
+      </div>
+
+      <!-- Buttons -->
+      <div style="display: flex; gap: 8px;">
+        <button type="submit" class="cta-button" style="padding: 10px 18px; font-size: 0.75rem;">FILTER</button>
+        <a href="explore.php" class="filter-btn" style="padding: 10px 14px; text-decoration: none;">RESET</a>
+      </div>
+    </form>
+
+    <!-- Results Counter -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <div class="mono-label">
+        SHOWING <span style="color: #fff; font-weight: 700;">32</span> CATALOGED RECORDS
+      </div>
+      <div class="mono-label" style="color: var(--accent-cyan);">
+        ORDER // CHRONOLOGICAL DESCENDING
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem;">
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">JAXA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=27" style="color: inherit;">
+                  SLIM                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Zhurong Rover                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">07 SEP 2023</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=27" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=27" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=23" style="color: inherit;">
+                  Aditya-L1                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Sputnik 1 Satellite                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Deep Space / Interstellar</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">02 SEP 2023</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=23" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=23" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=14" style="color: inherit;">
+                  Chandrayaan-3                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Vikram Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">14 JUL 2023</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=14" style="color: inherit;">
+                  Chandrayaan-3                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Pragyan Rover                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">14 JUL 2023</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=15" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=21" style="color: inherit;">
+                  James Webb Space Telescope                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Hubble Space Telescope                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Deep Space / Interstellar</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">25 DEC 2021</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=21" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=21" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=9" style="color: inherit;">
+                  Mars 2020: Perseverance                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Perseverance                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">30 JUL 2020</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=10" style="color: inherit;">
+                  Mars Helicopter: Ingenuity                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Ingenuity Helicopter                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">30 JUL 2020</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=10" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=10" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">CNSA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=26" style="color: inherit;">
+                  Tianwen-1: Zhurong                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Gaia Spacecraft                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">23 JUL 2020</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=26" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=26" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=12" style="color: inherit;">
+                  InSight Lander                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                InSight Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">05 MAY 2018</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=12" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=12" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=24" style="color: inherit;">
+                  AstroSat                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Aditya-L1 Spacecraft                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Earth Orbit</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">28 SEP 2015</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=24" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=24" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">JAXA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=15" style="color: inherit;">
+                  Hayabusa2                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Hayabusa2 Spacecraft                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Asteroids &amp; Comets</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">03 DEC 2014</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=25" style="color: inherit;">
+                  Gaia                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                AstroSat Satellite                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Deep Space / Interstellar</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">19 DEC 2013</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=25" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=25" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=8" style="color: inherit;">
+                  Mars Science Laboratory: Curiosity                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Curiosity Rover                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">26 NOV 2011</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ISRO</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=13" style="color: inherit;">
+                  Chandrayaan-1                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Chandrayaan-1 Orbiter                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">22 OCT 2008</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=13" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=13" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=11" style="color: inherit;">
+                  Phoenix Mars Lander                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Phoenix Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">04 AUG 2007</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=11" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=11" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=18" style="color: inherit;">
+                  New Horizons                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Outer Solar System</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">19 JAN 2006</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=18" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=16" style="color: inherit;">
+                  Rosetta                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Rosetta Spacecraft                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Asteroids &amp; Comets</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">02 MAR 2004</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=16" style="color: inherit;">
+                  Rosetta                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Philae Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Asteroids &amp; Comets</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">02 MAR 2004</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=18" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">ESA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=17" style="color: inherit;">
+                  Philae                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Asteroids &amp; Comets</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">02 MAR 2004</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=17" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=7" style="color: inherit;">
+                  Mars Exploration Rover B: Opportunity                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Opportunity Rover                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">07 JUL 2003</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=6" style="color: inherit;">
+                  Mars Exploration Rover A: Spirit                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Spirit Rover                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">10 JUN 2003</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=30" style="color: inherit;">
+                  International Space Station                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                International Space Station                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Earth Orbit</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">20 NOV 1998</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=30" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=30" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=19" style="color: inherit;">
+                  Cassini-Huygens                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                New Horizons Spacecraft                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Outer Solar System</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">15 OCT 1997</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=19" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=19" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=5" style="color: inherit;">
+                  Mars Pathfinder                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Sojourner Rover                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Mars</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">04 DEC 1996</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=5" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=5" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=20" style="color: inherit;">
+                  Hubble Space Telescope                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Cassini Orbiter                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Earth Orbit</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">24 APR 1990</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=20" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=20" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=3" style="color: inherit;">
+                  Voyager 1                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Voyager 1 Spacecraft                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Deep Space / Interstellar</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">05 SEP 1977</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=4" style="color: inherit;">
+                  Voyager 2                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--accent-emerald);">
+              ACTIVE            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Voyager 2 Spacecraft                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Deep Space / Interstellar</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">20 AUG 1977</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=4" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=4" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=2" style="color: inherit;">
+                  Apollo 15                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Apollo 15 Lunar Roving Vehicle                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">26 JUL 1971</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=1" style="color: inherit;">
+                  Apollo 11                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Lunar Module Eagle                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">16 JUL 1969</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=1" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=1" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=29" style="color: inherit;">
+                  Surveyor 3                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                Surveyor 3 Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">17 APR 1967</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=29" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=29" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">NASA</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=28" style="color: inherit;">
+                  Surveyor 1                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                SLIM Lander                                  <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent-cyan); margin-left: 4px;">[RELIC]</span>
+                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Moon</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">30 MAY 1966</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=28" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=28" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+              <div class="relic-hud-card" style="transition: transform 0.2s, border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="mono-label" style="color: var(--accent-blue);">Roscosmos</span>
+              <h3 style="font-size: 1.35rem; font-weight: 700; color: #fff; margin: 4px 0;">
+                <a href="mission.php?id=22" style="color: inherit;">
+                  Sputnik 1                </a>
+              </h3>
+            </div>
+            <span class="mono-label" style="color: var(--text-secondary);">
+              COMPLETED            </span>
+          </div>
+
+                      <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 2px; margin: 0.5rem 0;">
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--accent-orange);">CARRIED HARDWARE</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+                James Webb Space Telescope                              </div>
+            </div>
+          
+          <div class="relic-meta-row" style="margin-top: 0.5rem;">
+            <span class="relic-meta-label">DESTINATION</span>
+            <span class="relic-meta-val" style="color: var(--accent-orange);">Earth Orbit</span>
+          </div>
+
+          <div class="relic-meta-row">
+            <span class="relic-meta-label">LAUNCH DATE</span>
+            <span class="relic-meta-val">04 OCT 1957</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="mission.php?id=22" class="relic-cta-link" style="font-size: 0.75rem;">
+              MISSION EXHIBIT →
+            </a>
+                          <a href="equipment.php?id=22" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                HARDWARE →
+              </a>
+                      </div>
+        </div>
+          </div>
+  </div>
+</main>
+
+<footer class="orbital-footer">
+  <div class="footer-top-grid">
+    <div class="footer-brand-summary">
+      <div class="logo-brand" style="font-size: 1.25rem;">
+        ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+      </div>
+      <p class="footer-summary-text">
+        An authoritative, normalized digital registry documenting the spacecraft, landers, rovers, and observatories dispatched beyond Earth's atmosphere. Built for NASA Space Apps Challenge 2026 — Challenge: "Abandoned But Not Forgotten".
+      </p>
+      <div class="mono-label" style="color: var(--accent-blue);">
+        CHALLENGE: ABANDONED BUT NOT FORGOTTEN <span class="hud-bracket">//</span> ENGINE: PHP PDO 8.3 <span class="hud-bracket">//</span> ARCHIVE PROTOCOL V6
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">ARCHIVE SECTIONS</div>
+      <ul class="footer-link-list">
+        <li><a href="explore.php" class="footer-link">Full Catalog Explorer</a></li>
+        <li><a href="missions.php" class="footer-link">Global Missions Database</a></li>
+        <li><a href="relics.php" class="footer-link">Off-World Relics Vault</a></li>
+        <li><a href="timeline.php" class="footer-link">Humanity's Flight Timeline</a></li>
+        <li><a href="destinations.php" class="footer-link">Planetary Destinations</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">SPACE AGENCIES</div>
+      <ul class="footer-link-list">
+        <li><a href="agencies.php?id=1" class="footer-link">NASA (United States)</a></li>
+        <li><a href="agencies.php?id=2" class="footer-link">ISRO (India)</a></li>
+        <li><a href="agencies.php?id=3" class="footer-link">ESA (Europe)</a></li>
+        <li><a href="agencies.php?id=4" class="footer-link">JAXA (Japan)</a></li>
+        <li><a href="agencies.php?id=5" class="footer-link">CNSA (China)</a></li>
+        <li><a href="agencies.php" class="footer-link">Commercial Space Sector</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">DEVELOPER & ADMIN</div>
+      <ul class="footer-link-list">
+        <li><a href="admin/login.php" class="footer-link">Mission Control Login</a></li>
+        <li><a href="api/missions.php" target="_blank" class="footer-link">REST API Documentation</a></li>
+        <li><button type="button" class="footer-link open-ai-modal" style="text-align: left;">Ask The Archive AI</button></li>
+        <li><button type="button" class="footer-link open-search-modal" style="text-align: left;">Search Database (/)</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div>
+      &copy; 2026 ORBITAL ARCHIVE. DATA DERIVED FROM NASA, ISRO, ESA, JAXA PUBLIC DOMAIN SCIENCE ARCHIVES.
+    </div>
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <span>SYSTEM STATUS: <span style="color: var(--accent-emerald);">ONLINE (NOMINAL)</span></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent-blue)">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<!-- 1. SEARCH MODAL -->
+<div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+  <div class="modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="search-modal-title">ORBITAL ARCHIVE TELEMETRY SEARCH</div>
+      <div class="modal-close-btn" id="close-search-modal" role="button" tabindex="0" aria-label="Close search modal">&times;</div>
+    </div>
+    <div class="modal-body">
+      <div class="search-input-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search Opportunity, Apollo 15, Chandrayaan, Voyager, Mars..." autocomplete="off" aria-label="Search the archive">
+      </div>
+      <div id="search-results" class="search-results-list" role="listbox" aria-label="Search results">
+        <div style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">
+          Press <span class="search-shortcut">ESC</span> to dismiss. Use <span class="search-shortcut">↑</span> / <span class="search-shortcut">↓</span> to navigate and <span class="search-shortcut">ENTER</span> to select.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. "ASK THE ARCHIVE" AI MODAL -->
+<div class="modal-overlay" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+  <div class="modal-window ai-modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="ai-modal-title" style="display: flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
+          <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+        </svg>
+        ASK THE ARCHIVE // KNOWLEDGE ASSISTANT
+      </div>
+      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close Ask the Archive dialog">&times;</div>
+    </div>
+    <div class="modal-body ai-modal-body">
+      <div class="ai-intro-section">
+        <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+          Query the space exploration registry. Answers are grounded in verified archive records.
+        </div>
+      </div>
+
+      <div class="ai-chips-container">
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Opportunity discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions landed on Mars?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What equipment is still on the Moon?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which spacecraft are currently in deep space?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Chandrayaan-3 discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions are still active?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What machines were left behind?"</button>
+      </div>
+
+      <div id="ai-chat-log" class="ai-chat-viewport" aria-live="polite">
+        <div class="ai-msg-bubble ai-msg-assistant">
+          <div class="ai-header-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+            </svg>
+            ARCHIVE AGENT READY
+          </div>
+          <div class="ai-answer-body">
+            Welcome to the Orbital Archive knowledge portal. You can inquire about verified missions, off-world relics, launch dates, planetary discoveries, or space agency programs. All responses are derived strictly from documented historical records.
+          </div>
+          <div class="ai-sources-tray">
+            <span class="ai-sources-label">VERIFIED SOURCES:</span> NASA // ISRO // ESA // JAXA // CNSA // ROSCOSMOS
+          </div>
+        </div>
+      </div>
+
+      <div class="search-input-box ai-composer-box">
+        <input type="text" id="ai-question-input" class="search-input-field" placeholder="Ask a factual question about humanity's space history..." aria-label="Ask a question about space exploration history">
+        <button type="button" id="ai-send-btn" class="cta-button" style="padding: 8px 18px; font-size: 0.74rem;">TRANSMIT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Core Modular JavaScript Components -->
+<script src="assets/js/earth.js"></script>
+<script src="assets/js/orbit.js"></script>
+<script src="assets/js/mission-map.js"></script>
+<script src="assets/js/agency-network.js"></script>
+<script src="assets/js/relics.js"></script>
+<script src="assets/js/timeline.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -58,12 +58,21 @@ class RelicsExhibition {
 
     try {
       const res = await fetch('api/relics.php');
+      if (!res.ok) throw new Error('API unavailable');
       const json = await res.json();
       if (json.success && json.data.length > 0) {
         this.relicsData = json.data;
       }
     } catch (err) {
-      console.warn('Using local relic telemetry state.', err);
+      try {
+        const fbRes = await fetch('assets/data/relics.json');
+        const fbJson = await fbRes.json();
+        if (fbJson.success && fbJson.data.length > 0) {
+          this.relicsData = fbJson.data;
+        }
+      } catch (fbErr) {
+        console.warn('Using local relic telemetry state.', fbErr);
+      }
     }
   }
 

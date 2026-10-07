@@ -40,12 +40,23 @@ class GlobalMissionMap {
   async fetchMissions() {
     try {
       const res = await fetch('api/missions.php?limit=100');
+      if (!res.ok) throw new Error('API unavailable');
       const json = await res.json();
       if (json.success) {
         this.missions = json.data;
+        return;
       }
     } catch (err) {
-      console.warn('Could not load missions API directly, using embedded spaceport telemetry.', err);
+      try {
+        const fbRes = await fetch('assets/data/archive_catalog.json');
+        const fbJson = await fbRes.json();
+        if (fbJson && fbJson.missions) {
+          this.missions = fbJson.missions;
+          return;
+        }
+      } catch (fbErr) {
+        console.warn('Could not load missions API directly, using embedded spaceport telemetry.', fbErr);
+      }
     }
   }
 

@@ -1,0 +1,2797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Humanity&#039;s Flight Timeline — ORBITAL ARCHIVE</title>
+  <meta name="description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+      <link rel="canonical" href="https://ankur-maurya25.github.io/orbital-archive/timeline.php">
+  
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Humanity&#039;s Flight Timeline — ORBITAL ARCHIVE">
+  <meta property="og:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta property="og:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+      <meta property="og:url" content="https://ankur-maurya25.github.io/orbital-archive/timeline.php">
+  
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Humanity&#039;s Flight Timeline — ORBITAL ARCHIVE">
+  <meta name="twitter:description" content="A cinematic, database-driven digital archive documenting everything humanity has launched beyond Earth.">
+  <meta name="twitter:image" content="https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236EA8FF'><path d='M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z'/></svg>">
+  
+  <!-- Theme Initialization (Zero-FOUC) -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('orbital_theme') || 'night';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Stable Three.js CDN for photorealistic Earth & orbital rings -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Ambient Global Tech Grid Overlay -->
+  <div class="bg-grid"></div>
+<header class="orbital-header">
+  <div class="logo-area">
+    <a href="./" class="logo-brand">
+      ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+    </a>
+    <div class="logo-tagline">
+      A GLOBAL RECORD OF HUMAN SPACE EXPLORATION <span class="hud-bracket">//</span> NASA SPACE APPS 2026
+    </div>
+  </div>
+
+  <div class="nav-pill-container">
+    <nav class="nav-pill">
+      <a href="explore.php" class="nav-item">
+        EXPLORE <span class="nav-index">[01]</span>
+      </a>
+      <a href="missions.php" class="nav-item">
+        MISSIONS <span class="nav-index">[02]</span>
+      </a>
+      <a href="agencies.php" class="nav-item">
+        AGENCIES <span class="nav-index">[03]</span>
+      </a>
+      <a href="timeline.php" class="nav-item">
+        TIMELINE <span class="nav-index">[04]</span>
+      </a>
+    </nav>
+
+    <!-- Theme Switcher HUD -->
+    <div class="theme-switcher-hud" role="group" aria-label="Archive Visual Theme">
+      <button type="button" class="theme-btn theme-btn-night" data-theme-target="night" aria-pressed="true" title="Switch to Night (Observatory) theme">
+        NIGHT
+      </button>
+      <span class="theme-separator">/</span>
+      <button type="button" class="theme-btn theme-btn-archive" data-theme-target="archive" aria-pressed="false" title="Switch to Archive (Museum) theme">
+        ARCHIVE
+      </button>
+    </div>
+
+    <!-- Search shortcut trigger -->
+    <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Ctrl+K or /)" aria-label="Open Archive Search (Ctrl+K or /)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>SEARCH</span>
+      <span class="search-shortcut">Ctrl+K</span>
+    </button>
+
+    <!-- AI Ask Archive button -->
+    <button type="button" class="search-trigger open-ai-modal ai-nav-trigger" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+      <span class="ai-btn-text">ASK AI</span>
+    </button>
+  </div>
+</header>
+
+<main class="archive-main" style="padding-top: 7rem;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 6rem;">
+    
+    <div style="margin-bottom: 3.5rem; text-align: center;">
+      <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
+        CHRONICLE // 1957–PRESENT
+      </div>
+      <h1 style="font-size: 3.5rem; font-weight: 800; color: #fff; text-transform: uppercase;">
+        HUMANITY'S FLIGHT TIMELINE
+      </h1>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0.8rem auto 0; font-size: 1.05rem;">
+        A chronological journey through the decisive moments that transformed humankind into a multi-planetary species.
+      </p>
+    </div>
+
+    <!-- Vertical Timeline Stream -->
+    <div style="position: relative; padding-left: 3rem; border-left: 1px solid var(--border-color); margin-left: 2rem;">
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1957              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                Roscosmos // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Sputnik 1 — Dawn of the Space Age            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              The Soviet Union launches Sputnik 1 into low Earth orbit, inaugurating the Space Age and proving orbital flight.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=22" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=23" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Sputnik 1 Satellite) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1969              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Apollo 11 — First Human Footsteps on the Moon            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Neil Armstrong and Buzz Aldrin land Lunar Module Eagle on the Sea of Tranquility, taking humanity&#039;s giant leap.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=1" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=1" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Lunar Module Eagle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Apollo 15 — Wheels on the Lunar Surface            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Astronauts Dave Scott and Jim Irwin drive the first Lunar Roving Vehicle 28 kilometers across the Apennine mountains.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Touchdown at Hadley-Apennine            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Lunar Module Falcon touches down in the valley between Hadley Rille and the towering Apennine Mountains.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Apollo 15 Saturn V Liftoff            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Saturn V rocket SA-510 blasts off from Launch Complex 39A at Kennedy Space Center carrying the first Lunar Roving Vehicle.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Broadcasts LM Falcon Lunar Blastoff            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              The ground-controlled RCA color camera on LRV-001 tracks and broadcasts live color television of the Falcon ascent stage liftoff.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Traverse to Hadley Rille &amp; Final Parking            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Rover completes traverse to the rim of the 300m-deep Hadley Rille; parked at VIP site 90m east of LM Falcon.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Discovery of the Genesis Rock (EVA 2)            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Astronauts drive rover up the slope of Mt. Hadley Delta, discovering Sample 15415, the 4.1-billion-year-old anorthosite.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1971              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Unfolding and First Drive on the Moon            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Dave Scott and Jim Irwin deploy LRV-001 from Falcon quadrant; Scott drives the first human miles on the lunar surface (EVA 1).            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=2" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=2" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Apollo 15 Lunar Roving Vehicle) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1977              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Voyager 1 &amp; 2 — The Grand Tour &amp; Interstellar Message            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              NASA launches the twin Voyager spacecraft carrying the Golden Record on a trajectory toward the stars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1977              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Voyager 1 Liftoff from Cape Canaveral            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Titan IIIE-Centaur launches Voyager 1 on a fast trajectory to Jupiter and Saturn.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1979              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Jupiter Encounter &amp; Discovery of Volcanism on Io            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Closest approach to Jupiter (349,000 km); reveals active volcanic plumes on Io and Jovian ring system.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1980              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Saturn Encounter &amp; Titan Flyby            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Flies past Saturn (124,000 km) and Titan (6,490 km), confirming Titan&#039;s thick nitrogen-rich atmosphere.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1990              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Hubble Space Telescope Deployed            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Space Shuttle Discovery deploys the Hubble Space Telescope, opening humanity&#039;s eyes to the deep universe.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=20" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=21" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hubble Space Telescope) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1990              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              The Pale Blue Dot Solar System Portrait            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Turns cameras back toward the solar system from 6 billion km to capture the legendary family portrait including Earth.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                1997              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Mars Pathfinder &amp; Cassini-Huygens Launch            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Sojourner rover touches down on Mars while the flagship Cassini-Huygens mission departs for Saturn.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=5" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=5" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Sojourner Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2003              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Opportunity Liftoff from Cape Canaveral            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Launches aboard a Boeing Delta II 7925H rocket from SLC-17B on a direct trajectory to Mars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2003              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Spirit Liftoff from Cape Canaveral            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Launches aboard a Delta II 7925 rocket from SLC-17A, beginning the Mars Exploration Rover mission.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Spirit &amp; Opportunity Land on Mars            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Twin Martian exploration rovers land on opposite sides of Mars, beginning 14 years of water discovery.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Airbag Landing in Eagle Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Bounces inside a small impact crater in Meridiani Planum, scoring a &quot;hole-in-one&quot; landing on the Martian plain.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Definitive Proof of Past Standing Water            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Pancam and Mössbauer identify hematite blueberries and jarosite minerals, proving past standing acidic water.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Touchdown in Gusev Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Airbag-cushioned landing in the basalt plains of Gusev Crater, beginning its robotic exploration.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rosetta &amp; Philae Ariane 5 Liftoff            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Launches from Kourou, French Guiana, embarking on a 10-year, 6.4-billion-km gravity-assist journey.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2004              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Crossing the Termination Shock            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Crosses into the turbulent Heliosheath at 94 AU where solar wind abruptly slows below speed of sound.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2005              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Summits Husband Hill in Columbia Hills            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Completes the first ascent of a planetary mountain by a rover, surveying the 107-meter summit of Husband Hill.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2006              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Arrival at the Rim of Victoria Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Reaches the 800-meter-wide Victoria Crater after an arduous 21-month traverse across windblown ripple fields.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2006              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Right Front Wheel Motor Seizure            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Right-front wheel jams; mission engineers adapt by commanding rover to drive backward dragging dead wheel.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2007              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Discovery of 90% Pure Silica Hot Spring Deposits            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              The dragged dead wheel carves a trench exposing bright white opaline silica, proving ancient volcanic hot springs.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2009              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Entrapment in Soft Sulfate Sands at Troy            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Breaks through a thin surface crust and becomes trapped in loose sulfate sands on the west flank of Home Plate.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2010              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Final Communication Received            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Transmits final signal before Martian winter sets in, concluding 2,210 sols of operations (24x planned warranty).            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=6" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=6" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Spirit Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2011              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rendezvous with Endeavour Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Arrives at the rim of the 22-kilometer-wide Endeavour Crater, uncovering sulfate veins formed by neutral-pH water.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2011              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Curiosity Liftoff from Cape Canaveral            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Launches aboard Atlas V 541 rocket from Space Launch Complex 41 on a 254-day cruise to Mars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2012              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Curiosity Lands &amp; Voyager 1 Enters Interstellar Space            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Curiosity executes the sky-crane landing inside Gale Crater while Voyager 1 crosses the heliopause into the stars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2012              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Historic Sky Crane Landing at Gale Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Touches down at Bradbury Landing inside Gale Crater using the revolutionary Sky Crane tether descent stage.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2012              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Human-Made Object in Interstellar Space            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Crosses the Heliopause at 121.6 AU, recording a drop in solar particles and a 40x jump in galactic cosmic rays.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2013              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Ancient Lake Habitability Confirmed            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              NASA announces that Gale Crater possessed a persistent freshwater lake with neutral pH, carbon, nitrogen, oxygen, phosphorus, and sulfur.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2013              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Powder Drill Sample on Mars            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Curiosity drills a 6.4 cm deep hole into the John Klein mudstone outcrop, retrieving grey powder from ancient lake sediments.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Philae Separation from Rosetta Orbiter            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Philae separates from Rosetta at 08:35 UTC, beginning a 7-hour unpowered ballistic descent toward Comet 67P/Churyumov-Gerasimenko.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=18" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Philae Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              ROSINA Measures Heavy Water Ratio            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Reveals Comet 67P water has 3x Earth D/H ratio, showing Earth water did not originate from this comet family.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Philae Historic Landing on Comet 67P            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Philae lander separates from Rosetta, touches down at Agilkia, bounces twice, and settles in Abydos crevice.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=18" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Philae Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Orbit Around a Comet Nucleus            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Rendezvous with Comet 67P/Churyumov-Gerasimenko, becoming the first spacecraft to enter orbit around a comet.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rosetta Wake-Up from Deep-Space Hibernation            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Wakes up after 31 months of radio silence as solar panels receive sufficient light near Jupiter&#039;s orbit.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Philae Completes Primary Science Sequence            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              COSAC detects 16 organic compounds including 4 nitrogen molecules; MUPUS confirms rock-hard ice crust.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=18" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Philae Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Arrival at the Foothills of Mount Sharp            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Arrives at the Pahrump Hills at the base of Aeolis Mons, beginning its multi-year climb through planetary strata.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2014              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Hayabusa2 Liftoff from Tanegashima            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Launches aboard H-IIA 202 rocket on a 3.5-year ion-powered cruise to asteroid Ryugu.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2015              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Comet Perihelion Accompaniement            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Rosetta escorts Comet 67P through its closest approach to the Sun, documenting massive gas and dust eruptions.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2015              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Off-World Marathon Completed            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Becomes the first vehicle to complete a full 42.195 km marathon distance on the surface of another celestial body.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2016              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rosetta Controlled Descent onto Comet 67P            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Rosetta touches down in the Ma&#039;at region, sending close-up images down to 20 meters before shutdown.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2016              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rosetta OSIRIS Locates Philae in Abydos            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              High-resolution camera spots Philae wedged under a boulder, solving the mystery of its exact location.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=17" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Rosetta Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2016              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ESA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Rosetta Camera Confirms Philae Location in Abydos            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Rosetta OSIRIS narrow-angle camera captures high-resolution imagery from 2.7 km altitude, confirming Philae wedged under a rocky overhang in the shadowed terrain of Abydos.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=16" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=18" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Philae Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2018              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Final Transmission in Perseverance Valley            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Sends its final engineering telemetry as a global dust storm darkens the sky over Endeavour Crater.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2018              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              MINERVA-II1 Surface Rover Deployment            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Deploys rovers Rover-1A and 1B, capturing the first hopping surface images on an asteroid.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2018              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Discovery of 3-Billion-Year-Old Organic Molecules            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              SAM instrument detects ancient diverse organic macromolecules preserved within Lacustrine mudstones.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2018              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Arrival at Asteroid 162173 Ryugu            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Arrives at hovering altitude of 20 km above the carbonaceous C-type near-Earth asteroid.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2019              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Mission Formally Concluded            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              After sending over 1,000 recovery commands without reply, NASA declares Opportunity&#039;s historic 15-year mission complete.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=7" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=7" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Opportunity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2019              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Second Touchdown in Impact Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Lands inside the fresh impact zone to collect pristine subsurface asteroid material shielded from solar radiation.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2019              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              SCI Kinetic Impact Bombardment            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Fires 2.5 kg copper projectile into Ryugu at 2 km/s, creating an artificial 10-meter impact crater.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2019              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Surface Touchdown on Ryugu            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Descends to surface, fires 5g tantalum bullet into regolith, and captures asteroid dust into sample horn.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2019              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Methane Plume Detection in Gale Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              SAM Tunable Laser Spectrometer detects an unexpected spike of background methane at 21 parts per billion.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2020              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Sample Capsule Return to Earth            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Releases sample return capsule into Australian desert at Woomera, delivering 5.4g of pristine carbonaceous matter.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2020              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Launch from Cape Canaveral            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance lifts off aboard a United Launch Alliance Atlas V 541 rocket from Space Launch Complex 41 at Cape Canaveral, Florida, embarking on a 203-day interplanetary cruise to Mars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2021              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Mars Rock Sample Collected            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance successfully cores and hermetically seals its first rock sample, designated &#039;Montdenier&#039;, from an igneous rock on the Jezero crater floor into titanium sample tube #266.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2021              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First Powered Flight by Ingenuity            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              The Ingenuity Mars Helicopter, deployed from Perseverance&#039;s belly, achieves the first powered, controlled aerodynamic flight on another planet, hovering 3 meters above Martian regolith for 39.1 seconds.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2021              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Landing at Jezero Crater            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance executes a successful entry, descent, and landing (EDL) using Terrain-Relative Navigation and the sky crane touchdown system, touching down at Octavia E. Butler Landing in Jezero Crater.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2021              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Perseverance, Ingenuity &amp; James Webb Telescope            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance lands on Mars with Ingenuity helicopter, and the revolutionary James Webb Space Telescope launches on Christmas Day.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=21" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=22" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (James Webb Space Telescope) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2022              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Curiosity Surpasses 10 Years on Mars            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Marks a full decade of continuous mobile science on the Red Planet, surpassing 28 km driven.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Vikram Lander Module Separation            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Lander Module separates from Propulsion Module, beginning powered descent preparation.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Historic Touchdown at Shiv Shakti Point            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Vikram executes flawless soft landing at 69.37° S near the lunar south pole, making India the 4th nation to soft-land.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Pragyan Rover Rollout on Lunar Regolith            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Pragyan rover rolls down Vikram&#039;s ramp, taking the first wheel-tracks at the lunar south pole.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=15" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Pragyan Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              ChaSTE Measures Steep Regolith Thermal Gradient            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Thermal probe reveals sharp 60°C temperature drop between surface (+50°C) and 8 cm depth (-10°C).            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              LIBS Confirms Sulfur on Lunar South Pole            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Pragyan&#039;s laser spectrometer unambiguously confirms presence of Sulfur (S) in south polar regolith.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=15" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Pragyan Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Lunar Orbit Insertion (LOI)            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Spacecraft successfully fires propulsion engine to enter orbit around the Moon.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Pragyan Put to Sleep After 101.4m Drive            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Completes 101.4 meter traverse; parked safely in sunlight as lunar night approaches.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=15" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Pragyan Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Chandrayaan-3 LVM3-M4 Liftoff            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              ISRO launches Chandrayaan-3 from Satish Dhawan Space Centre in Sriharikota into Earth parking orbit.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Chandrayaan-3 South Pole Landing            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              ISRO&#039;s Chandrayaan-3 makes history as the first spacecraft to soft land near the lunar south pole at Shiv Shakti Point.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2023              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                ISRO // CRITICAL              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Vikram Executes Historic Engine Hop Test            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Fires engines to lift 40 cm, drift horizontally, and land safely, proving re-launch capability.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=14" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=14" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Vikram Lander) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2024              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              JPL Restores Deep Space Data Stream            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              NASA engineers successfully patch the Flight Data Subsystem memory code across 24 billion km.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2024              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Investigation of the Gediz Vallis Water Channel            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Explores boulders and sediment ridges deposited by ancient catastrophic wet debris flows descending Mount Sharp.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2024              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              SHERLOC Instrument Recovery            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              NASA JPL engineers successfully regain operational focus of the SHERLOC deep-UV spectrometer on the robotic arm after diagnosing and resolving an internal movable lens cover anomaly.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2024              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Ascent of Western Jezero Crater Rim            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance begins ascending the steep slopes of Witch Hazel Hill toward the western rim of Jezero Crater, targeting geological units that predate the impact that formed Jezero Crater.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2024              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Cheyava Falls Astrobiology Investigation            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              At Cheyava Falls in Neretva Vallis, Perseverance identified millimeter-sized reaction rings (leopard spots) containing iron and phosphate as a potential biosignature candidate. Biological origin remains unconfirmed, with non-biological geochemical processes under active laboratory investigation.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2025              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              First AI-Planned Drive on Mars            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              NASA reported the use of vision-capable generative AI to plan rover drives, assisting human mission planners in evaluating terrain hazards and charting multi-sol transit routes across challenging Martian crater slopes.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2025              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // High              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Broom Point Investigation            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Perseverance completes high-resolution multispectral analysis of ancient layered bedrock at Broom Point on the upper crater slope, discovering evidence of diverse sedimentary transport mechanisms.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2026              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Interstellar Flight at &gt;163 AU            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Continues transmitting real-time plasma and cosmic ray measurements from interstellar space.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=3" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=3" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Voyager 1 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2026              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Ascending Upper Sulfate Terrains            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Reaches higher elevation sulfate layers documenting Mars drying transition with over 33 km total driving.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=8" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=8" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Curiosity Rover) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2026              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                NASA // Crucial              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Exploration of Lac de Charmes &amp; Jezero Rim            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Continuing its extended mission, Perseverance conducts scientific reconnaissance around the western Jezero rim and Lac de Charmes area, sampling ancient crustal rocks that may hold records of the earliest Noachian epoch on Mars.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=9" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=9" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Perseverance) →
+                </a>
+                          </div>
+          </div>
+        </div>
+              <div style="position: relative; margin-bottom: 3.5rem;">
+          <!-- Timeline Node Pip -->
+          <div style="position: absolute; left: -3.55rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent-blue); box-shadow: 0 0 10px rgba(110, 168, 255, 0.4);"></div>
+
+          <div class="relic-hud-card" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem;">
+              <span style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">
+                2026              </span>
+              <span class="mono-label" style="color: var(--accent-orange);">
+                JAXA // HIGH              </span>
+            </div>
+
+            <h2 style="font-size: 1.45rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem;">
+              Hayabusa2# Extended Mission Active            </h2>
+
+            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem;">
+              Cruising in extended mission toward micro-asteroid 1998 KY26 for rendezvous in July 2031.            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 0.8rem;">
+                              <a href="mission.php?id=15" class="relic-cta-link" style="font-size: 0.75rem;">
+                  INSPECT MISSION DOSSIER →
+                </a>
+              
+                              <a href="equipment.php?id=16" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);">
+                  VIEW HARDWARE (Hayabusa2 Spacecraft) →
+                </a>
+                          </div>
+          </div>
+        </div>
+          </div>
+  </div>
+</main>
+
+<footer class="orbital-footer">
+  <div class="footer-top-grid">
+    <div class="footer-brand-summary">
+      <div class="logo-brand" style="font-size: 1.25rem;">
+        ORBITAL <span class="logo-bracket">[ ARCHIVE ]</span>
+      </div>
+      <p class="footer-summary-text">
+        An authoritative, normalized digital registry documenting the spacecraft, landers, rovers, and observatories dispatched beyond Earth's atmosphere. Built for NASA Space Apps Challenge 2026 — Challenge: "Abandoned But Not Forgotten".
+      </p>
+      <div class="mono-label" style="color: var(--accent-blue);">
+        CHALLENGE: ABANDONED BUT NOT FORGOTTEN <span class="hud-bracket">//</span> ENGINE: PHP PDO 8.3 <span class="hud-bracket">//</span> ARCHIVE PROTOCOL V6
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">ARCHIVE SECTIONS</div>
+      <ul class="footer-link-list">
+        <li><a href="explore.php" class="footer-link">Full Catalog Explorer</a></li>
+        <li><a href="missions.php" class="footer-link">Global Missions Database</a></li>
+        <li><a href="relics.php" class="footer-link">Off-World Relics Vault</a></li>
+        <li><a href="timeline.php" class="footer-link">Humanity's Flight Timeline</a></li>
+        <li><a href="destinations.php" class="footer-link">Planetary Destinations</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">SPACE AGENCIES</div>
+      <ul class="footer-link-list">
+        <li><a href="agencies.php?id=1" class="footer-link">NASA (United States)</a></li>
+        <li><a href="agencies.php?id=2" class="footer-link">ISRO (India)</a></li>
+        <li><a href="agencies.php?id=3" class="footer-link">ESA (Europe)</a></li>
+        <li><a href="agencies.php?id=4" class="footer-link">JAXA (Japan)</a></li>
+        <li><a href="agencies.php?id=5" class="footer-link">CNSA (China)</a></li>
+        <li><a href="agencies.php" class="footer-link">Commercial Space Sector</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">DEVELOPER & ADMIN</div>
+      <ul class="footer-link-list">
+        <li><a href="admin/login.php" class="footer-link">Mission Control Login</a></li>
+        <li><a href="api/missions.php" target="_blank" class="footer-link">REST API Documentation</a></li>
+        <li><button type="button" class="footer-link open-ai-modal" style="text-align: left;">Ask The Archive AI</button></li>
+        <li><button type="button" class="footer-link open-search-modal" style="text-align: left;">Search Database (/)</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div>
+      &copy; 2026 ORBITAL ARCHIVE. DATA DERIVED FROM NASA, ISRO, ESA, JAXA PUBLIC DOMAIN SCIENCE ARCHIVES.
+    </div>
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <span>SYSTEM STATUS: <span style="color: var(--accent-emerald);">ONLINE (NOMINAL)</span></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent-blue)">
+        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<!-- 1. SEARCH MODAL -->
+<div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+  <div class="modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="search-modal-title">ORBITAL ARCHIVE TELEMETRY SEARCH</div>
+      <div class="modal-close-btn" id="close-search-modal" role="button" tabindex="0" aria-label="Close search modal">&times;</div>
+    </div>
+    <div class="modal-body">
+      <div class="search-input-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search Opportunity, Apollo 15, Chandrayaan, Voyager, Mars..." autocomplete="off" aria-label="Search the archive">
+      </div>
+      <div id="search-results" class="search-results-list" role="listbox" aria-label="Search results">
+        <div style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">
+          Press <span class="search-shortcut">ESC</span> to dismiss. Use <span class="search-shortcut">↑</span> / <span class="search-shortcut">↓</span> to navigate and <span class="search-shortcut">ENTER</span> to select.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. "ASK THE ARCHIVE" AI MODAL -->
+<div class="modal-overlay" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+  <div class="modal-window ai-modal-window">
+    <div class="modal-header">
+      <div class="modal-title" id="ai-modal-title" style="display: flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
+          <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+        </svg>
+        ASK THE ARCHIVE // KNOWLEDGE ASSISTANT
+      </div>
+      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close Ask the Archive dialog">&times;</div>
+    </div>
+    <div class="modal-body ai-modal-body">
+      <div class="ai-intro-section">
+        <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+          Query the space exploration registry. Answers are grounded in verified archive records.
+        </div>
+      </div>
+
+      <div class="ai-chips-container">
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Opportunity discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions landed on Mars?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What equipment is still on the Moon?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which spacecraft are currently in deep space?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Chandrayaan-3 discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions are still active?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What machines were left behind?"</button>
+      </div>
+
+      <div id="ai-chat-log" class="ai-chat-viewport" aria-live="polite">
+        <div class="ai-msg-bubble ai-msg-assistant">
+          <div class="ai-header-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+            </svg>
+            ARCHIVE AGENT READY
+          </div>
+          <div class="ai-answer-body">
+            Welcome to the Orbital Archive knowledge portal. You can inquire about verified missions, off-world relics, launch dates, planetary discoveries, or space agency programs. All responses are derived strictly from documented historical records.
+          </div>
+          <div class="ai-sources-tray">
+            <span class="ai-sources-label">VERIFIED SOURCES:</span> NASA // ISRO // ESA // JAXA // CNSA // ROSCOSMOS
+          </div>
+        </div>
+      </div>
+
+      <div class="search-input-box ai-composer-box">
+        <input type="text" id="ai-question-input" class="search-input-field" placeholder="Ask a factual question about humanity's space history..." aria-label="Ask a question about space exploration history">
+        <button type="button" id="ai-send-btn" class="cta-button" style="padding: 8px 18px; font-size: 0.74rem;">TRANSMIT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Core Modular JavaScript Components -->
+<script src="assets/js/earth.js"></script>
+<script src="assets/js/orbit.js"></script>
+<script src="assets/js/mission-map.js"></script>
+<script src="assets/js/agency-network.js"></script>
+<script src="assets/js/relics.js"></script>
+<script src="assets/js/timeline.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

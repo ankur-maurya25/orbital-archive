@@ -47,25 +47,37 @@ class AgencyNetwork {
   async fetchAgenciesData() {
     try {
       const res = await fetch('api/agencies.php');
+      if (!res.ok) throw new Error('API unavailable');
       const json = await res.json();
       if (json.success && json.data) {
         this.agenciesData = json.data;
-        // Update nodes with authentic DB metrics
-        this.nodes.forEach(node => {
-          const aId = node.getAttribute('data-agency-id');
-          const matched = this.agenciesData.find(a => String(a.id) === String(aId));
-          if (matched) {
-            node.setAttribute('data-name', matched.name);
-            node.setAttribute('data-country', matched.country);
-            node.setAttribute('data-total', matched.total_missions);
-            node.setAttribute('data-equipment', matched.total_equipment || 0);
-            node.setAttribute('data-active', matched.active_missions || 0);
-            node.setAttribute('data-top', matched.top_missions || '');
-          }
-        });
       }
     } catch (err) {
-      console.warn('Agency telemetry data fallback to node attributes.', err);
+      try {
+        const fbRes = await fetch('assets/data/archive_catalog.json');
+        const fbJson = await fbRes.json();
+        if (fbJson && fbJson.agencies) {
+          this.agenciesData = fbJson.agencies;
+        }
+      } catch (fbErr) {
+        console.warn('Agency telemetry data fallback to node attributes.', fbErr);
+      }
+    }
+
+    if (this.agenciesData.length > 0) {
+      // Update nodes with authentic DB metrics
+      this.nodes.forEach(node => {
+        const aId = node.getAttribute('data-agency-id');
+        const matched = this.agenciesData.find(a => String(a.id) === String(aId));
+        if (matched) {
+          node.setAttribute('data-name', matched.name);
+          node.setAttribute('data-country', matched.country);
+          node.setAttribute('data-total', matched.total_missions || matched.mission_count || 1);
+          node.setAttribute('data-equipment', matched.total_equipment || 0);
+          node.setAttribute('data-active', matched.active_missions || 0);
+          node.setAttribute('data-top', matched.top_missions || '');
+        }
+      });
     }
   }
 
