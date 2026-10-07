@@ -9,22 +9,64 @@ class AgencyNetwork {
     this.nodes = document.querySelectorAll('.agency-radar-node');
     this.svgLinesLayer = document.getElementById('agency-network-lines');
     this.agencyStatsDrawer = document.getElementById('agency-hover-details');
+    this.agenciesData = [];
 
     if (!this.viewport) return;
     this.init();
   }
 
-  init() {
+  async init() {
     this.drawConstellationConnections();
+    await this.fetchAgenciesData();
 
     this.nodes.forEach(node => {
+      node.setAttribute('tabindex', '0');
+      node.setAttribute('role', 'button');
+      node.setAttribute('aria-label', `Space agency: ${node.getAttribute('data-name') || 'Agency'}`);
+
       node.addEventListener('mouseenter', (e) => this.onAgencyHover(e.currentTarget));
       node.addEventListener('mouseleave', () => this.onAgencyLeave());
+      node.addEventListener('focus', (e) => this.onAgencyHover(e.currentTarget));
+      node.addEventListener('blur', () => this.onAgencyLeave());
+      
       node.addEventListener('click', (e) => {
         const agencyId = e.currentTarget.getAttribute('data-agency-id');
         window.location.href = `agencies.php?id=${agencyId}`;
       });
+
+      node.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const agencyId = e.currentTarget.getAttribute('data-agency-id');
+          window.location.href = `agencies.php?id=${agencyId}`;
+        }
+      });
     });
+  }
+
+  async fetchAgenciesData() {
+    try {
+      const res = await fetch('api/agencies.php');
+      const json = await res.json();
+      if (json.success && json.data) {
+        this.agenciesData = json.data;
+        // Update nodes with authentic DB metrics
+        this.nodes.forEach(node => {
+          const aId = node.getAttribute('data-agency-id');
+          const matched = this.agenciesData.find(a => String(a.id) === String(aId));
+          if (matched) {
+            node.setAttribute('data-name', matched.name);
+            node.setAttribute('data-country', matched.country);
+            node.setAttribute('data-total', matched.total_missions);
+            node.setAttribute('data-equipment', matched.total_equipment || 0);
+            node.setAttribute('data-active', matched.active_missions || 0);
+            node.setAttribute('data-top', matched.top_missions || '');
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('Agency telemetry data fallback to node attributes.', err);
+    }
   }
 
   drawConstellationConnections() {
@@ -88,18 +130,22 @@ class AgencyNetwork {
 
     const name = node.getAttribute('data-name');
     const country = node.getAttribute('data-country');
-    const total = node.getAttribute('data-total') || '15+';
-    const active = node.getAttribute('data-active') || '8+';
+    const total = node.getAttribute('data-total') || '15';
+    const equipment = node.getAttribute('data-equipment') || '0';
+    const active = node.getAttribute('data-active') || '8';
+    const top = node.getAttribute('data-top');
 
     if (this.agencyStatsDrawer) {
       this.agencyStatsDrawer.innerHTML = `
         <div class="mono-label" style="color: var(--accent-cyan)">AGENCY NETWORK PROFILE</div>
         <div style="font-size: 1.3rem; font-weight: 700; color: #fff;">${name}</div>
         <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">${country}</div>
-        <div style="display: flex; gap: 1.5rem; margin-top: 8px;">
-          <div><span class="mono-label">CATALOGED MISSIONS:</span> <span class="mono-value" style="color: #fff">${total}</span></div>
-          <div><span class="mono-label">ACTIVE PROGRAMMES:</span> <span class="mono-value" style="color: var(--accent-emerald)">${active}</span></div>
+        <div style="display: flex; gap: 1.5rem; margin-top: 8px; flex-wrap: wrap;">
+          <div><span class="mono-label">MISSIONS:</span> <span class="mono-value" style="color: #fff">${total}</span></div>
+          <div><span class="mono-label">HARDWARE:</span> <span class="mono-value" style="color: var(--accent-cyan)">${equipment}</span></div>
+          <div><span class="mono-label">ACTIVE:</span> <span class="mono-value" style="color: var(--accent-emerald)">${active}</span></div>
         </div>
+        ${top ? `<div style="font-size: 0.75rem; color: var(--accent-orange); margin-top: 6px;" class="mono-value">KEY MISSIONS: ${top}</div>` : ''}
       `;
       this.agencyStatsDrawer.style.opacity = '1';
     }

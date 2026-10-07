@@ -59,5 +59,6 @@ try {
 
     jsonResponse(['success' => true, 'count' => count($relics), 'data' => $relics]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Relics API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Relic catalog could not be retrieved.'], 500);
 }

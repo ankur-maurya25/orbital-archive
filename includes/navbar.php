@@ -32,17 +32,17 @@ $isHome = basename($_SERVER['PHP_SELF']) === 'index.php';
     </nav>
 
     <!-- Search shortcut trigger -->
-    <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Press /)">
+    <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Ctrl+K or /)" aria-label="Open Archive Search (Ctrl+K or /)">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
       <span>SEARCH</span>
-      <span class="search-shortcut">/</span>
+      <span class="search-shortcut">Ctrl+K</span>
     </button>
 
     <!-- AI Ask Archive button -->
-    <button type="button" class="search-trigger open-ai-modal" title="Ask the Archive AI Assistant" style="border-color: rgba(110, 168, 255, 0.4);">
+    <button type="button" class="search-trigger open-ai-modal" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant" style="border-color: rgba(110, 168, 255, 0.4);">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
       </svg>

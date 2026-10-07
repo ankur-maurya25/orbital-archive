@@ -32,16 +32,32 @@ try {
         $mStmt->execute(['id' => $id]);
         $agency['missions'] = $mStmt->fetchAll();
 
+        // Fetch equipment count
+        $eStmt = $pdo->prepare("
+            SELECT COUNT(e.id) AS total_equipment
+            FROM equipment e
+            JOIN missions m ON e.mission_id = m.id
+            WHERE m.agency_id = :id
+        ");
+        $eStmt->execute(['id' => $id]);
+        $agency['total_equipment'] = (int)($eStmt->fetchColumn() ?: 0);
+
         jsonResponse(['success' => true, 'data' => $agency]);
     }
 
     $stmt = $pdo->query("
         SELECT a.*, 
-               COUNT(m.id) AS total_missions,
+               COUNT(DISTINCT m.id) AS total_missions,
+               COUNT(DISTINCT e.id) AS total_equipment,
                SUM(CASE WHEN LOWER(m.status) = 'active' THEN 1 ELSE 0 END) AS active_missions,
-               SUM(CASE WHEN LOWER(m.status) = 'completed' THEN 1 ELSE 0 END) AS completed_missions
+               SUM(CASE WHEN LOWER(m.status) = 'completed' THEN 1 ELSE 0 END) AS completed_missions,
+               (SELECT GROUP_CONCAT(m2.name ORDER BY m2.launch_date DESC SEPARATOR ', ')
+                FROM (SELECT name, launch_date, agency_id FROM missions LIMIT 50) m2
+                WHERE m2.agency_id = a.id
+               ) AS top_missions
         FROM agencies a
         LEFT JOIN missions m ON a.id = m.agency_id
+        LEFT JOIN equipment e ON m.id = e.mission_id
         GROUP BY a.id
         ORDER BY total_missions DESC, a.id ASC
     ");
@@ -49,5 +65,6 @@ try {
 
     jsonResponse(['success' => true, 'count' => count($agencies), 'data' => $agencies]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Agencies API Error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Agency network telemetry could not be retrieved.'], 500);
 }

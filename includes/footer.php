@@ -65,11 +65,11 @@
 </footer>
 
 <!-- 1. SEARCH MODAL -->
-<div class="modal-overlay" id="search-modal">
+<div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
   <div class="modal-window">
     <div class="modal-header">
-      <div class="modal-title">ORBITAL ARCHIVE TELEMETRY SEARCH</div>
-      <div class="modal-close-btn" id="close-search-modal">&times;</div>
+      <div class="modal-title" id="search-modal-title">ORBITAL ARCHIVE TELEMETRY SEARCH</div>
+      <div class="modal-close-btn" id="close-search-modal" role="button" tabindex="0" aria-label="Close search modal">&times;</div>
     </div>
     <div class="modal-body">
       <div class="search-input-box">
@@ -77,11 +77,11 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="search-input" class="search-input-field" placeholder="Search Opportunity, Apollo 15, Chandrayaan, Voyager, Mars..." autocomplete="off">
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search Opportunity, Apollo 15, Chandrayaan, Voyager, Mars..." autocomplete="off" aria-label="Search the archive">
       </div>
-      <div id="search-results" class="search-results-list">
+      <div id="search-results" class="search-results-list" role="listbox" aria-label="Search results">
         <div style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">
-          Press <span class="search-shortcut">ESC</span> to dismiss. Search query searches across missions, rovers, agencies, and destinations.
+          Press <span class="search-shortcut">ESC</span> to dismiss. Use <span class="search-shortcut">↑</span> / <span class="search-shortcut">↓</span> to navigate and <span class="search-shortcut">ENTER</span> to select.
         </div>
       </div>
     </div>
@@ -89,16 +89,16 @@
 </div>
 
 <!-- 2. "ASK THE ARCHIVE" AI MODAL -->
-<div class="modal-overlay" id="ai-modal">
+<div class="modal-overlay" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
   <div class="modal-window">
     <div class="modal-header">
-      <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+      <div class="modal-title" id="ai-modal-title" style="display: flex; align-items: center; gap: 8px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
           <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
         </svg>
         ASK THE ARCHIVE — FACT-GROUNDED AI
       </div>
-      <div class="modal-close-btn" id="close-ai-modal">&times;</div>
+      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close AI dialog">&times;</div>
     </div>
     <div class="modal-body">
       <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">

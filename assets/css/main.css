@@ -1469,6 +1469,75 @@ button {
   transform: translateX(4px);
 }
 
+.search-item-card.keyboard-selected {
+  border-color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+  transform: translateX(6px);
+}
+
+/* ==============================================================
+   ACCESSIBILITY & FOCUS-VISIBLE SYSTEM (WCAG 2.1 AA)
+   ============================================================== */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-cyan) !important;
+  outline-offset: 3px !important;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex="0"]:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--accent-cyan) !important;
+  outline-offset: 3px !important;
+}
+
+/* ==============================================================
+   WEBGL FALLBACK CANVAS STAGE
+   ============================================================== */
+.webgl-fallback-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fallback-orbital-svg {
+  width: 80%;
+  height: 80%;
+  max-width: 520px;
+  max-height: 520px;
+  filter: drop-shadow(0 0 35px rgba(110, 168, 255, 0.25));
+}
+
+.fallback-telemetry-badge {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
+  background: rgba(11, 17, 24, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 6px 14px;
+  border-radius: 2px;
+  backdrop-filter: blur(8px);
+}
+
 /* ==============================================================
    ANIMATION KEYFRAMES
    ============================================================== */

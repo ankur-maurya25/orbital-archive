@@ -61,7 +61,7 @@ async function fetchStats() {
 }
 
 /**
- * Setup Search Modal & Keyboard shortcut '/'
+ * Setup Search Modal & Keyboard shortcuts (Ctrl+K, Cmd+K, '/')
  */
 function setupSearch() {
   const modal = document.getElementById('search-modal');
@@ -69,17 +69,20 @@ function setupSearch() {
   const closeBtn = document.getElementById('close-search-modal');
   const input = document.getElementById('search-input');
   const resultsContainer = document.getElementById('search-results');
+  let selectedIndex = -1;
 
   if (!modal || !input) return;
 
   const openModal = () => {
     modal.classList.add('active');
+    selectedIndex = -1;
     setTimeout(() => input.focus(), 100);
   };
 
   const closeModal = () => {
     modal.classList.remove('active');
     input.value = '';
+    selectedIndex = -1;
     if (resultsContainer) resultsContainer.innerHTML = '';
   };
 
@@ -91,43 +94,91 @@ function setupSearch() {
     if (e.target === modal) closeModal();
   });
 
-  // Keyboard shortcut '/'
+  // Keyboard shortcut Ctrl+K / Cmd+K and '/'
   window.addEventListener('keydown', (e) => {
-    if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openModal();
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
       e.preventDefault();
       openModal();
     }
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeModal();
+    if (e.key === 'Escape') {
+      if (modal.classList.contains('active')) closeModal();
+      const aiModal = document.getElementById('ai-modal');
+      if (aiModal && aiModal.classList.contains('active')) aiModal.classList.remove('active');
     }
   });
 
-  // Debounced input search
+  // Arrow key navigation through search results
+  input.addEventListener('keydown', (e) => {
+    if (!resultsContainer) return;
+    const cards = resultsContainer.querySelectorAll('.search-item-card');
+    if (!cards || cards.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % cards.length;
+      updateCardHighlight(cards, selectedIndex);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex - 1 + cards.length) % cards.length;
+      updateCardHighlight(cards, selectedIndex);
+    } else if (e.key === 'Enter' && selectedIndex >= 0 && cards[selectedIndex]) {
+      e.preventDefault();
+      window.location.href = cards[selectedIndex].href;
+    }
+  });
+
+  function updateCardHighlight(cards, idx) {
+    cards.forEach((c, i) => {
+      if (i === idx) {
+        c.classList.add('keyboard-selected');
+        c.style.borderColor = 'var(--accent-cyan)';
+        c.style.background = 'rgba(56, 189, 248, 0.15)';
+        c.scrollIntoView({ block: 'nearest' });
+      } else {
+        c.classList.remove('keyboard-selected');
+        c.style.borderColor = '';
+        c.style.background = '';
+      }
+    });
+  }
+
+  // Debounced input search with loading state
   let debounceTimeout;
   input.addEventListener('input', () => {
     clearTimeout(debounceTimeout);
+    selectedIndex = -1;
     const query = input.value.trim();
     if (query.length < 2) {
       if (resultsContainer) resultsContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">Type at least 2 characters to search missions, rovers, instruments, and probes...</div>';
       return;
     }
 
+    if (resultsContainer) {
+      resultsContainer.innerHTML = '<div style="color: var(--accent-cyan); padding: 1.2rem 0; font-family: var(--font-mono); font-size: 0.8rem;" class="mono-label">QUERYING ARCHIVE DATABASE...</div>';
+    }
+
     debounceTimeout = setTimeout(async () => {
       try {
         const res = await fetch(`api/search.php?q=${encodeURIComponent(query)}`);
         const json = await res.json();
-        renderSearchResults(json.results, resultsContainer);
+        renderSearchResults(json.results, resultsContainer, query);
       } catch (err) {
         console.error('Search error', err);
+        if (resultsContainer) {
+          resultsContainer.innerHTML = '<div style="color: var(--accent-rose); padding: 1rem 0;">Archive telemetry query failed. Please retry.</div>';
+        }
       }
     }, 250);
   });
 }
 
-function renderSearchResults(data, container) {
+function renderSearchResults(data, container, query) {
   if (!container) return;
-  if (!data || (data.missions.length === 0 && data.equipment.length === 0 && (!data.instruments || data.instruments.length === 0) && data.agencies.length === 0)) {
-    container.innerHTML = '<div style="color: var(--text-muted); padding: 1rem 0;">No matching telemetry records found.</div>';
+  if (!data || (data.missions.length === 0 && data.equipment.length === 0 && (!data.relics || data.relics.length === 0) && (!data.instruments || data.instruments.length === 0) && data.agencies.length === 0 && (!data.destinations || data.destinations.length === 0))) {
+    container.innerHTML = `<div style="color: var(--text-muted); padding: 1.5rem 0; font-family: var(--font-mono); font-size: 0.85rem;">NO MATCHING ARCHIVAL RECORDS FOUND FOR "${escapeHtml(query || '')}"</div>`;
     return;
   }
 
@@ -314,4 +365,14 @@ function setupAIArchive() {
   input?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') sendQuestion();
   });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }

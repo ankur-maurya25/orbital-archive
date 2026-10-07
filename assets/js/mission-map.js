@@ -87,13 +87,17 @@ class GlobalMissionMap {
   attachSpaceportListeners() {
     const spaceports = document.querySelectorAll('.spaceport-node');
     spaceports.forEach(sp => {
-      sp.addEventListener('click', (e) => {
-        const name = e.currentTarget.getAttribute('data-name');
-        const code = e.currentTarget.getAttribute('data-code');
-        const lat = e.currentTarget.getAttribute('data-lat');
-        const lng = e.currentTarget.getAttribute('data-lng');
-        const count = e.currentTarget.getAttribute('data-launches') || '150+';
-        const topMissions = e.currentTarget.getAttribute('data-top') || 'Apollo, Artemis, ISS, Hubble';
+      sp.setAttribute('tabindex', '0');
+      sp.setAttribute('role', 'button');
+      sp.setAttribute('aria-label', `Spaceport: ${sp.getAttribute('data-name') || 'Launch Site'}`);
+
+      const handleTrigger = () => {
+        const name = sp.getAttribute('data-name');
+        const code = sp.getAttribute('data-code');
+        const lat = sp.getAttribute('data-lat');
+        const lng = sp.getAttribute('data-lng');
+        const count = sp.getAttribute('data-launches') || '150+';
+        const topMissions = sp.getAttribute('data-top') || 'Apollo, Artemis, ISS, Hubble';
 
         if (this.drawer) {
           this.drawer.innerHTML = `
@@ -112,6 +116,14 @@ class GlobalMissionMap {
           `;
           this.drawer.classList.add('active');
         }
+      };
+
+      sp.addEventListener('click', handleTrigger);
+      sp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleTrigger();
+        }
       });
     });
   }
@@ -121,10 +133,30 @@ class GlobalMissionMap {
     arcs.forEach(arc => {
       if (this.currentFilter === 'all') {
         arc.style.display = 'block';
-      } else {
-        // Subtle filter highlight effect
-        arc.style.display = 'block';
-        arc.style.opacity = '0.75';
+        arc.style.opacity = '0.65';
+        arc.style.strokeWidth = '1.5';
+      } else if (this.currentFilter === 'active') {
+        // Highlight active orbital profiles
+        if (arc.classList.contains('arc-robotic-probe') || arc.classList.contains('arc-crewed')) {
+          arc.style.display = 'block';
+          arc.style.opacity = '0.9';
+          arc.style.strokeWidth = '2';
+        } else {
+          arc.style.display = 'block';
+          arc.style.opacity = '0.2';
+          arc.style.strokeWidth = '1';
+        }
+      } else if (this.currentFilter === 'completed' || this.currentFilter === 'historic') {
+        // Highlight historic profiles
+        if (arc.classList.contains('arc-satellite') || arc.classList.contains('arc-crewed')) {
+          arc.style.display = 'block';
+          arc.style.opacity = '0.9';
+          arc.style.strokeWidth = '2';
+        } else {
+          arc.style.display = 'block';
+          arc.style.opacity = '0.2';
+          arc.style.strokeWidth = '1';
+        }
       }
     });
   }

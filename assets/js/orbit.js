@@ -29,11 +29,26 @@ class DestinationOrbits {
     }
 
     this.nodes.forEach(node => {
+      node.setAttribute('tabindex', '0');
+      node.setAttribute('role', 'button');
+      node.setAttribute('aria-label', `Explore destination: ${node.getAttribute('data-dest-name') || 'Destination'}`);
+
       node.addEventListener('mouseenter', (e) => this.onNodeHover(e.currentTarget));
       node.addEventListener('mouseleave', () => this.onNodeLeave());
+      node.addEventListener('focus', (e) => this.onNodeHover(e.currentTarget));
+      node.addEventListener('blur', () => this.onNodeLeave());
+
       node.addEventListener('click', (e) => {
         const destId = e.currentTarget.getAttribute('data-dest-id');
         window.location.href = `destinations.php?id=${destId}`;
+      });
+
+      node.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const destId = e.currentTarget.getAttribute('data-dest-id');
+          window.location.href = `destinations.php?id=${destId}`;
+        }
       });
     });
   }

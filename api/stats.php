@@ -41,5 +41,6 @@ try {
         ]
     ]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Stats API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Telemetry statistics could not be retrieved.'], 500);
 }

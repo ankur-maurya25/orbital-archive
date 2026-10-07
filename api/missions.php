@@ -99,5 +99,6 @@ try {
 
     jsonResponse(['success' => true, 'count' => count($missions), 'data' => $missions]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Missions API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Mission data could not be retrieved.'], 500);
 }

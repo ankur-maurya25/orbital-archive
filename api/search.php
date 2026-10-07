@@ -116,5 +116,6 @@ try {
         ]
     ]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Search API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Archive search could not be executed.'], 500);
 }

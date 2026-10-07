@@ -6,7 +6,7 @@
 class EarthVisualization {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
-    if (!this.container || typeof THREE === 'undefined') return;
+    if (!this.container) return;
 
     this.scene = null;
     this.camera = null;
@@ -15,8 +15,69 @@ class EarthVisualization {
     this.ringsGroup = null;
     this.animationId = null;
     this.markers = [];
+    this.prefersReducedMotion = false;
 
-    this.init();
+    // Check motion preference
+    if (window.matchMedia) {
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.prefersReducedMotion = motionQuery.matches;
+      motionQuery.addEventListener('change', (e) => {
+        this.prefersReducedMotion = e.matches;
+      });
+    }
+
+    // Verify WebGL availability and Three.js
+    if (!this.isWebGLAvailable() || typeof THREE === 'undefined') {
+      this.renderFallback();
+      return;
+    }
+
+    try {
+      this.init();
+    } catch (err) {
+      console.warn('WebGL initialization failed, switching to orbital fallback.', err);
+      this.renderFallback();
+    }
+  }
+
+  isWebGLAvailable() {
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  renderFallback() {
+    if (!this.container) return;
+    // Graceful aerospace SVG fallback with exact visual composition
+    this.container.innerHTML = `
+      <div class="webgl-fallback-stage" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; pointer-events: none;">
+        <svg viewBox="0 0 800 800" style="width: 100%; height: 100%; max-width: 800px; max-height: 800px; filter: drop-shadow(0 0 40px rgba(56, 189, 248, 0.2));">
+          <!-- Orbital rings -->
+          <circle cx="400" cy="400" r="320" fill="none" stroke="rgba(110, 168, 255, 0.25)" stroke-width="1.2" stroke-dasharray="4 6"/>
+          <ellipse cx="400" cy="400" rx="360" ry="140" transform="rotate(-25 400 400)" fill="none" stroke="rgba(56, 189, 248, 0.45)" stroke-width="1.5"/>
+          <ellipse cx="400" cy="400" rx="280" ry="180" transform="rotate(35 400 400)" fill="none" stroke="rgba(217, 154, 91, 0.4)" stroke-width="1.2" stroke-dasharray="3 4"/>
+          <!-- Atmospheric Outer Glow -->
+          <circle cx="400" cy="400" r="210" fill="url(#atmosGlow)" opacity="0.6"/>
+          <!-- Earth sphere disk -->
+          <circle cx="400" cy="400" r="195" fill="url(#earthGradient)" stroke="rgba(56, 189, 248, 0.5)" stroke-width="2"/>
+          <defs>
+            <radialGradient id="atmosGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="earthGradient" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#1e3a8a"/>
+              <stop offset="45%" stop-color="#0f172a"/>
+              <stop offset="85%" stop-color="#030712"/>
+              <stop offset="100%" stop-color="#000000"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+    `;
   }
 
   init() {
@@ -34,6 +95,7 @@ class EarthVisualization {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.domElement.style.pointerEvents = 'none'; // Never block page scroll or touch
     this.container.appendChild(this.renderer.domElement);
 
     // Master Group
@@ -213,6 +275,14 @@ class EarthVisualization {
 
   animate() {
     this.animationId = requestAnimationFrame(() => this.animate());
+
+    if (this.prefersReducedMotion) {
+      // Respect prefers-reduced-motion: render static scene without continuous orbital spin
+      if (this.renderer && this.scene && this.camera) {
+        this.renderer.render(this.scene, this.camera);
+      }
+      return;
+    }
 
     // Earth natural rotation
     if (this.earthMesh) {

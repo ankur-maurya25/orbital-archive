@@ -32,7 +32,9 @@ $apollo15 = $initialRelicStmt->fetch();
 
 // Fetch timeline milestone for 1969 for Section 06
 $t1969Stmt = $pdo->query("
-  SELECT t.*, m.name AS mission_name, e.type AS eq_type
+  SELECT t.*, m.name AS mission_name, e.type AS eq_type, e.name AS equipment_name,
+         (SELECT s.source_name FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_name,
+         (SELECT s.source_url FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_url
   FROM timeline_events t
   LEFT JOIN missions m ON t.mission_id = m.id
   LEFT JOIN equipment e ON t.equipment_id = e.id
@@ -491,18 +493,19 @@ $milestone1969 = $t1969Stmt->fetch();
         <div class="relic-hero-image-wrap">
           <img id="relic-display-image" class="relic-hero-image" 
                src="<?= htmlspecialchars($apollo15['hero_image'] ?? 'https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg') ?>" 
-               alt="Lunar Roving Vehicle on Lunar Surface">
+               alt="Lunar Roving Vehicle on Lunar Surface"
+               loading="lazy">
           <div class="relic-vignette"></div>
         </div>
 
         <!-- Relic Switcher Buttons -->
-        <div class="relic-switcher-bar">
-          <button class="relic-tab-btn active" data-relic-id="2">Apollo 15 LRV</button>
-          <button class="relic-tab-btn" data-relic-id="7">Opportunity Rover</button>
-          <button class="relic-tab-btn" data-relic-id="6">Spirit Rover</button>
-          <button class="relic-tab-btn" data-relic-id="29">Surveyor 3</button>
-          <button class="relic-tab-btn" data-relic-id="3">Voyager 1</button>
-          <button class="relic-tab-btn" data-relic-id="18">Philae Lander</button>
+        <div class="relic-switcher-bar" role="tablist" aria-label="Off-World Relic Selector">
+          <button class="relic-tab-btn active" data-relic-id="2" role="tab" aria-selected="true" tabindex="0">Apollo 15 LRV</button>
+          <button class="relic-tab-btn" data-relic-id="7" role="tab" aria-selected="false" tabindex="-1">Opportunity Rover</button>
+          <button class="relic-tab-btn" data-relic-id="6" role="tab" aria-selected="false" tabindex="-1">Spirit Rover</button>
+          <button class="relic-tab-btn" data-relic-id="29" role="tab" aria-selected="false" tabindex="-1">Surveyor 3</button>
+          <button class="relic-tab-btn" data-relic-id="3" role="tab" aria-selected="false" tabindex="-1">Voyager 1</button>
+          <button class="relic-tab-btn" data-relic-id="18" role="tab" aria-selected="false" tabindex="-1">Philae Lander</button>
         </div>
       </div>
     </div>
@@ -518,7 +521,7 @@ $milestone1969 = $t1969Stmt->fetch();
         <h2 class="section-title">HUMANITY'S TIMELINE</h2>
         <div class="mono-label" style="margin-top: 4px;">PIONEERING ERAS FROM 1957 TO THE FUTURE</div>
       </div>
-      <div class="mono-label">SELECT ANY ERA TO EXPAND</div>
+      <div class="mono-label">SELECT ANY ERA TO EXPAND // ARROW KEYS SUPPORTED</div>
     </div>
 
     <div class="timeline-interactive-stage">
@@ -527,15 +530,26 @@ $milestone1969 = $t1969Stmt->fetch();
         <div class="capsule-portal-circle">
           <img id="timeline-spotlight-image" class="capsule-portal-img" 
                src="https://images-assets.nasa.gov/image/as11-40-5927/as11-40-5927~orig.jpg" 
-               alt="Spacecraft Module">
+               alt="Spacecraft Module"
+               loading="lazy">
         </div>
         <div class="capsule-info-block">
-          <span class="capsule-label" id="timeline-spotlight-label">CAPSULE // NASA</span>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+            <span class="capsule-label" id="timeline-spotlight-label">CAPSULE // NASA</span>
+            <span class="mono-label" id="timeline-spotlight-date" style="color: var(--accent-cyan); font-weight: 700;">20 JULY 1969</span>
+          </div>
           <h3 class="capsule-headline" id="timeline-spotlight-title">Apollo 11 — First Human Footsteps</h3>
+          <div style="display: flex; gap: 1rem; margin: 4px 0 8px; font-size: 0.78rem; font-family: var(--font-mono); flex-wrap: wrap;">
+            <span style="color: var(--accent-blue)">EQUIPMENT: <strong id="timeline-spotlight-equipment">Lunar Module Eagle</strong></span>
+            <span style="color: var(--text-secondary)">MISSION: <strong id="timeline-spotlight-mission">Apollo 11</strong></span>
+          </div>
           <p class="capsule-desc" id="timeline-spotlight-desc">
             Neil Armstrong and Buzz Aldrin land Lunar Module Eagle on the Sea of Tranquility, taking humanity's giant leap.
           </p>
-          <a href="mission.php?id=1" id="timeline-spotlight-link" class="relic-cta-link" style="margin-top: 6px;">
+          <div id="timeline-spotlight-source-wrap" style="margin-top: 6px; font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted);">
+            SOURCE: <a id="timeline-spotlight-source-link" href="https://www.nasa.gov/mission/apollo-11/" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: underline;">NASA Official Mission Archive ↗</a>
+          </div>
+          <a href="mission.php?id=1" id="timeline-spotlight-link" class="relic-cta-link" style="margin-top: 8px;">
             READ MISSION LOG →
           </a>
         </div>

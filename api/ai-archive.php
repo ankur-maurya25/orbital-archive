@@ -194,5 +194,6 @@ try {
     ]);
 
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("AI Archive API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'AI archive knowledge assistant unavailable.'], 500);
 }

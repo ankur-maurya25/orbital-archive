@@ -48,5 +48,6 @@ try {
 
     jsonResponse(['success' => true, 'count' => count($destinations), 'data' => $destinations]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Destinations API error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Destination data could not be retrieved.'], 500);
 }

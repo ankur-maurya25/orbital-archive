@@ -181,8 +181,8 @@ require_once __DIR__ . '/includes/navbar.php';
       </div>
 
       <!-- Cinematic Image Canvas -->
-      <div style="position: relative; width: 100%; height: 560px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 25px 80px rgba(0,0,0,0.85); margin-bottom: 1.5rem;">
-        <img src="<?= htmlspecialchars($heroImage['image_url']) ?>" alt="<?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="eager">
+      <div class="equipment-hero-canvas" style="position: relative; width: 100%; height: 560px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 25px 80px rgba(0,0,0,0.85); margin-bottom: 1.5rem;">
+        <img src="<?= htmlspecialchars($heroImage['image_url']) ?>" alt="<?= htmlspecialchars($heroImage['title'] ?? $eq['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="eager" onerror="this.src='https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg';">
         <div class="relic-vignette"></div>
 
         <!-- Image Credit Bar -->
@@ -232,7 +232,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.2rem; letter-spacing: 0.2em;">
         [01] MISSION CONTEXT & SCIENTIFIC OBJECTIVES
       </h2>
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;">
+      <div class="equipment-context-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;">
         <div>
           <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 1.5rem;">
             <?= nl2br(htmlspecialchars($eq['purpose'] ?? $eq['description'])) ?>
@@ -279,20 +279,20 @@ require_once __DIR__ . '/includes/navbar.php';
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
         [02] INTERPLANETARY JOURNEY & ARRIVAL
       </h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.2rem; background: rgba(11, 17, 24, 0.7); border: 1px solid var(--border-color); padding: 2rem; border-radius: 4px;">
-        <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+      <div class="equipment-stages-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.2rem; background: rgba(11, 17, 24, 0.7); border: 1px solid var(--border-color); padding: 2rem; border-radius: 4px;">
+        <div class="stage-cell" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-blue);">STAGE 01</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">EARTH ORIGIN</div>
           <div style="font-size: 0.82rem; color: var(--text-secondary);"><?= htmlspecialchars($eq['launch_location'] ?? 'Space Launch Complex') ?></div>
         </div>
 
-        <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+        <div class="stage-cell" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-orange);">STAGE 02</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">LIFTOFF</div>
           <div style="font-size: 0.82rem; color: var(--text-secondary);"><?= formatTelemetryDate($eq['launch_date']) ?> // <?= htmlspecialchars($eq['launch_vehicle'] ?? 'Orbital Launch Vehicle') ?></div>
         </div>
 
-        <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+        <div class="stage-cell" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-cyan);">STAGE 03</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
             <?= !empty($eq['journey_days']) ? $eq['journey_days'] . '-DAY TRANSIT' : 'CRUISE PHASE' ?>
@@ -302,7 +302,7 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
         </div>
 
-        <div style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+        <div class="stage-cell" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
           <span class="mono-label" style="color: var(--accent-emerald);">STAGE 04</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
             <?php
@@ -320,7 +320,7 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
         </div>
 
-        <div>
+        <div class="stage-cell">
           <span class="mono-label" style="color: var(--accent-orange);">STAGE 05</span>
           <div style="font-size: 1.15rem; font-weight: 700; color: #fff; margin: 4px 0;">
             <?= strtoupper(htmlspecialchars($eq['d_name'])) ?>
@@ -363,22 +363,32 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
         <?php endif; ?>
 
-        <!-- Mobility System (Conditional) -->
-        <?php if (!empty($eq['mobility']) && $eq['mobility'] !== 'Not applicable' && $eq['mobility'] !== 'None'): ?>
+        <!-- Mobility / Propulsion System (Conditional) -->
+        <?php if (!empty($eq['mobility']) && stripos($eq['mobility'], 'Not applicable') === false && $eq['mobility'] !== 'None'): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-cyan);">PROPULSION / MOBILITY</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">LOCOMOTION SYSTEM</div>
+          <?php
+            $isRover = (stripos($eq['type'], 'Rover') !== false);
+            $isLander = (stripos($eq['type'], 'Lander') !== false);
+            $mobLabel = $isRover ? 'SURFACE MOBILITY' : ($isLander ? 'LANDING ARCHITECTURE' : 'PROPULSION & TRAJECTORY');
+            $mobTitle = $isRover ? 'LOCOMOTION SYSTEM' : ($isLander ? 'TOUCHDOWN & CHASSIS' : 'PROPULSION ARCHITECTURE');
+          ?>
+          <div class="mono-label" style="color: var(--accent-cyan);"><?= $mobLabel ?></div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;"><?= $mobTitle ?></div>
           <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
             <?= htmlspecialchars($eq['mobility']) ?>
           </p>
         </div>
         <?php endif; ?>
 
-        <!-- Robotic Arm / Manipulator (Conditional) -->
-        <?php if (!empty($eq['robotic_arm']) && $eq['robotic_arm'] !== 'Not applicable' && $eq['robotic_arm'] !== 'None'): ?>
+        <!-- Robotic Arm / Manipulator (Conditional - rovers/landers show articulated arm, sample-return spacecraft show sampling mechanism) -->
+        <?php if (!empty($eq['robotic_arm']) && stripos($eq['robotic_arm'], 'None') !== 0 && stripos($eq['robotic_arm'], 'Not applicable') === false): ?>
         <div class="relic-hud-card">
-          <div class="mono-label" style="color: var(--accent-emerald);">ROBOTIC MANIPULATOR</div>
-          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">ARTICULATED ARM</div>
+          <div class="mono-label" style="color: var(--accent-emerald);">
+            <?= (stripos($eq['type'], 'Rover') !== false || stripos($eq['type'], 'Lander') !== false) ? 'ROBOTIC MANIPULATOR' : 'SAMPLING MECHANISM' ?>
+          </div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">
+            <?= (stripos($eq['type'], 'Rover') !== false || stripos($eq['type'], 'Lander') !== false) ? 'ARTICULATED ARM' : 'SAMPLER HORN & RETRIEVAL' ?>
+          </div>
           <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
             <?= htmlspecialchars($eq['robotic_arm']) ?>
           </p>
@@ -386,7 +396,7 @@ require_once __DIR__ . '/includes/navbar.php';
         <?php endif; ?>
 
         <!-- Autonomous Navigation (Conditional) -->
-        <?php if (!empty($eq['autonomy']) && $eq['autonomy'] !== 'Not applicable' && $eq['autonomy'] !== 'None'): ?>
+        <?php if (!empty($eq['autonomy']) && stripos($eq['autonomy'], 'None') !== 0 && stripos($eq['autonomy'], 'Not applicable') === false): ?>
         <div class="relic-hud-card">
           <div class="mono-label" style="color: var(--accent-blue);">AUTONOMOUS GUIDANCE</div>
           <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">COMPUTATION & AUTONAV</div>
@@ -396,8 +406,8 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
         <?php endif; ?>
 
-        <!-- Sample Caching / Storage (Conditional) -->
-        <?php if (!empty($eq['sample_caching']) && $eq['sample_caching'] !== 'Not applicable' && $eq['sample_caching'] !== 'None'): ?>
+        <!-- Sample Caching / Storage (Conditional - only shown if hardware has actual caching mechanism) -->
+        <?php if (!empty($eq['sample_caching']) && stripos($eq['sample_caching'], 'None') !== 0 && stripos($eq['sample_caching'], 'Not applicable') === false): ?>
         <div class="relic-hud-card">
           <div class="mono-label" style="color: var(--accent-orange);">SAMPLE CACHING / RETURN</div>
           <div style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 6px 0;">RETRIEVAL ASSEMBLY</div>
@@ -447,7 +457,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <!-- Interactive Instruments Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem;">
         <?php foreach ($instruments as $idx => $inst): ?>
-          <div class="relic-hud-card instrument-card" style="cursor: pointer; transition: all 0.2s;" data-inst-id="<?= $inst['id'] ?>" onclick="toggleInstrumentDetail(this)">
+          <div class="relic-hud-card instrument-card" style="cursor: pointer; transition: all 0.2s;" data-inst-id="<?= $inst['id'] ?>" onclick="toggleInstrumentDetail(this)" tabindex="0" role="button" aria-expanded="false" aria-label="Toggle specifications for <?= htmlspecialchars($inst['name']) ?>" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleInstrumentDetail(this);}">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
                 <span class="mono-label" style="color: var(--accent-orange); font-size: 0.68rem;">
@@ -495,7 +505,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem; letter-spacing: 0.2em;">
         [05] SCIENTIFIC DISCOVERIES & FINDINGS
       </h2>
-      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; align-items: start;">
+      <div class="equipment-findings-grid" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; align-items: start;">
         <div>
           
           <!-- Perseverance Special Astrobiology Card -->
@@ -565,6 +575,53 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
       </div>
     </section>
+
+    <!-- ==============================================================
+         DOCUMENTARY IMAGERY GALLERY (IF MULTIPLE IMAGES)
+         ============================================================== -->
+    <?php if (count($images) > 1): ?>
+    <section style="margin-bottom: 4.5rem;" id="gallery-section">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px;">
+        <h2 class="mono-label" style="font-size: 0.85rem; color: var(--accent-cyan); letter-spacing: 0.2em;">
+          [06] ARCHIVAL DOCUMENTARY IMAGERY (<?= count($images) ?> RECORDS)
+        </h2>
+        <span class="mono-label" style="color: var(--text-muted);">AUTHENTIC PRIMARY MISSION CAPTURES // OFFICIAL ARCHIVES</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        <?php foreach ($images as $imgIdx => $img): ?>
+          <div class="relic-hud-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="position: relative; width: 100%; height: 220px; overflow: hidden; background: #030712;">
+              <img src="<?= htmlspecialchars($img['image_url']) ?>" 
+                   alt="<?= htmlspecialchars($img['title'] ?? ($eq['name'] . ' capture')) ?>" 
+                   loading="lazy" 
+                   style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
+                   onmouseover="this.style.transform='scale(1.04)'"
+                   onmouseout="this.style.transform='scale(1)'"
+                   onerror="this.src='https://images-assets.nasa.gov/image/PIA24426/PIA24426~orig.jpg';">
+              <span class="mono-label" style="position: absolute; top: 10px; left: 10px; background: rgba(5,7,11,0.85); padding: 3px 8px; border-radius: 2px; font-size: 0.62rem; color: var(--accent-cyan);">
+                <?= strtoupper(htmlspecialchars($img['image_type'] ?? 'ARCHIVE')) ?>
+              </span>
+            </div>
+            <div style="padding: 1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 6px;">
+                  <?= htmlspecialchars($img['title'] ?? ($eq['name'] . ' Archival Frame')) ?>
+                </h4>
+                <?php if (!empty($img['description'])): ?>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px;">
+                    <?= htmlspecialchars(substr($img['description'], 0, 140)) . (strlen($img['description']) > 140 ? '...' : '') ?>
+                  </p>
+                <?php endif; ?>
+              </div>
+              <div class="mono-label" style="font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 8px;">
+                CREDIT: <?= htmlspecialchars($img['credit'] ?? 'Space Agency Documentation') ?>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 
     <!-- ==============================================================
          08 — MISSION CHRONOLOGY (TIMELINE EVENTS)
@@ -731,7 +788,7 @@ require_once __DIR__ . '/includes/navbar.php';
 </main>
 
 <script>
-// Interactive instrument card toggle
+// Interactive instrument card toggle with ARIA support
 function toggleInstrumentDetail(card) {
   const drawer = card.querySelector('.inst-drawer');
   const label = card.querySelector('.inst-toggle-label');
@@ -739,10 +796,12 @@ function toggleInstrumentDetail(card) {
     drawer.style.display = 'block';
     label.textContent = '− CLOSE DETAILS';
     card.style.borderColor = 'var(--accent-cyan)';
+    card.setAttribute('aria-expanded', 'true');
   } else {
     drawer.style.display = 'none';
     label.textContent = '+ VIEW DETAILS';
     card.style.borderColor = 'var(--border-color)';
+    card.setAttribute('aria-expanded', 'false');
   }
 }
 </script>

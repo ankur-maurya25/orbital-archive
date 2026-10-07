@@ -32,17 +32,18 @@ function getDB(): PDO {
             $pdo = new PDO($dsn, DB_USER, DB_PASS_FALLBACK, $options);
             return $pdo;
         } catch (PDOException $eFallback) {
+            error_log("Database connection error: " . $eFallback->getMessage());
             // Return error response if accessed via API, otherwise terminate gracefully
             if (strpos($_SERVER['REQUEST_URI'] ?? '', '/api/') !== false) {
                 http_response_code(500);
                 header('Content-Type: application/json');
                 echo json_encode([
                     'success' => false,
-                    'error' => 'Database connection failed: ' . $eFallback->getMessage()
+                    'error' => 'Archive database connection unavailable. System telemetry recorded.'
                 ]);
                 exit;
             }
-            die("Database Connection Error: " . htmlspecialchars($eFallback->getMessage()));
+            die("Archive Database Unavailable. System telemetry recorded.");
         }
     }
 }

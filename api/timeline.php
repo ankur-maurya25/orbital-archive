@@ -18,7 +18,9 @@ try {
                    m.name AS mission_name, m.official_name AS mission_official, m.launch_date, m.status AS mission_status,
                    e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                    a.short_name AS agency_code,
-                   d.name AS destination_name
+                   d.name AS destination_name,
+                   (SELECT s.source_name FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_name,
+                   (SELECT s.source_url FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_url
             FROM timeline_events t
             LEFT JOIN missions m ON t.mission_id = m.id
             LEFT JOIN equipment e ON t.equipment_id = e.id
@@ -38,7 +40,9 @@ try {
                        m.name AS mission_name, m.status AS mission_status,
                        e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                        a.short_name AS agency_code,
-                       d.name AS destination_name
+                       d.name AS destination_name,
+                       (SELECT s.source_name FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_name,
+                       (SELECT s.source_url FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_url
                 FROM timeline_events t
                 LEFT JOIN missions m ON t.mission_id = m.id
                 LEFT JOIN equipment e ON t.equipment_id = e.id
@@ -59,7 +63,9 @@ try {
                m.name AS mission_name, m.status AS mission_status,
                e.id AS equipment_id, e.slug AS equipment_slug, e.name AS equipment_name, e.type AS equipment_type, e.current_status, e.current_location,
                a.short_name AS agency_code,
-               d.name AS destination_name
+               d.name AS destination_name,
+               (SELECT s.source_name FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_name,
+               (SELECT s.source_url FROM sources s WHERE s.equipment_id = t.equipment_id OR s.mission_id = t.mission_id ORDER BY s.id ASC LIMIT 1) AS source_url
         FROM timeline_events t
         LEFT JOIN missions m ON t.mission_id = m.id
         LEFT JOIN equipment e ON t.equipment_id = e.id
@@ -71,5 +77,6 @@ try {
 
     jsonResponse(['success' => true, 'count' => count($events), 'data' => $events]);
 } catch (PDOException $e) {
-    jsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+    error_log("Timeline API Error: " . $e->getMessage());
+    jsonResponse(['success' => false, 'error' => 'Archive timeline data could not be retrieved.'], 500);
 }
