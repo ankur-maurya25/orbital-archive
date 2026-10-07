@@ -1,0 +1,35 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+
+# Local databases
+*.sqlite
+*.sqlite3
+
+# Temporary audit/test files
+database/test_*.php
+database/audit_*.php
+database/calculate_loc.php
+database/repair_*.php
+database/verify_mission_polish.php
+tools/
+
+# Runtime/cache
+*.cache
+database/tmp/
+database/cache/

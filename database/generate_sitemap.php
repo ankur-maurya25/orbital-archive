@@ -7,7 +7,7 @@
 require_once __DIR__ . '/../config/database.php';
 
 $pdo = getDB();
-$baseUrl = 'http://localhost:8000';
+$baseUrl = rtrim(getenv('APP_URL') ?: 'http://localhost:8000', '/');
 $today = date('Y-m-d');
 
 $xml = new XMLWriter();

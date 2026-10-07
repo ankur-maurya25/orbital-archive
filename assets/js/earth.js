@@ -1,6 +1,14 @@
 /**
- * ORBITAL ARCHIVE - Earth & Orbital Visualization
+ * ORBITAL ARCHIVE - Photorealistic Earth & Orbital Visualization
  * Three.js implementation for Section 01 Hero Earth
+ * Features:
+ * - NASA Visible Earth / Blue Marble day map texture with procedural canvas fallback
+ * - Natural day/night terminator line via calibrated directional lighting
+ * - Dual-mesh atmospheric rim shell with theme-adaptive glow shader
+ * - Theme-adaptive rendering (NIGHT observatory vs ARCHIVE museum paper)
+ * - Ultra-slow rotation (0.0006 rad/frame) and subtle mouse parallax tilt
+ * - Complete prefers-reduced-motion accessibility
+ * - Restrained archival orbital reference annotations
  */
 
 class EarthVisualization {
@@ -12,10 +20,23 @@ class EarthVisualization {
     this.camera = null;
     this.renderer = null;
     this.earthGroup = null;
+    this.earthMesh = null;
+    this.cloudMesh = null;
+    this.atmosphereMesh = null;
+    this.atmosMaterial = null;
     this.ringsGroup = null;
-    this.animationId = null;
+    this.ringLines = [];
     this.markers = [];
+    this.ambientLight = null;
+    this.sunLight = null;
+    this.rimLight = null;
+    this.animationId = null;
     this.prefersReducedMotion = false;
+    this.currentTheme = document.documentElement.getAttribute('data-theme') || 'night';
+
+    // Mouse parallax variables
+    this.targetRotX = 0;
+    this.targetRotY = 0;
 
     // Check motion preference
     if (window.matchMedia) {
@@ -92,7 +113,7 @@ class EarthVisualization {
     this.camera.position.z = 24;
 
     // Renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.domElement.style.pointerEvents = 'none'; // Never block page scroll or touch
@@ -102,36 +123,39 @@ class EarthVisualization {
     this.earthGroup = new THREE.Group();
     this.scene.add(this.earthGroup);
 
-    // Create Earth sphere with procedural high-res shader/canvas texture
+    // Create Earth sphere with photorealistic texture & procedural fallback
     this.createEarth();
 
-    // Create Atmosphere Glow
+    // Create Atmospheric Glow Shell
     this.createAtmosphere();
 
-    // Create Orbital Rings & Telemetry Markers
+    // Create Restrained Archival Orbital Rings & Markers
     this.createOrbitalRings();
 
-    // Ambient & Directional Lighting
-    const ambientLight = new THREE.AmbientLight(0x0a1626, 1.2);
-    this.scene.add(ambientLight);
+    // Calibrated Day/Night Lighting
+    this.ambientLight = new THREE.AmbientLight(0x0a1626, 1.2);
+    this.scene.add(this.ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    sunLight.position.set(15, 6, 12);
-    this.scene.add(sunLight);
+    this.sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    this.sunLight.position.set(16, 7, 12);
+    this.scene.add(this.sunLight);
 
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.8);
-    rimLight.position.set(-15, -6, -10);
-    this.scene.add(rimLight);
+    this.rimLight = new THREE.DirectionalLight(0x38bdf8, 1.6);
+    this.rimLight.position.set(-16, -6, -10);
+    this.scene.add(this.rimLight);
+
+    // Apply active theme colors
+    this.setTheme(this.currentTheme);
 
     // Event listeners
     window.addEventListener('resize', () => this.onResize());
-    
+    window.addEventListener('mousemove', (e) => this.onMouseMove(e));
+
     // Start animation loop
     this.animate();
   }
 
-  createEarth() {
-    // Generate photorealistic procedural Earth canvas with continents and night city lights
+  createProceduralCanvasTexture() {
     const canvas = document.createElement('canvas');
     canvas.width = 2048;
     canvas.height = 1024;
@@ -145,21 +169,17 @@ class EarthVisualization {
     ctx.fillStyle = oceanGrad;
     ctx.fillRect(0, 0, 2048, 1024);
 
-    // Draw continent silhouettes and night lights
+    // Landmass silhouettes
     ctx.fillStyle = '#112233';
     ctx.beginPath();
-    // Simplified global landmass shapes
-    // Eurasia / Africa
     ctx.ellipse(1150, 420, 280, 220, 0, 0, Math.PI * 2);
     ctx.ellipse(1100, 600, 180, 240, 0, 0, Math.PI * 2);
-    // Americas
     ctx.ellipse(450, 360, 220, 180, 0, 0, Math.PI * 2);
     ctx.ellipse(560, 650, 160, 220, 0, 0, Math.PI * 2);
-    // Australia
     ctx.ellipse(1600, 720, 120, 90, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // City lights on dark side
+    // Night city lights
     ctx.fillStyle = 'rgba(255, 215, 120, 0.7)';
     for (let i = 0; i < 400; i++) {
       const x = Math.random() * 2048;
@@ -170,25 +190,48 @@ class EarthVisualization {
       ctx.fill();
     }
 
-    const earthTexture = new THREE.CanvasTexture(canvas);
+    return new THREE.CanvasTexture(canvas);
+  }
 
-    // Earth Sphere
+  createEarth() {
+    // 1. Instant high-res procedural base canvas so sphere is never blank
+    const fallbackTexture = this.createProceduralCanvasTexture();
+
+    // 2. Base Earth Sphere
     const geometry = new THREE.SphereGeometry(7, 64, 64);
     const material = new THREE.MeshStandardMaterial({
-      map: earthTexture,
+      map: fallbackTexture,
       roughness: 0.65,
-      metalness: 0.1,
+      metalness: 0.08,
     });
 
     this.earthMesh = new THREE.Mesh(geometry, material);
     this.earthGroup.add(this.earthMesh);
 
-    // Subtle Cloud Layer
+    // 3. Asynchronously load NASA Blue Marble day map texture
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+      'assets/images/earth_daymap.jpg',
+      (texture) => {
+        if (this.earthMesh && this.earthMesh.material) {
+          texture.generateMipmaps = true;
+          texture.minFilter = THREE.LinearMipmapLinearFilter;
+          this.earthMesh.material.map = texture;
+          this.earthMesh.material.needsUpdate = true;
+        }
+      },
+      undefined,
+      (err) => {
+        console.warn('NASA Visible Earth texture not accessible, retaining procedural canvas:', err);
+      }
+    );
+
+    // 4. Subtle Cloud Layer
     const cloudGeo = new THREE.SphereGeometry(7.08, 48, 48);
     const cloudMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.16,
       blending: THREE.AdditiveBlending,
     });
     this.cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
@@ -196,8 +239,12 @@ class EarthVisualization {
   }
 
   createAtmosphere() {
-    const atmosGeo = new THREE.SphereGeometry(7.4, 48, 48);
-    const atmosMat = new THREE.ShaderMaterial({
+    const atmosGeo = new THREE.SphereGeometry(7.35, 48, 48);
+    this.atmosMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        glowColor: { value: new THREE.Color(0x38bdf8) },
+        glowIntensity: { value: 0.95 }
+      },
       vertexShader: `
         varying vec3 vNormal;
         void main() {
@@ -206,10 +253,12 @@ class EarthVisualization {
         }
       `,
       fragmentShader: `
+        uniform vec3 glowColor;
+        uniform float glowIntensity;
         varying vec3 vNormal;
         void main() {
-          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.2);
-          gl_FragColor = vec4(0.22, 0.74, 0.97, 1.0) * intensity * 0.9;
+          float intensity = pow(0.68 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.4);
+          gl_FragColor = vec4(glowColor, 1.0) * intensity * glowIntensity;
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -217,19 +266,21 @@ class EarthVisualization {
       transparent: true,
     });
 
-    const atmosphere = new THREE.Mesh(atmosGeo, atmosMat);
-    this.earthGroup.add(atmosphere);
+    this.atmosphereMesh = new THREE.Mesh(atmosGeo, this.atmosMaterial);
+    this.earthGroup.add(this.atmosphereMesh);
   }
 
   createOrbitalRings() {
     this.ringsGroup = new THREE.Group();
     this.earthGroup.add(this.ringsGroup);
+    this.ringLines = [];
+    this.markers = [];
 
     const ringConfigs = [
-      { radius: 8.4, tiltX: 0.45, tiltY: 0.2, color: 0x38bdf8, label: 'ISS [400 KM]' },
-      { radius: 9.8, tiltX: -0.3, tiltY: 0.5, color: 0xd99a5b, label: 'HUBBLE [540 KM]' },
-      { radius: 11.2, tiltX: 0.6, tiltY: -0.4, color: 0x6ea8ff, label: 'TIANGONG [390 KM]' },
-      { radius: 13.0, tiltX: 0.1, tiltY: 0.1, color: 0x94a3b8, label: 'GEOSTATIONARY [35,786 KM]' }
+      { radius: 8.4, tiltX: 0.45, tiltY: 0.2, nightColor: 0x38bdf8, archiveColor: 0x315f9f, label: 'ISS [400 KM]' },
+      { radius: 9.8, tiltX: -0.3, tiltY: 0.5, nightColor: 0xd99a5b, archiveColor: 0xa96732, label: 'HUBBLE [540 KM]' },
+      { radius: 11.2, tiltX: 0.6, tiltY: -0.4, nightColor: 0x6ea8ff, archiveColor: 0x475569, label: 'TIANGONG [390 KM]' },
+      { radius: 13.0, tiltX: 0.1, tiltY: 0.1, nightColor: 0x94a3b8, archiveColor: 0x64748b, label: 'GEOSTATIONARY [35,786 KM]' }
     ];
 
     ringConfigs.forEach(cfg => {
@@ -244,7 +295,7 @@ class EarthVisualization {
       ringGeo.setFromPoints(points);
 
       const ringMat = new THREE.LineBasicMaterial({
-        color: cfg.color,
+        color: cfg.nightColor,
         transparent: true,
         opacity: 0.45,
         blending: THREE.AdditiveBlending,
@@ -257,7 +308,7 @@ class EarthVisualization {
 
       // Orbiting Satellite Marker Dot
       const markerGeo = new THREE.SphereGeometry(0.18, 12, 12);
-      const markerMat = new THREE.MeshBasicMaterial({ color: cfg.color });
+      const markerMat = new THREE.MeshBasicMaterial({ color: cfg.nightColor });
       const marker = new THREE.Mesh(markerGeo, markerMat);
 
       this.markers.push({
@@ -266,42 +317,113 @@ class EarthVisualization {
         tiltX: cfg.tiltX,
         tiltY: cfg.tiltY,
         angle: Math.random() * Math.PI * 2,
-        speed: 0.006 + Math.random() * 0.004,
+        speed: 0.005 + Math.random() * 0.003,
       });
 
       this.ringsGroup.add(marker);
+
+      this.ringLines.push({
+        line: ringLine,
+        marker: marker,
+        nightColor: cfg.nightColor,
+        archiveColor: cfg.archiveColor
+      });
     });
+  }
+
+  setTheme(theme) {
+    this.currentTheme = theme;
+    const isArchive = theme === 'archive';
+
+    // Ambient Lighting
+    if (this.ambientLight) {
+      this.ambientLight.color.setHex(isArchive ? 0xf5efe6 : 0x0a1626);
+      this.ambientLight.intensity = isArchive ? 1.8 : 1.2;
+    }
+
+    // Directional Sunlight
+    if (this.sunLight) {
+      this.sunLight.color.setHex(isArchive ? 0xfff8ee : 0xffffff);
+      this.sunLight.intensity = isArchive ? 2.0 : 2.5;
+    }
+
+    // Rim Lighting
+    if (this.rimLight) {
+      this.rimLight.color.setHex(isArchive ? 0x315f9f : 0x38bdf8);
+      this.rimLight.intensity = isArchive ? 0.75 : 1.6;
+    }
+
+    // Atmospheric Glow Uniforms
+    if (this.atmosMaterial && this.atmosMaterial.uniforms) {
+      if (this.atmosMaterial.uniforms.glowColor) {
+        this.atmosMaterial.uniforms.glowColor.value.setHex(isArchive ? 0x315f9f : 0x38bdf8);
+      }
+      if (this.atmosMaterial.uniforms.glowIntensity) {
+        this.atmosMaterial.uniforms.glowIntensity.value = isArchive ? 0.45 : 0.95;
+      }
+    }
+
+    // Cloud Layer
+    if (this.cloudMesh && this.cloudMesh.material) {
+      this.cloudMesh.material.opacity = isArchive ? 0.12 : 0.16;
+    }
+
+    // Orbital Rings & Markers
+    if (this.ringLines) {
+      this.ringLines.forEach(item => {
+        const color = isArchive ? item.archiveColor : item.nightColor;
+        item.line.material.color.setHex(color);
+        item.line.material.opacity = isArchive ? 0.65 : 0.45;
+        if (item.marker && item.marker.material) {
+          item.marker.material.color.setHex(color);
+        }
+      });
+    }
+  }
+
+  onMouseMove(e) {
+    if (this.prefersReducedMotion) return;
+    const nx = (e.clientX / window.innerWidth) * 2 - 1;
+    const ny = (e.clientY / window.innerHeight) * 2 - 1;
+    this.targetRotY = nx * 0.12;
+    this.targetRotX = ny * 0.08;
   }
 
   animate() {
     this.animationId = requestAnimationFrame(() => this.animate());
 
     if (this.prefersReducedMotion) {
-      // Respect prefers-reduced-motion: render static scene without continuous orbital spin
+      // Respect prefers-reduced-motion: render static scene without continuous rotation
       if (this.renderer && this.scene && this.camera) {
         this.renderer.render(this.scene, this.camera);
       }
       return;
     }
 
-    // Earth natural rotation
+    // Earth natural ultra-slow rotation (0.0006 rad/frame)
     if (this.earthMesh) {
-      this.earthMesh.rotation.y += 0.0012;
+      this.earthMesh.rotation.y += 0.0006;
     }
     if (this.cloudMesh) {
-      this.cloudMesh.rotation.y += 0.0016;
+      this.cloudMesh.rotation.y += 0.0008;
     }
 
-    // Move satellite markers along their orbits
+    // Gentle mouse parallax tilt lerp
+    if (this.earthGroup) {
+      this.earthGroup.rotation.y += (this.targetRotY - this.earthGroup.rotation.y) * 0.035;
+      this.earthGroup.rotation.x += (this.targetRotX - this.earthGroup.rotation.x) * 0.035;
+    }
+
+    // Move satellite markers along orbital reference planes
     this.markers.forEach(m => {
       m.angle += m.speed;
       const x = Math.cos(m.angle) * m.radius;
       const z = Math.sin(m.angle) * m.radius;
-      
+
       const pos = new THREE.Vector3(x, 0, z);
       pos.applyAxisAngle(new THREE.Vector3(1, 0, 0), m.tiltX);
       pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), m.tiltY);
-      
+
       m.mesh.position.copy(pos);
     });
 

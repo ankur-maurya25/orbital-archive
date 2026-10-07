@@ -76,10 +76,10 @@ class DestinationOrbits {
     if (this.infoPanel) {
       this.infoPanel.innerHTML = `
         <div class="mono-label" style="color: var(--accent-blue)">DESTINATION TELEMETRY</div>
-        <div style="font-size: 1.3rem; font-weight: 700; color: #fff; margin: 4px 0;">${destName}</div>
+        <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-bright); margin: 4px 0;">${destName}</div>
         <div class="mono-value" style="color: var(--accent-orange); margin-bottom: 4px;">${missionCount} MISSIONS // ${equipCount} HARDWARE UNITS</div>
         ${flagships ? `<div style="font-size: 0.78rem; color: var(--accent-cyan); margin-bottom: 4px;">KEY OBJECTS: ${flagships}</div>` : ''}
-        <div style="font-size: 0.8rem; color: var(--text-secondary);">DISTANCE: <span style="color: #fff">${distance}</span></div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">DISTANCE: <span style="color: var(--text-bright)">${distance}</span></div>
         <div class="mono-label" style="margin-top: 8px; color: var(--accent-cyan);">CLICK TO EXPLORE ARCHIVE →</div>
       `;
       this.infoPanel.style.opacity = '1';

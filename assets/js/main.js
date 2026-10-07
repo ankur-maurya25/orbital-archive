@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Setup AI Archive Assistant
   setupAIArchive();
+
+  // 4. Setup Visual Theme Switcher (NIGHT / ARCHIVE)
+  setupThemeSwitcher();
 });
 
 /**
@@ -191,7 +194,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="mission.php?id=${m.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: var(--accent-cyan); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[MISSION]</span>
               ${m.name}
             </div>
@@ -214,7 +217,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="equipment.php?id=${linkId}" class="search-item-card" style="border-left: 2px solid var(--accent-orange);">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(217, 154, 91, 0.15); border: 1px solid rgba(217, 154, 91, 0.3); color: var(--accent-orange); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[RELIC]</span>
               ${e.name}
             </div>
@@ -237,7 +240,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="equipment.php?id=${linkId}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-emerald); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[EQUIPMENT]</span>
               ${e.name}
             </div>
@@ -260,7 +263,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="equipment.php?id=${parentSlug}#instruments-section" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(110, 168, 255, 0.15); border: 1px solid rgba(110, 168, 255, 0.3); color: var(--accent-blue); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[INSTRUMENT]</span>
               ${inst.name}
             </div>
@@ -282,7 +285,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="agencies.php?id=${a.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[AGENCY]</span>
               ${a.short_name} - ${a.name}
             </div>
@@ -300,7 +303,7 @@ function renderSearchResults(data, container, query) {
       html += `
         <a href="destinations.php?id=${d.id}" class="search-item-card">
           <div>
-            <div style="font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px;">
+            <div style="font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
               <span class="mono-label" style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--accent-rose); padding: 2px 6px; border-radius: 2px; font-size: 0.65rem;">[DESTINATION]</span>
               ${d.name}
             </div>
@@ -327,11 +330,19 @@ function setupAIArchive() {
 
   if (!modal || !sendBtn) return;
 
-  const openModal = () => modal.classList.add('active');
+  const openModal = () => {
+    modal.classList.add('active');
+    setTimeout(() => input?.focus(), 100);
+  };
   const closeModal = () => modal.classList.remove('active');
 
   openBtns.forEach(btn => btn.addEventListener('click', openModal));
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  // Close when clicking outside modal window
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
 
   // Suggested questions
   document.querySelectorAll('.ai-suggested-chip').forEach(chip => {
@@ -349,39 +360,78 @@ function setupAIArchive() {
 
     // Append user message
     const userMsg = document.createElement('div');
-    userMsg.style.cssText = 'padding: 8px 12px; background: rgba(110, 168, 255, 0.15); border: 1px solid rgba(110, 168, 255, 0.3); border-radius: 4px; align-self: flex-end; margin-bottom: 8px; font-size: 0.85rem; max-width: 80%;';
+    userMsg.className = 'ai-msg-bubble ai-msg-user';
     userMsg.textContent = q;
     chatLog.appendChild(userMsg);
     input.value = '';
 
-    // Typing indicator
+    // Disable input while searching
+    sendBtn.disabled = true;
+    input.disabled = true;
+    sendBtn.style.opacity = '0.6';
+
+    // Loading indicator
     const aiMsg = document.createElement('div');
-    aiMsg.style.cssText = 'padding: 8px 12px; background: rgba(11, 17, 24, 0.9); border: 1px solid var(--border-color); border-radius: 4px; align-self: flex-start; margin-bottom: 8px; font-size: 0.85rem; max-width: 85%; color: var(--text-primary);';
-    aiMsg.innerHTML = '<span class="mono-label" style="color: var(--accent-cyan)">CONSULTING ARCHIVE DATABASE...</span>';
+    aiMsg.className = 'ai-msg-bubble ai-msg-assistant';
+    aiMsg.innerHTML = '<div class="ai-loading-pulse"><span class="ai-pulse-dot"></span> SEARCHING VERIFIED ARCHIVE RECORDS...</div>';
     chatLog.appendChild(aiMsg);
     chatLog.scrollTop = chatLog.scrollHeight;
 
     try {
       const res = await fetch(`api/ai-archive.php?q=${encodeURIComponent(q)}`);
       const json = await res.json();
-      if (json.success) {
+      if (json.success && json.answer) {
+        let sourcesHtml = '';
+        if (json.source_links && json.source_links.length > 0) {
+          const links = json.source_links.map(s => 
+            `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener" class="ai-source-link">${escapeHtml(s.name)} ↗</a>`
+          ).join(' <span style="opacity:0.35;">//</span> ');
+          sourcesHtml = `<div class="ai-sources-tray"><span class="ai-sources-label">VERIFIED SOURCES:</span> ${links}</div>`;
+        } else if (json.sources && json.sources.length > 0) {
+          sourcesHtml = `<div class="ai-sources-tray"><span class="ai-sources-label">VERIFIED SOURCES:</span> ${escapeHtml(json.sources.join(' // '))}</div>`;
+        }
+
         aiMsg.innerHTML = `
-          <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 4px;">ARCHIVE SYNTHESIS</div>
-          <div>${json.answer}</div>
-          ${json.sources && json.sources.length ? `<div class="mono-label" style="margin-top: 8px; color: var(--text-muted);">VERIFIED SOURCES: ${json.sources.join(', ')}</div>` : ''}
+          <div class="ai-header-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+            </svg>
+            ARCHIVE SYNTHESIS
+          </div>
+          <div class="ai-answer-body">${escapeHtml(json.answer).replace(/\n/g, '<br>')}</div>
+          ${sourcesHtml}
         `;
       } else {
-        aiMsg.textContent = 'Archive records on this topic are currently restricted or unavailable.';
+        const fallbackMsg = json.error || 'The archive does not currently record verified details on this topic.';
+        aiMsg.innerHTML = `
+          <div class="ai-header-tag" style="color: var(--accent-orange);">
+            ARCHIVE NOTICE
+          </div>
+          <div class="ai-answer-body">${escapeHtml(fallbackMsg)}</div>
+        `;
       }
     } catch (e) {
-      aiMsg.textContent = 'Archive system link error. Please try again.';
+      aiMsg.innerHTML = `
+        <div class="ai-header-tag" style="color: var(--accent-rose);">
+          ARCHIVE NOTICE
+        </div>
+        <div class="ai-answer-body">Archive knowledge query encountered a temporary system connection error. Please retry.</div>
+      `;
+    } finally {
+      sendBtn.disabled = false;
+      input.disabled = false;
+      sendBtn.style.opacity = '1';
+      chatLog.scrollTop = chatLog.scrollHeight;
+      input.focus();
     }
-    chatLog.scrollTop = chatLog.scrollHeight;
   };
 
   sendBtn.addEventListener('click', sendQuestion);
   input?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') sendQuestion();
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendQuestion();
+    }
   });
 }
 
@@ -394,3 +444,50 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+/**
+ * Setup HUD Theme Switcher (NIGHT / ARCHIVE)
+ */
+function setupThemeSwitcher() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'night';
+
+  const syncButtons = (theme) => {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      const isTarget = btn.getAttribute('data-theme-target') === theme;
+      btn.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
+      if (isTarget) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  };
+
+  syncButtons(currentTheme);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetTheme = btn.getAttribute('data-theme-target');
+      if (!targetTheme) return;
+
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      try {
+        localStorage.setItem('orbital_theme', targetTheme);
+      } catch (err) {}
+
+      syncButtons(targetTheme);
+
+      if (window.earthVisual && typeof window.earthVisual.setTheme === 'function') {
+        window.earthVisual.setTheme(targetTheme);
+      }
+
+      if (window.globalMissionMap && typeof window.globalMissionMap.updateTheme === 'function') {
+        window.globalMissionMap.updateTheme(targetTheme);
+      }
+
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: targetTheme } }));
+    });
+  });
+}
+

@@ -29,7 +29,7 @@ if (!$mission) {
 }
 
 // Fetch equipment for this mission
-$eqStmt = $pdo->prepare("SELECT * FROM equipment WHERE mission_id = :id");
+$eqStmt = $pdo->prepare("SELECT * FROM equipment WHERE mission_id = :id ORDER BY is_relic DESC, id ASC");
 $eqStmt->execute(['id' => $id]);
 $equipmentList = $eqStmt->fetchAll();
 
@@ -43,16 +43,26 @@ $srcStmt = $pdo->prepare("SELECT * FROM sources WHERE mission_id = :id");
 $srcStmt->execute(['id' => $id]);
 $sources = $srcStmt->fetchAll();
 
+// Distance Specification Label Logic
+$destNameUpper = strtoupper(trim($mission['destination_name'] ?? ''));
+if ($destNameUpper === 'MOON') {
+    $distanceSpecLabel = 'AVERAGE EARTH–MOON DISTANCE';
+} elseif (!empty($destNameUpper)) {
+    $distanceSpecLabel = "AVERAGE EARTH–{$destNameUpper} DISTANCE";
+} else {
+    $distanceSpecLabel = 'AVERAGE DISTANCE FROM EARTH';
+}
+
 $pageTitle = htmlspecialchars($mission['name']) . " // Mission Exhibit — ORBITAL ARCHIVE";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
 <main class="archive-main" style="padding-top: 7rem;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 6rem;">
+  <div class="mission-main-container">
     
     <!-- Top breadcrumbs & back link -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div class="mission-top-nav">
       <a href="missions.php" class="relic-cta-link">
         ← BACK TO ALL MISSIONS
       </a>
@@ -62,131 +72,178 @@ require_once __DIR__ . '/includes/navbar.php';
     </div>
 
     <!-- Header Exhibition Banner -->
-    <div style="border-left: 3px solid var(--accent-blue); padding-left: 1.5rem; margin-bottom: 3rem;">
-      <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.4rem;">
+    <header class="mission-hero-header">
+      <div class="mono-label mission-hero-agency">
         <?= htmlspecialchars($mission['agency_code']) ?> // <?= strtoupper(htmlspecialchars($mission['destination_name'])) ?>
       </div>
-      <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -0.01em; color: #fff; text-transform: uppercase;">
+      <h1 class="mission-hero-title">
         <?= htmlspecialchars($mission['name']) ?>
       </h1>
-      <div style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0.5rem;">
+      <div class="mission-hero-subtitle">
         <?= htmlspecialchars($mission['official_name'] ?? $mission['name']) ?>
       </div>
-    </div>
+    </header>
 
     <!-- Telemetry Key Stats Strip -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; background: rgba(11, 17, 24, 0.85); border: 1px solid var(--border-color); padding: 1.5rem 2rem; border-radius: 4px; margin-bottom: 3.5rem;">
-      <div>
+    <div class="mission-stats-strip">
+      <div class="mission-stat-item">
         <div class="relic-meta-label">LAUNCH DATE</div>
-        <div class="mono-value" style="font-size: 1.1rem; color: #fff; margin-top: 4px;">
+        <div class="mono-value mission-stat-value">
           <?= formatTelemetryDate($mission['launch_date']) ?>
         </div>
       </div>
-      <div>
+      <div class="mission-stat-item">
         <div class="relic-meta-label">LAUNCH VEHICLE</div>
-        <div class="mono-value" style="font-size: 1.1rem; color: #fff; margin-top: 4px;">
+        <div class="mono-value mission-stat-value">
           <?= htmlspecialchars($mission['launch_vehicle'] ?? 'TBD') ?>
         </div>
       </div>
-      <div>
+      <div class="mission-stat-item">
         <div class="relic-meta-label">DESTINATION</div>
-        <div class="mono-value" style="font-size: 1.1rem; color: var(--accent-orange); margin-top: 4px;">
+        <div class="mono-value mission-stat-value stat-dest">
           <?= htmlspecialchars($mission['destination_name']) ?>
         </div>
       </div>
-      <div>
+      <div class="mission-stat-item">
         <div class="relic-meta-label">STATUS</div>
-        <div class="mono-value" style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 4px;">
+        <div class="mono-value mission-stat-value stat-status">
           <?= strtoupper(htmlspecialchars($mission['status'])) ?>
         </div>
       </div>
     </div>
 
     <!-- Main Exhibition Sections -->
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3.5rem;">
+    <div class="mission-layout-grid">
       <div>
         <!-- Section 1: The Mission -->
-        <section style="margin-bottom: 3rem;">
-          <h2 class="mono-label" style="font-size: 0.9rem; color: var(--accent-blue); margin-bottom: 1rem;">
+        <section class="mission-section">
+          <h2 class="mono-label mission-section-title">
             [01] THE MISSION
           </h2>
-          <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 1.5rem;">
+          <p class="mission-body-objective">
             <?= nl2br(htmlspecialchars($mission['objective'] ?? '')) ?>
           </p>
-          <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary);">
+          <p class="mission-body-description">
             <?= nl2br(htmlspecialchars($mission['description'] ?? '')) ?>
           </p>
         </section>
 
         <!-- Section 2: Associated Equipment & Relics -->
-        <section style="margin-bottom: 3rem;">
-          <h2 class="mono-label" style="font-size: 0.9rem; color: var(--accent-blue); margin-bottom: 1.5rem;">
+        <section class="mission-section">
+          <h2 class="mono-label mission-section-title">
             [02] DEPLOYED EQUIPMENT & LANDERS
           </h2>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <?php foreach ($equipmentList as $eq): ?>
-              <div style="background: rgba(16, 26, 38, 0.6); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 4px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                  <div>
-                    <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff;">
-                      <?= htmlspecialchars($eq['name']) ?>
-                    </h3>
-                    <div class="mono-label" style="color: var(--accent-orange); margin: 4px 0;">
-                      <?= htmlspecialchars($eq['type']) ?> <span class="hud-bracket">//</span> <?= htmlspecialchars($eq['current_status']) ?>
+          <div class="mission-equipment-list">
+            <?php if (!empty($equipmentList)): ?>
+              <?php foreach ($equipmentList as $eq): ?>
+                <article class="mission-equipment-card">
+                  <header class="equipment-card-header">
+                    <div class="equipment-card-title-group">
+                      <h3 class="equipment-card-title">
+                        <?= htmlspecialchars($eq['name']) ?>
+                      </h3>
+                      <div class="mono-label equipment-card-subtitle">
+                        <span class="eq-type"><?= htmlspecialchars($eq['type']) ?></span>
+                        <?php if (!empty($eq['primary_region'])): ?>
+                          <span class="hud-bracket">//</span>
+                          <span class="eq-region"><?= htmlspecialchars($eq['primary_region']) ?></span>
+                        <?php endif; ?>
+                      </div>
                     </div>
-                  </div>
-                  <?php if ($eq['is_relic']): ?>
-                    <span style="font-family: var(--font-mono); font-size: 0.68rem; padding: 2px 8px; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 2px;">
-                      OFF-WORLD RELIC
-                    </span>
+                    
+                    <div class="equipment-badges">
+                      <?php if (!empty($eq['is_relic']) && (int)$eq['is_relic'] === 1): ?>
+                        <span class="badge-offworld-relic" title="Verified in-situ aerospace artifact resting beyond Earth">
+                          OFF-WORLD RELIC
+                        </span>
+                      <?php endif; ?>
+                      <?php if (!empty($eq['current_status'])): ?>
+                        <?php
+                          $statusClean = strtoupper(trim($eq['current_status']));
+                          $statusClass = 'status-' . strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $statusClean));
+                        ?>
+                        <span class="badge-operational-status <?= $statusClass ?>" title="Equipment operational condition">
+                          STATUS: <?= htmlspecialchars($statusClean) ?>
+                        </span>
+                      <?php endif; ?>
+                    </div>
+                  </header>
+
+                  <p class="equipment-card-desc">
+                    <?= nl2br(htmlspecialchars($eq['description'])) ?>
+                  </p>
+
+                  <!-- Explicit Separation: Location & Physical Fate -->
+                  <?php if (!empty($eq['current_location']) || !empty($eq['fate'])): ?>
+                    <div class="equipment-spec-grid">
+                      <?php if (!empty($eq['current_location'])): ?>
+                        <div class="equipment-spec-item">
+                          <span class="equipment-spec-label">CURRENT LOCATION</span>
+                          <span class="equipment-spec-value"><?= htmlspecialchars($eq['current_location']) ?></span>
+                        </div>
+                      <?php endif; ?>
+                      <?php if (!empty($eq['fate'])): ?>
+                        <div class="equipment-spec-item">
+                          <span class="equipment-spec-label">PHYSICAL FATE / DISPOSITION</span>
+                          <span class="equipment-spec-value"><?= htmlspecialchars($eq['fate']) ?></span>
+                        </div>
+                      <?php endif; ?>
+                    </div>
                   <?php endif; ?>
-                </div>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0.8rem 0;">
-                  <?= htmlspecialchars($eq['description']) ?>
+
+                  <footer class="equipment-card-footer">
+                    <a href="equipment.php?id=<?= (int)$eq['id'] ?>" class="equipment-inspect-btn">
+                      <span>INSPECT EQUIPMENT TELEMETRY</span>
+                      <span class="btn-arrow" aria-hidden="true">→</span>
+                    </a>
+                  </footer>
+                </article>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <div class="mission-legacy-box">
+                <p class="mono-label" style="color: var(--text-muted); margin: 0;">
+                  NO SPECIFIC HARDWARE SUB-SYSTEMS SEPARATELY CATALOGED FOR THIS MISSION
                 </p>
-                <a href="equipment.php?id=<?= $eq['id'] ?>" class="relic-cta-link" style="font-size: 0.75rem;">
-                  INSPECT EQUIPMENT TELEMETRY →
-                </a>
               </div>
-            <?php endforeach; ?>
+            <?php endif; ?>
           </div>
         </section>
 
         <!-- Section 3: Discoveries & Legacy -->
-        <section style="margin-bottom: 3rem;">
-          <h2 class="mono-label" style="font-size: 0.9rem; color: var(--accent-blue); margin-bottom: 1rem;">
+        <section class="mission-section">
+          <h2 class="mono-label mission-section-title">
             [03] DISCOVERIES & LEGACY
           </h2>
-          <div style="background: rgba(11, 17, 24, 0.7); border-left: 3px solid var(--accent-cyan); padding: 1.5rem; border-radius: 0 4px 4px 0;">
-            <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
+          <div class="mission-legacy-box">
+            <p class="mission-legacy-text">
               <?= nl2br(htmlspecialchars($mission['legacy'] ?? 'Archived scientific breakthrough for human space flight.')) ?>
             </p>
           </div>
         </section>
 
-        <!-- Official Sources -->
-        <section>
-          <h2 class="mono-label" style="font-size: 0.9rem; color: var(--accent-blue); margin-bottom: 1rem;">
+        <!-- Section 4: Verified Archival Sources -->
+        <section class="mission-section">
+          <h2 class="mono-label mission-section-title">
             [04] VERIFIED ARCHIVAL SOURCES
           </h2>
           <div style="display: flex; flex-direction: column; gap: 0.6rem;">
             <?php if (!empty($sources)): ?>
               <?php foreach ($sources as $s): ?>
-                <a href="<?= htmlspecialchars($s['source_url']) ?>" target="_blank" rel="noopener" class="search-item-card">
+                <a href="<?= htmlspecialchars($s['source_url']) ?>" target="_blank" rel="noopener" class="search-item-card source-card-link">
                   <div>
-                    <div style="font-weight: 600; color: #fff;"><?= htmlspecialchars($s['source_name']) ?></div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary);"><?= htmlspecialchars($s['description'] ?? 'Official Registry') ?></div>
+                    <div class="source-card-title"><?= htmlspecialchars($s['source_name']) ?></div>
+                    <div class="source-card-desc"><?= htmlspecialchars($s['description'] ?? 'Official Registry') ?></div>
                   </div>
-                  <span class="mono-label" style="color: var(--accent-cyan);">OFFICIAL LINK ↗</span>
+                  <span class="mono-label source-card-action">OFFICIAL LINK ↗</span>
                 </a>
               <?php endforeach; ?>
             <?php else: ?>
-              <div class="search-item-card">
+              <div class="search-item-card source-card-link">
                 <div>
-                  <div style="font-weight: 600; color: #fff;"><?= htmlspecialchars($mission['agency_name']) ?> Public Archives</div>
-                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Direct flight dynamics & telemetry records</div>
+                  <div class="source-card-title"><?= htmlspecialchars($mission['agency_name']) ?> Public Archives</div>
+                  <div class="source-card-desc">Direct flight dynamics & telemetry records</div>
                 </div>
-                <a href="<?= htmlspecialchars($mission['agency_site'] ?? 'https://www.nasa.gov') ?>" target="_blank" class="mono-label" style="color: var(--accent-cyan);">AGENCY PORTAL ↗</a>
+                <a href="<?= htmlspecialchars($mission['agency_site'] ?? 'https://www.nasa.gov') ?>" target="_blank" rel="noopener" class="mono-label source-card-action">AGENCY PORTAL ↗</a>
               </div>
             <?php endif; ?>
           </div>
@@ -195,12 +252,12 @@ require_once __DIR__ . '/includes/navbar.php';
 
       <!-- Right Sidebar: Trajectory & Spaceport Telemetry -->
       <div>
-        <div class="relic-hud-card" style="position: sticky; top: 7rem;">
-          <div class="mono-label" style="color: var(--accent-cyan);">LAUNCH SPECIFICATIONS</div>
+        <aside class="relic-hud-card" style="position: sticky; top: 7rem;">
+          <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">LAUNCH SPECIFICATIONS</div>
           
           <div class="relic-meta-row">
             <span class="relic-meta-label">SPACEPORT</span>
-            <span class="relic-meta-val" style="font-size: 0.75rem;"><?= htmlspecialchars($mission['launch_location'] ?? 'KSC, FL') ?></span>
+            <span class="relic-meta-val" style="font-size: 0.78rem;"><?= htmlspecialchars($mission['launch_location'] ?? 'KSC, FL') ?></span>
           </div>
 
           <div class="relic-meta-row">
@@ -214,17 +271,17 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
 
           <div class="relic-meta-row">
-            <span class="relic-meta-label">DISTANCE FROM EARTH</span>
+            <span class="relic-meta-label"><?= htmlspecialchars($distanceSpecLabel) ?></span>
             <span class="relic-meta-val"><?= htmlspecialchars($mission['distance_from_earth'] ?? 'Varies') ?></span>
           </div>
 
-          <div style="padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <div style="padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: 0.5rem;">
             <div class="mono-label" style="margin-bottom: 0.5rem;">QUICK ACTIONS</div>
-            <a href="explore.php" class="cta-button" style="width: 100%; justify-content: center; font-size: 0.72rem; padding: 10px;">
+            <a href="explore.php" class="cta-button" style="width: 100%; justify-content: center; font-size: 0.75rem; padding: 10px;">
               SEARCH RELATED MISSIONS
             </a>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </div>

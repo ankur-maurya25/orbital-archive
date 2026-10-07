@@ -9,17 +9,24 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $pdo = getDB();
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$param = isset($_GET['id']) ? trim($_GET['id']) : (isset($_GET['slug']) ? trim($_GET['slug']) : null);
 
 try {
-    if ($id) {
-        $stmt = $pdo->prepare("SELECT * FROM destinations WHERE id = :id");
-        $stmt->execute(['id' => $id]);
+    if ($param !== null && $param !== '') {
+        if (ctype_digit($param)) {
+            $stmt = $pdo->prepare("SELECT * FROM destinations WHERE id = :id");
+            $stmt->execute(['id' => (int)$param]);
+        } else {
+            $stmt = $pdo->prepare("SELECT * FROM destinations WHERE LOWER(name) = LOWER(:slug)");
+            $stmt->execute(['slug' => $param]);
+        }
         $dest = $stmt->fetch();
 
         if (!$dest) {
             jsonResponse(['success' => false, 'error' => 'Destination not found'], 404);
         }
+
+        $id = $dest['id'];
 
         $mStmt = $pdo->prepare("
             SELECT m.*, a.short_name AS agency_code 

@@ -14,9 +14,11 @@ if (strlen($query) < 2) {
     jsonResponse([
         'success' => true,
         'query' => $query,
+        'total' => 0,
         'results' => [
             'missions' => [],
             'equipment' => [],
+            'relics' => [],
             'instruments' => [],
             'agencies' => [],
             'destinations' => []

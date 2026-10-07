@@ -42,6 +42,13 @@ $t1969Stmt = $pdo->query("
   LIMIT 1
 ");
 $milestone1969 = $t1969Stmt->fetch();
+
+// Load Real World Map SVG Path (Natural Earth 1:110m Equirectangular)
+$worldMapPath = '';
+$worldMapFile = __DIR__ . '/assets/data/world_map_path.txt';
+if (file_exists($worldMapFile)) {
+    $worldMapPath = trim(file_get_contents($worldMapFile));
+}
 ?>
 
 <main class="archive-main">
@@ -52,18 +59,21 @@ $milestone1969 = $t1969Stmt->fetch();
   <section class="hero-section" id="hero">
     <!-- Top left intro tag -->
     <div class="hero-content-top">
-      <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
+      <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.35rem;">
         RECORD NUMBER // AGY-0094-EARTH-SYS <span class="hud-bracket">//</span> NASA SPACE APPS 2026 // CHALLENGE: ABANDONED BUT NOT FORGOTTEN
+      </div>
+      <div class="mono-label" style="color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.14em;">
+        [ARCHIVAL REFERENCE // ORBITAL NOTATIONS]
       </div>
     </div>
 
     <!-- Center Interactive Three.js Earth Sphere -->
     <div class="earth-canvas-container" id="earth-canvas-container">
-      <!-- Live Orbit Telemetry Tags -->
-      <div class="hero-orbit-tag" style="top: 28%; left: 16%;">ISS [400 KM]</div>
-      <div class="hero-orbit-tag" style="top: 66%; right: 14%;">HUBBLE [540 KM]</div>
-      <div class="hero-orbit-tag" style="top: 18%; right: 26%;">GEOSTATIONARY</div>
-      <div class="hero-orbit-tag" style="bottom: 22%; left: 24%;">TIANGONG [390 KM]</div>
+      <!-- Archival Orbital Reference Notations -->
+      <div class="hero-orbit-tag" style="top: 28%; left: 14%;" title="Archival reference orbit: ~400 km">ISS [400 KM]</div>
+      <div class="hero-orbit-tag" style="top: 66%; right: 12%;" title="Archival reference orbit: ~540 km">HUBBLE [540 KM]</div>
+      <div class="hero-orbit-tag" style="top: 18%; right: 24%;" title="Archival reference orbit: ~35,786 km">GEOSTATIONARY [35,786 KM]</div>
+      <div class="hero-orbit-tag" style="bottom: 22%; left: 22%;" title="Archival reference orbit: ~390 km">TIANGONG [390 KM]</div>
     </div>
 
     <!-- Bottom Split Content -->
@@ -140,7 +150,7 @@ $milestone1969 = $t1969Stmt->fetch();
         </p>
         <div id="destination-hover-card" class="relic-hud-card" style="margin-top: 1.5rem; opacity: 0.8; transition: all 0.3s;">
           <div class="mono-label" style="color: var(--accent-blue)">SELECT ORBITAL NODE</div>
-          <div style="font-size: 1.1rem; color: #fff; margin: 4px 0;">Hover over any destination to inspect trajectory records.</div>
+          <div style="font-size: 1.1rem; color: var(--text-bright); margin: 4px 0;">Hover over any destination to inspect trajectory records.</div>
           <div class="mono-label" style="color: var(--text-muted)">TARGETS: MOON, MARS, VENUS, DEEP SPACE</div>
         </div>
       </div>
@@ -248,89 +258,103 @@ $milestone1969 = $t1969Stmt->fetch();
     <!-- Map Canvas Viewport with Bathymetric Graticule -->
     <div class="map-canvas-viewport" id="global-mission-map-viewport">
       <svg class="map-svg-layer" viewBox="0 0 1100 620" preserveAspectRatio="none">
+        <!-- Technical Ocean Background Rect -->
+        <rect width="1100" height="620" class="map-ocean-bg" />
+
         <!-- Technical Latitude / Longitude Graticule Grid -->
-        <g stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 4">
-          <line x1="0" y1="155" x2="1100" y2="155"/>
-          <line x1="0" y1="310" x2="1100" y2="310"/>
-          <line x1="0" y1="465" x2="1100" y2="465"/>
-          <line x1="183" y1="0" x2="183" y2="620"/>
-          <line x1="366" y1="0" x2="366" y2="620"/>
-          <line x1="550" y1="0" x2="550" y2="620"/>
-          <line x1="733" y1="0" x2="733" y2="620"/>
-          <line x1="916" y1="0" x2="916" y2="620"/>
+        <g class="map-graticule-grid">
+          <!-- Parallels -->
+          <line x1="0" y1="155" x2="1100" y2="155" class="map-grid-line parallel" />
+          <line x1="0" y1="310" x2="1100" y2="310" class="map-grid-line equator-line" />
+          <line x1="0" y1="465" x2="1100" y2="465" class="map-grid-line parallel" />
+          <!-- Meridians -->
+          <line x1="183" y1="0" x2="183" y2="620" class="map-grid-line meridian" />
+          <line x1="367" y1="0" x2="367" y2="620" class="map-grid-line meridian" />
+          <line x1="550" y1="0" x2="550" y2="620" class="map-grid-line meridian-prime" />
+          <line x1="733" y1="0" x2="733" y2="620" class="map-grid-line meridian" />
+          <line x1="917" y1="0" x2="917" y2="620" class="map-grid-line meridian" />
+
+          <!-- Graticule Technical Labels -->
+          <text x="10" y="150" class="map-grid-label">+45° N</text>
+          <text x="10" y="305" class="map-grid-label equator-label">EQUATOR [0°]</text>
+          <text x="10" y="460" class="map-grid-label">-45° S</text>
+          <text x="554" y="16" class="map-grid-label prime-label">PRIME MERIDIAN [0°]</text>
+          <text x="187" y="16" class="map-grid-label">120° W</text>
+          <text x="371" y="16" class="map-grid-label">60° W</text>
+          <text x="737" y="16" class="map-grid-label">60° E</text>
+          <text x="921" y="16" class="map-grid-label">120° E</text>
         </g>
 
-        <!-- World Continent Polygons (Dark Aerospace Styling) -->
-        <g fill="#0e1726" stroke="#1f2d3d" stroke-width="1">
-          <!-- North America -->
-          <polygon points="120,80 280,85 320,160 260,250 210,310 180,270 140,210 100,140"/>
-          <!-- South America -->
-          <polygon points="260,330 350,350 370,420 320,530 270,540 240,430 250,360"/>
-          <!-- Europe -->
-          <polygon points="500,100 620,110 630,190 560,220 490,190 480,140"/>
-          <!-- Africa -->
-          <polygon points="490,230 630,220 660,310 620,440 540,490 480,380 470,290"/>
-          <!-- Asia -->
-          <polygon points="630,90 920,80 960,180 890,290 770,330 650,230 630,140"/>
-          <!-- Australia -->
-          <polygon points="860,430 960,420 980,490 920,540 850,510 840,460"/>
-          <!-- Antarctica -->
-          <polygon points="40,580 1060,580 1060,615 40,615" fill="#1e293b"/>
+        <!-- World Continent Polygons (Real Natural Earth Landmasses) -->
+        <g class="world-landmass-group">
+          <path class="world-landmass" d="<?= $worldMapPath ?>" />
         </g>
 
         <!-- Spaceport Pin Coordinates (SVG Group) -->
         <g id="spaceport-markers-group">
-          <!-- 1. Cape Canaveral / KSC (USA) -->
+          <!-- 1. Cape Canaveral / KSC (USA) 28.57° N, -80.65° W -> (304, 212) -->
           <g class="spaceport-node spaceport-marker" data-name="Kennedy Space Center / Cape Canaveral" data-code="KSC/CCSFS" data-lat="28.57° N" data-lng="-80.65° W" data-launches="900+" data-top="Apollo 11, Apollo 15, Voyager, Curiosity, Perseverance">
-            <circle cx="240" cy="260" r="5" fill="var(--accent-cyan)" class="beacon-pulse"/>
-            <text x="248" y="256" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">CAPE CANAVERAL</text>
+            <circle cx="304" cy="212" r="9" class="beacon-ripple" />
+            <circle cx="304" cy="212" r="4.5" class="spaceport-dot spaceport-dot-crewed" />
+            <text x="314" y="208" class="spaceport-label">CAPE CANAVERAL</text>
           </g>
 
-          <!-- 2. Baikonur Cosmodrome (Kazakhstan) -->
-          <g class="spaceport-node spaceport-marker" data-name="Baikonur Cosmodrome" data-code="SITE 1/5" data-lat="45.96° N" data-lng="63.30° E" data-launches="1,500+" data-top="Sputnik 1, Vostok 1, ISS Zarya Module">
-            <circle cx="650" cy="200" r="5" fill="var(--accent-cyan)" class="beacon-pulse"/>
-            <text x="658" y="196" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">BAIKONUR</text>
+          <!-- 2. Vandenberg Space Force Base (USA) 34.74° N, -120.57° W -> (182, 190) -->
+          <g class="spaceport-node spaceport-marker" data-name="Vandenberg Space Force Base" data-code="VSFB" data-lat="34.74° N" data-lng="-120.57° W" data-launches="700+" data-top="InSight Mars Lander, Polar Satellites, DART">
+            <circle cx="182" cy="190" r="8" class="beacon-ripple" />
+            <circle cx="182" cy="190" r="4" class="spaceport-dot spaceport-dot-satellite" />
+            <text x="100" y="186" class="spaceport-label spaceport-label-left">VANDENBERG</text>
           </g>
 
-          <!-- 3. Guiana Space Centre / Kourou (ESA) -->
-          <g class="spaceport-node spaceport-marker" data-name="Guiana Space Centre" data-code="CSG KOUROU" data-lat="5.24° N" data-lng="-52.77° W" data-launches="320+" data-top="James Webb Space Telescope, Rosetta, Gaia">
-            <circle cx="330" cy="360" r="5" fill="var(--accent-orange)" class="beacon-pulse"/>
-            <text x="338" y="356" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">KOUROU (ESA)</text>
+          <!-- 3. Baikonur Cosmodrome (Kazakhstan) 45.96° N, 63.30° E -> (743, 152) -->
+          <g class="spaceport-node spaceport-marker" data-name="Baikonur Cosmodrome" data-code="SITE 1/5" data-lat="45.96° N" data-lng="63.30° E" data-launches="1,500+" data-top="Sputnik 1, Vostok 1, ISS Zarya Module, Soyuz">
+            <circle cx="743" cy="152" r="9" class="beacon-ripple" />
+            <circle cx="743" cy="152" r="4.5" class="spaceport-dot spaceport-dot-crewed" />
+            <text x="753" y="148" class="spaceport-label">BAIKONUR</text>
           </g>
 
-          <!-- 4. Satish Dhawan Space Centre (ISRO, India) -->
+          <!-- 4. Guiana Space Centre / Kourou (ESA) 5.24° N, -52.77° W -> (389, 292) -->
+          <g class="spaceport-node spaceport-marker" data-name="Guiana Space Centre" data-code="CSG KOUROU" data-lat="5.24° N" data-lng="-52.77° W" data-launches="320+" data-top="James Webb Space Telescope, Rosetta, Gaia, Ariane 5">
+            <circle cx="389" cy="292" r="9" class="beacon-ripple" />
+            <circle cx="389" cy="292" r="4.5" class="spaceport-dot spaceport-dot-robotic" />
+            <text x="399" y="288" class="spaceport-label">KOUROU (ESA)</text>
+          </g>
+
+          <!-- 5. Satish Dhawan Space Centre (ISRO, India) 13.72° N, 80.23° E -> (795, 263) -->
           <g class="spaceport-node spaceport-marker" data-name="Satish Dhawan Space Centre (Sriharikota)" data-code="SDSC SHAR" data-lat="13.72° N" data-lng="80.23° E" data-launches="90+" data-top="Chandrayaan-1, Chandrayaan-3, Mangalyaan, Aditya-L1">
-            <circle cx="720" cy="330" r="5" fill="var(--accent-cyan)" class="beacon-pulse"/>
-            <text x="728" y="326" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">SRIHARIKOTA (ISRO)</text>
+            <circle cx="795" cy="263" r="9" class="beacon-ripple" />
+            <circle cx="795" cy="263" r="4.5" class="spaceport-dot spaceport-dot-robotic" />
+            <text x="805" y="259" class="spaceport-label">SRIHARIKOTA (ISRO)</text>
           </g>
 
-          <!-- 5. Jiuquan Satellite Launch Center (CNSA, China) -->
-          <g class="spaceport-node spaceport-marker" data-name="Jiuquan / Wenchang Launch Center" data-code="JSLC/WSLC" data-lat="40.96° N" data-lng="100.30° E" data-launches="240+" data-top="Shenzhou, Tiangong Station, Zhurong Mars Rover">
-            <circle cx="830" cy="210" r="4.5" fill="var(--accent-orange)" class="beacon-pulse"/>
-            <text x="838" y="206" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">JIUQUAN (CNSA)</text>
+          <!-- 6. Jiuquan Satellite Launch Center (CNSA, China) 40.96° N, 100.30° E -> (857, 169) -->
+          <g class="spaceport-node spaceport-marker" data-name="Jiuquan / Wenchang Launch Center" data-code="JSLC/WSLC" data-lat="40.96° N" data-lng="100.30° E" data-launches="240+" data-top="Shenzhou, Tiangong Station, Chang'e, Zhurong">
+            <circle cx="857" cy="169" r="9" class="beacon-ripple" />
+            <circle cx="857" cy="169" r="4.5" class="spaceport-dot spaceport-dot-crewed" />
+            <text x="867" y="165" class="spaceport-label">JIUQUAN (CNSA)</text>
           </g>
 
-          <!-- 6. Tanegashima Space Center (JAXA, Japan) -->
-          <g class="spaceport-node spaceport-marker" data-name="Tanegashima Space Center" data-code="TNSC" data-lat="30.40° N" data-lng="130.97° E" data-launches="85+" data-top="Hayabusa2, SLIM Lunar Lander, Kounotori">
-            <circle cx="890" cy="250" r="4.5" fill="var(--accent-orange)" class="beacon-pulse"/>
-            <text x="898" y="246" fill="#fff" font-family="var(--font-mono)" font-size="10" font-weight="600">TANEGASHIMA (JAXA)</text>
+          <!-- 7. Tanegashima Space Center (JAXA, Japan) 30.40° N, 130.97° E -> (950, 205) -->
+          <g class="spaceport-node spaceport-marker" data-name="Tanegashima Space Center" data-code="TNSC" data-lat="30.40° N" data-lng="130.97° E" data-launches="85+" data-top="Hayabusa2, SLIM Lunar Lander, Kounotori, Akatsuki">
+            <circle cx="950" cy="205" r="9" class="beacon-ripple" />
+            <circle cx="950" cy="205" r="4.5" class="spaceport-dot spaceport-dot-robotic" />
+            <text x="960" y="201" class="spaceport-label">TANEGASHIMA (JAXA)</text>
           </g>
 
-          <!-- 7. Vandenberg Space Force Base (USA) -->
-          <g class="spaceport-node spaceport-marker" data-name="Vandenberg Space Force Base" data-code="VSFB" data-lat="34.74° N" data-lng="-120.57° W" data-launches="700+" data-top="InSight Mars Lander, Polar Satellites">
-            <circle cx="170" cy="240" r="4" fill="#94a3b8"/>
-            <text x="90" y="236" fill="#94a3b8" font-family="var(--font-mono)" font-size="9">VANDENBERG</text>
-          </g>
-
-          <!-- 8. Rocket Lab Launch Complex 1 (Mahia, NZ) -->
+          <!-- 8. Rocket Lab Launch Complex 1 (Mahia, NZ) -39.26° S, 177.86° E -> (1090, 445) -->
           <g class="spaceport-node spaceport-marker" data-name="Rocket Lab Launch Complex 1" data-code="LC-1 MAHIA" data-lat="-39.26° S" data-lng="177.86° E" data-launches="50+" data-top="CAPSTONE Lunar CubeSat, Commercial SmallSats">
-            <circle cx="980" cy="520" r="4" fill="#94a3b8"/>
-            <text x="910" y="535" fill="#94a3b8" font-family="var(--font-mono)" font-size="9">MAHIA (ROCKET LAB)</text>
+            <circle cx="1090" cy="445" r="8" class="beacon-ripple" />
+            <circle cx="1090" cy="445" r="4" class="spaceport-dot spaceport-dot-satellite" />
+            <text x="980" y="440" class="spaceport-label spaceport-label-left">MAHIA (ROCKET LAB)</text>
           </g>
         </g>
 
         <!-- Trajectory Arcs Layer -->
         <g id="map-trajectories-layer"></g>
+        <!-- Endpoints Layer -->
+        <g id="map-endpoints-layer"></g>
+        <!-- Particle Pulses Layer -->
+        <g id="map-particles-layer"></g>
       </svg>
 
       <!-- Interactive Spaceport Drawer Popup -->
@@ -388,37 +412,43 @@ $milestone1969 = $t1969Stmt->fetch();
 
       <!-- Agency Nodes Array -->
       <!-- 1. ISRO (North) -->
-      <div class="agency-radar-node" id="agency-isro" style="top: 14%; left: 50%;" data-agency-id="2" data-name="Indian Space Research Organisation" data-country="India" data-total="4" data-active="3">
+      <div class="agency-radar-node" id="agency-isro" style="top: 10%; left: 50%;" data-agency-id="2" data-name="Indian Space Research Organisation" data-country="India" data-total="4" data-active="2">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name">ISRO</div>
       </div>
 
-      <!-- 2. ESA (North-East) -->
-      <div class="agency-radar-node" id="agency-esa" style="top: 26%; left: 78%;" data-agency-id="3" data-name="European Space Agency" data-country="Europe (22 Member States)" data-total="4" data-active="2">
+      <!-- 2. ROSCOSMOS (North-East) -->
+      <div class="agency-radar-node" id="agency-roscosmos" style="top: 22%; left: 80%;" data-agency-id="6" data-name="State Space Corporation Roscosmos / Soviet Program" data-country="Russia / USSR" data-total="1" data-active="0">
+        <div class="agency-node-anchor"></div>
+        <div class="agency-node-name">ROSCOSMOS</div>
+      </div>
+
+      <!-- 3. ESA (East) -->
+      <div class="agency-radar-node" id="agency-esa" style="top: 50%; left: 88%;" data-agency-id="3" data-name="European Space Agency" data-country="Europe (22 Nations)" data-total="3" data-active="1">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name">ESA</div>
       </div>
 
-      <!-- 3. PRIVATE (South-East) -->
-      <div class="agency-radar-node" id="agency-private" style="top: 74%; left: 78%;" data-agency-id="7" data-name="Commercial Aerospace Sector" data-country="SpaceX / Rocket Lab / Intuitive Machines" data-total="3" data-active="3">
+      <!-- 4. PRIVATE (South-East) -->
+      <div class="agency-radar-node" id="agency-private" style="top: 80%; left: 78%;" data-agency-id="7" data-name="Commercial Aerospace Sector" data-country="SpaceX / Rocket Lab / Intuitive Machines" data-total="0" data-active="0">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name">PRIVATE</div>
       </div>
 
-      <!-- 4. CNSA (South) -->
-      <div class="agency-radar-node" id="agency-cnsa" style="top: 86%; left: 50%;" data-agency-id="5" data-name="China National Space Administration" data-country="China" data-total="2" data-active="1">
+      <!-- 5. CNSA (South) -->
+      <div class="agency-radar-node" id="agency-cnsa" style="top: 90%; left: 50%;" data-agency-id="5" data-name="China National Space Administration" data-country="China" data-total="1" data-active="0">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name">CNSA</div>
       </div>
 
-      <!-- 5. JAXA (South-West) -->
-      <div class="agency-radar-node" id="agency-jaxa" style="top: 74%; left: 22%;" data-agency-id="4" data-name="Japan Aerospace Exploration Agency" data-country="Japan" data-total="2" data-active="1">
+      <!-- 6. JAXA (South-West) -->
+      <div class="agency-radar-node" id="agency-jaxa" style="top: 80%; left: 22%;" data-agency-id="4" data-name="Japan Aerospace Exploration Agency" data-country="Japan" data-total="2" data-active="1">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name">JAXA</div>
       </div>
 
-      <!-- 6. NASA (North-West, Active Highlighted) -->
-      <div class="agency-radar-node active" id="agency-nasa" style="top: 26%; left: 22%;" data-agency-id="1" data-name="National Aeronautics and Space Administration" data-country="United States" data-total="14" data-active="6">
+      <!-- 7. NASA (North-West, Active Highlighted) -->
+      <div class="agency-radar-node active" id="agency-nasa" style="top: 22%; left: 20%;" data-agency-id="1" data-name="National Aeronautics and Space Administration" data-country="United States" data-total="19" data-active="8">
         <div class="agency-node-anchor"></div>
         <div class="agency-node-name" style="color: var(--accent-cyan);">NASA</div>
         

@@ -31,6 +31,17 @@ $isHome = basename($_SERVER['PHP_SELF']) === 'index.php';
       </a>
     </nav>
 
+    <!-- Theme Switcher HUD -->
+    <div class="theme-switcher-hud" role="group" aria-label="Archive Visual Theme">
+      <button type="button" class="theme-btn theme-btn-night" data-theme-target="night" aria-pressed="true" title="Switch to Night (Observatory) theme">
+        NIGHT
+      </button>
+      <span class="theme-separator">/</span>
+      <button type="button" class="theme-btn theme-btn-archive" data-theme-target="archive" aria-pressed="false" title="Switch to Archive (Museum) theme">
+        ARCHIVE
+      </button>
+    </div>
+
     <!-- Search shortcut trigger -->
     <button type="button" class="search-trigger open-search-modal" title="Search the Archive (Ctrl+K or /)" aria-label="Open Archive Search (Ctrl+K or /)">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -42,11 +53,11 @@ $isHome = basename($_SERVER['PHP_SELF']) === 'index.php';
     </button>
 
     <!-- AI Ask Archive button -->
-    <button type="button" class="search-trigger open-ai-modal" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant" style="border-color: rgba(110, 168, 255, 0.4);">
+    <button type="button" class="search-trigger open-ai-modal ai-nav-trigger" title="Ask the Archive AI Assistant" aria-label="Ask the Archive AI Assistant">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
       </svg>
-      <span style="color: var(--accent-cyan)">ASK AI</span>
+      <span class="ai-btn-text">ASK AI</span>
     </button>
   </div>
 </header>

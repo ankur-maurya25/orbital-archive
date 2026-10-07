@@ -9,17 +9,24 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $pdo = getDB();
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$param = isset($_GET['id']) ? trim($_GET['id']) : (isset($_GET['slug']) ? trim($_GET['slug']) : null);
 
 try {
-    if ($id) {
-        $stmt = $pdo->prepare("SELECT * FROM agencies WHERE id = :id");
-        $stmt->execute(['id' => $id]);
+    if ($param !== null && $param !== '') {
+        if (ctype_digit($param)) {
+            $stmt = $pdo->prepare("SELECT * FROM agencies WHERE id = :id");
+            $stmt->execute(['id' => (int)$param]);
+        } else {
+            $stmt = $pdo->prepare("SELECT * FROM agencies WHERE LOWER(short_name) = LOWER(:slug1) OR LOWER(name) = LOWER(:slug2)");
+            $stmt->execute(['slug1' => $param, 'slug2' => $param]);
+        }
         $agency = $stmt->fetch();
 
         if (!$agency) {
             jsonResponse(['success' => false, 'error' => 'Agency not found'], 404);
         }
+
+        $id = $agency['id'];
 
         // Fetch missions belonging to agency
         $mStmt = $pdo->prepare("

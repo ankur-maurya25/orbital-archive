@@ -14,13 +14,18 @@ html, body {
    01 — ULTRA-WIDE DISPLAYS (1440px and above)
    ============================================================== */
 @media (min-width: 1440px) {
-  .orbital-header,
-  .hero-content-wrap,
-  .section-wrap,
-  .archive-main > div {
-    max-width: 1400px;
+  .orbital-header {
+    max-width: 1760px;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+  }
+
+  .archive-main {
+    max-width: 1760px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
   }
 }
 
@@ -28,12 +33,19 @@ html, body {
    02 — DESKTOPS & LARGE LAPTOPS (<= 1200px)
    ============================================================== */
 @media (max-width: 1200px) {
+  :root,
+  [data-theme="night"],
+  [data-theme="archive"] {
+    --header-height: 80px;
+    --header-safe-gap: 2rem;
+  }
+
   .orbital-header {
-    padding: 1.5rem 2rem;
+    padding: 0 2rem;
   }
 
   .hero-section {
-    padding: 7rem 2rem 2.5rem;
+    padding: calc(var(--header-height) + var(--header-safe-gap)) 2.5rem 2.5rem;
   }
 
   .hero-title {
@@ -41,8 +53,9 @@ html, body {
   }
 
   .earth-canvas-container {
-    width: 650px;
-    height: 650px;
+    width: min(50vw, 620px);
+    height: min(50vw, 620px);
+    right: 1%;
   }
 
   .relics-stage-layout {
@@ -72,41 +85,87 @@ html, body {
    03 — MEDIUM DESKTOPS & TABLETS LANDSCAPE (<= 992px)
    ============================================================== */
 @media (max-width: 992px) {
+  :root,
+  [data-theme="night"],
+  [data-theme="archive"] {
+    --header-height: 72px;
+    --header-safe-gap: 1.8rem;
+  }
+
   .orbital-header {
-    padding: 1.2rem 1.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .nav-pill {
+    display: none; /* Hide link list to keep header clean; theme and search remain accessible */
   }
 
   .nav-pill-container {
-    display: none; /* Replaced by mobile drawer toggle */
+    gap: 0.75rem;
   }
 
-  .mobile-menu-btn {
-    display: flex !important;
+  .hero-section {
+    padding: calc(var(--header-height) + var(--header-safe-gap)) 1.5rem 2.5rem;
+    min-height: auto;
+  }
+
+  .hero-content-top {
+    text-align: center;
+    max-width: 100%;
   }
 
   .hero-content-bottom {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 2.5rem;
+  }
+
+  .hero-headline-group {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-title {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-telemetry-hud {
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     gap: 1.5rem;
   }
 
   .earth-canvas-container {
-    width: 500px;
-    height: 500px;
-    opacity: 0.65;
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    transform: none;
+    margin: 2rem auto;
+    width: min(82vw, 480px);
+    height: min(82vw, 480px);
+    opacity: 1;
   }
 
   .map-control-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.2rem;
+  }
+
+  .filter-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legend-group {
+    flex-wrap: wrap;
+    gap: 1.2rem;
   }
 
   .timeline-spotlight-box {
@@ -169,6 +228,25 @@ html, body {
    04 — TABLETS PORTRAIT & LARGE MOBILE (<= 768px)
    ============================================================== */
 @media (max-width: 768px) {
+  :root,
+  [data-theme="night"],
+  [data-theme="archive"] {
+    --header-height: 68px;
+    --header-safe-gap: 1.5rem;
+  }
+
+  .orbital-header {
+    padding: 0 1.25rem;
+  }
+
+  .logo-tagline {
+    display: none;
+  }
+
+  .hero-section {
+    padding: calc(var(--header-height) + var(--header-safe-gap)) 1.25rem 2rem;
+  }
+
   .hero-title {
     font-size: clamp(2.2rem, 5.5vw, 2.8rem);
   }
@@ -182,10 +260,10 @@ html, body {
   }
 
   .earth-canvas-container {
-    width: 420px;
-    height: 420px;
-    opacity: 0.55;
-    top: 55%;
+    width: min(88vw, 380px);
+    height: min(88vw, 380px);
+    opacity: 1;
+    margin: 1.5rem auto;
   }
 
   .relic-main-headline {
@@ -201,7 +279,7 @@ html, body {
   }
 
   .archive-main {
-    padding-top: 5rem !important;
+    padding-top: 0 !important;
   }
 
   .archive-main > div {
@@ -212,11 +290,91 @@ html, body {
     grid-template-columns: 1fr !important;
   }
 
+  .mission-layout-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .mission-stats-strip {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem !important;
+    padding: 1.25rem !important;
+  }
+
+  .equipment-card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Map Viewport & Drawer Mobile Adaptations */
+  .map-canvas-viewport {
+    height: clamp(340px, 58vw, 560px);
+  }
+
+  .map-mission-drawer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .map-mission-drawer > div:last-child {
+    text-align: left !important;
+    width: 100%;
+  }
+
+  .map-mission-drawer > div:last-child > div:last-child {
+    justify-content: flex-start !important;
+  }
+
+  .spaceport-label {
+    font-size: 8.5px;
+  }
+
+  .map-grid-label {
+    font-size: 8px;
+  }
+
   /* Modal Dialogues */
   .search-modal {
     width: 92% !important;
     max-width: 580px !important;
     padding: 1.5rem !important;
+  }
+
+  /* Ask the Archive Modal Mobile Adaptation */
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+
+  #ai-modal .modal-window {
+    height: 90vh;
+    max-height: 90vh;
+  }
+
+  #ai-modal .modal-body {
+    padding: 1rem 1rem 1.25rem;
+  }
+
+  .ai-chips-container {
+    max-height: 72px;
+    overflow-y: auto;
+  }
+
+  .ai-msg-assistant {
+    max-width: 96%;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+  }
+
+  .ai-msg-user {
+    max-width: 90%;
+    padding: 8px 12px;
+    font-size: 0.84rem;
   }
 }
 
@@ -224,12 +382,34 @@ html, body {
    05 — STANDARD SMARTPHONES (<= 480px)
    ============================================================== */
 @media (max-width: 480px) {
+  :root,
+  [data-theme="night"],
+  [data-theme="archive"] {
+    --header-height: 64px;
+    --header-safe-gap: 1.2rem;
+  }
+
   .orbital-header {
-    padding: 0.9rem 1rem;
+    padding: 0 1rem;
+  }
+
+  .logo-brand {
+    font-size: 1.15rem;
+    letter-spacing: 0.2em;
+  }
+
+  .logo-bracket {
+    font-size: 0.8rem;
+    padding: 1px 4px;
+  }
+
+  .theme-btn {
+    padding: 3px 6px;
+    font-size: 0.65rem;
   }
 
   .hero-section {
-    padding: 5.5rem 1rem 2rem;
+    padding: calc(var(--header-height) + var(--header-safe-gap)) 1rem 2rem;
   }
 
   .hero-title {
@@ -243,9 +423,9 @@ html, body {
   }
 
   .earth-canvas-container {
-    width: 320px;
-    height: 320px;
-    opacity: 0.45;
+    width: min(92vw, 320px);
+    height: min(92vw, 320px);
+    opacity: 1;
   }
 
   .hero-telemetry-hud {
@@ -306,12 +486,28 @@ html, body {
    06 — COMPACT SMARTPHONES (<= 360px - e.g. iPhone SE 1st/2nd Gen)
    ============================================================== */
 @media (max-width: 360px) {
+  :root,
+  [data-theme="night"],
+  [data-theme="archive"] {
+    --header-height: 60px;
+    --header-safe-gap: 1.0rem;
+  }
+
+  .orbital-header {
+    padding: 0 0.75rem;
+  }
+
   .hero-title {
     font-size: 1.65rem !important;
   }
 
   .hero-section {
-    padding: 5rem 0.75rem 1.5rem;
+    padding: calc(var(--header-height) + var(--header-safe-gap)) 0.75rem 1.5rem;
+  }
+
+  .earth-canvas-container {
+    width: 280px;
+    height: 280px;
   }
 
   .section-mission-map,

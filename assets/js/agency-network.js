@@ -76,6 +76,8 @@ class AgencyNetwork {
     const collaborations = [
       { from: 'agency-nasa', to: 'agency-isro', label: 'NISAR / Deep Space Network' },
       { from: 'agency-nasa', to: 'agency-esa', label: 'ISS / Hubble / Artemis / Cassini' },
+      { from: 'agency-nasa', to: 'agency-roscosmos', label: 'Apollo-Soyuz / ISS Partnership' },
+      { from: 'agency-roscosmos', to: 'agency-esa', label: 'ExoMars / Scientific Cooperation' },
       { from: 'agency-esa', to: 'agency-jaxa', label: 'BepiColombo' },
       { from: 'agency-nasa', to: 'agency-jaxa', label: 'Lunar Gateway / SLIM / Hayabusa' },
       { from: 'agency-nasa', to: 'agency-private', label: 'Commercial Crew / CLPS' },
@@ -138,10 +140,10 @@ class AgencyNetwork {
     if (this.agencyStatsDrawer) {
       this.agencyStatsDrawer.innerHTML = `
         <div class="mono-label" style="color: var(--accent-cyan)">AGENCY NETWORK PROFILE</div>
-        <div style="font-size: 1.3rem; font-weight: 700; color: #fff;">${name}</div>
+        <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-bright);">${name}</div>
         <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">${country}</div>
         <div style="display: flex; gap: 1.5rem; margin-top: 8px; flex-wrap: wrap;">
-          <div><span class="mono-label">MISSIONS:</span> <span class="mono-value" style="color: #fff">${total}</span></div>
+          <div><span class="mono-label">MISSIONS:</span> <span class="mono-value" style="color: var(--text-bright)">${total}</span></div>
           <div><span class="mono-label">HARDWARE:</span> <span class="mono-value" style="color: var(--accent-cyan)">${equipment}</span></div>
           <div><span class="mono-label">ACTIVE:</span> <span class="mono-value" style="color: var(--accent-emerald)">${active}</span></div>
         </div>

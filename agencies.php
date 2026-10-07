@@ -32,7 +32,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <div class="mono-label" style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
         NETWORK // GLOBAL COLLABORATION & OPERATORS
       </div>
-      <h1 style="font-size: 3.2rem; font-weight: 800; color: #fff; text-transform: uppercase;">
+      <h1 style="font-size: 3.2rem; font-weight: 800; color: var(--text-bright); text-transform: uppercase;">
         SPACE AGENCY NETWORKS
       </h1>
       <p style="color: var(--text-secondary); max-width: 700px; margin-top: 0.5rem;">
@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/navbar.php';
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
               <span class="mono-label" style="color: var(--accent-cyan);"><?= htmlspecialchars($a['type']) ?></span>
-              <h2 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin: 4px 0;">
+              <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-bright); margin: 4px 0;">
                 <?= htmlspecialchars($a['short_name']) ?>
               </h2>
               <div style="font-size: 0.85rem; color: var(--text-secondary);">
@@ -58,7 +58,7 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
             <div style="text-align: right;">
               <span class="mono-label" style="display: block;">CATALOGED</span>
-              <span class="mono-value" style="font-size: 1.2rem; color: #fff;"><?= $a['total_missions'] ?></span>
+              <span class="mono-value" style="font-size: 1.2rem; color: var(--text-bright);"><?= $a['total_missions'] ?></span>
             </div>
           </div>
 

@@ -14,7 +14,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
 $pdo = getDB();
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$paramId = isset($_GET['id']) ? trim($_GET['id']) : (isset($_GET['slug']) ? trim($_GET['slug']) : null);
 $status = isset($_GET['status']) ? trim($_GET['status']) : null;
 $agencyId = isset($_GET['agency_id']) ? (int)$_GET['agency_id'] : null;
 $destinationId = isset($_GET['destination_id']) ? (int)$_GET['destination_id'] : null;
@@ -22,22 +22,37 @@ $trajectory = isset($_GET['trajectory_type']) ? trim($_GET['trajectory_type']) :
 $limit = isset($_GET['limit']) ? min((int)$_GET['limit'], 100) : 100;
 
 try {
-    if ($id) {
-        $stmt = $pdo->prepare("
-            SELECT m.*, 
-                   a.name AS agency_name, a.short_name AS agency_code, a.country AS agency_country,
-                   d.name AS destination_name, d.type AS destination_type, d.distance_from_earth
-            FROM missions m
-            LEFT JOIN agencies a ON m.agency_id = a.id
-            LEFT JOIN destinations d ON m.destination_id = d.id
-            WHERE m.id = :id
-        ");
-        $stmt->execute(['id' => $id]);
+    if ($paramId !== null && $paramId !== '') {
+        if (ctype_digit($paramId)) {
+            $stmt = $pdo->prepare("
+                SELECT m.*, 
+                       a.name AS agency_name, a.short_name AS agency_code, a.country AS agency_country,
+                       d.name AS destination_name, d.type AS destination_type, d.distance_from_earth
+                FROM missions m
+                LEFT JOIN agencies a ON m.agency_id = a.id
+                LEFT JOIN destinations d ON m.destination_id = d.id
+                WHERE m.id = :id
+            ");
+            $stmt->execute(['id' => (int)$paramId]);
+        } else {
+            $stmt = $pdo->prepare("
+                SELECT m.*, 
+                       a.name AS agency_name, a.short_name AS agency_code, a.country AS agency_country,
+                       d.name AS destination_name, d.type AS destination_type, d.distance_from_earth
+                FROM missions m
+                LEFT JOIN agencies a ON m.agency_id = a.id
+                LEFT JOIN destinations d ON m.destination_id = d.id
+                WHERE LOWER(m.name) = LOWER(:slug1) OR LOWER(REPLACE(m.name, ' ', '-')) = LOWER(:slug2)
+            ");
+            $stmt->execute(['slug1' => $paramId, 'slug2' => $paramId]);
+        }
         $mission = $stmt->fetch();
 
         if (!$mission) {
             jsonResponse(['success' => false, 'error' => 'Mission not found'], 404);
         }
+
+        $id = $mission['id'];
 
         // Fetch equipment
         $eqStmt = $pdo->prepare("SELECT * FROM equipment WHERE mission_id = :id");

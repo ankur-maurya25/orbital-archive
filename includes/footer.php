@@ -90,7 +90,7 @@
 
 <!-- 2. "ASK THE ARCHIVE" AI MODAL -->
 <div class="modal-overlay" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
-  <div class="modal-window">
+  <div class="modal-window ai-modal-window">
     <div class="modal-header">
       <div class="modal-title" id="ai-modal-title" style="display: flex; align-items: center; gap: 8px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-cyan)">
@@ -98,30 +98,45 @@
         </svg>
         ASK THE ARCHIVE // KNOWLEDGE ASSISTANT
       </div>
-      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close AI dialog">&times;</div>
+      <div class="modal-close-btn" id="close-ai-modal" role="button" tabindex="0" aria-label="Close Ask the Archive dialog">&times;</div>
     </div>
-    <div class="modal-body">
-      <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
-        Query the space exploration registry. Answers are grounded in verified archive records.
+    <div class="modal-body ai-modal-body">
+      <div class="ai-intro-section">
+        <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+          Query the space exploration registry. Answers are grounded in verified archive records.
+        </div>
       </div>
 
-      <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.2rem;">
+      <div class="ai-chips-container">
         <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Opportunity discover?"</button>
         <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions landed on Mars?"</button>
         <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What equipment is still on the Moon?"</button>
         <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which spacecraft are currently in deep space?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What did Chandrayaan-3 discover?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"Which missions are still active?"</button>
+        <button type="button" class="ai-suggested-chip filter-btn" style="font-size: 0.68rem;">"What machines were left behind?"</button>
       </div>
 
-      <div id="ai-chat-log" style="display: flex; flex-direction: column; min-height: 180px; max-height: 320px; overflow-y: auto; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
-        <div style="padding: 10px 14px; background: rgba(11, 17, 24, 0.9); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85rem; color: var(--text-secondary);">
-          <span class="mono-label" style="color: var(--accent-blue)">AI ARCHIVE AGENT READY</span><br>
-          Ask questions about any space mission, relic, launch date, planetary discoveries, or space agency program. Answers are grounded in verified archive records.
+      <div id="ai-chat-log" class="ai-chat-viewport" aria-live="polite">
+        <div class="ai-msg-bubble ai-msg-assistant">
+          <div class="ai-header-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/>
+            </svg>
+            ARCHIVE AGENT READY
+          </div>
+          <div class="ai-answer-body">
+            Welcome to the Orbital Archive knowledge portal. You can inquire about verified missions, off-world relics, launch dates, planetary discoveries, or space agency programs. All responses are derived strictly from documented historical records.
+          </div>
+          <div class="ai-sources-tray">
+            <span class="ai-sources-label">VERIFIED SOURCES:</span> NASA // ISRO // ESA // JAXA // CNSA // ROSCOSMOS
+          </div>
         </div>
       </div>
 
-      <div class="search-input-box" style="margin-bottom: 0;">
-        <input type="text" id="ai-question-input" class="search-input-field" placeholder="Ask a factual question about humanity's space history...">
-        <button type="button" id="ai-send-btn" class="cta-button" style="padding: 8px 16px; font-size: 0.72rem;">TRANSMIT</button>
+      <div class="search-input-box ai-composer-box">
+        <input type="text" id="ai-question-input" class="search-input-field" placeholder="Ask a factual question about humanity's space history..." aria-label="Ask a question about space exploration history">
+        <button type="button" id="ai-send-btn" class="cta-button" style="padding: 8px 18px; font-size: 0.74rem;">TRANSMIT</button>
       </div>
     </div>
   </div>

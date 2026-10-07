@@ -9,26 +9,45 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $pdo = getDB();
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$paramId = isset($_GET['id']) ? trim($_GET['id']) : (isset($_GET['slug']) ? trim($_GET['slug']) : null);
 
 try {
-    if ($id) {
-        $stmt = $pdo->prepare("
-            SELECT e.*, 
-                   m.name AS mission_name, m.official_name AS mission_official_name, 
-                   YEAR(m.launch_date) AS launch_year, m.launch_vehicle,
-                   a.name AS agency_name, a.short_name AS agency_code,
-                   d.name AS destination_name, d.distance_from_earth,
-                   COALESCE(img.image_url, 'https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg') AS hero_image,
-                   img.credit AS image_credit, img.source AS image_source
-            FROM equipment e
-            JOIN missions m ON e.mission_id = m.id
-            LEFT JOIN agencies a ON m.agency_id = a.id
-            LEFT JOIN destinations d ON m.destination_id = d.id
-            LEFT JOIN images img ON (img.equipment_id = e.id AND img.image_type = 'hero')
-            WHERE e.id = :id AND e.is_relic = 1
-        ");
-        $stmt->execute(['id' => $id]);
+    if ($paramId !== null && $paramId !== '') {
+        if (ctype_digit($paramId)) {
+            $stmt = $pdo->prepare("
+                SELECT e.*, 
+                       m.name AS mission_name, m.official_name AS mission_official_name, 
+                       YEAR(m.launch_date) AS launch_year, m.launch_vehicle,
+                       a.name AS agency_name, a.short_name AS agency_code,
+                       d.name AS destination_name, d.distance_from_earth,
+                       COALESCE(img.image_url, 'https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg') AS hero_image,
+                       img.credit AS image_credit, img.source AS image_source
+                FROM equipment e
+                JOIN missions m ON e.mission_id = m.id
+                LEFT JOIN agencies a ON m.agency_id = a.id
+                LEFT JOIN destinations d ON m.destination_id = d.id
+                LEFT JOIN images img ON (img.equipment_id = e.id AND img.image_type = 'hero')
+                WHERE e.id = :id AND e.is_relic = 1
+            ");
+            $stmt->execute(['id' => (int)$paramId]);
+        } else {
+            $stmt = $pdo->prepare("
+                SELECT e.*, 
+                       m.name AS mission_name, m.official_name AS mission_official_name, 
+                       YEAR(m.launch_date) AS launch_year, m.launch_vehicle,
+                       a.name AS agency_name, a.short_name AS agency_code,
+                       d.name AS destination_name, d.distance_from_earth,
+                       COALESCE(img.image_url, 'https://images-assets.nasa.gov/image/as15-88-11866/as15-88-11866~orig.jpg') AS hero_image,
+                       img.credit AS image_credit, img.source AS image_source
+                FROM equipment e
+                JOIN missions m ON e.mission_id = m.id
+                LEFT JOIN agencies a ON m.agency_id = a.id
+                LEFT JOIN destinations d ON m.destination_id = d.id
+                LEFT JOIN images img ON (img.equipment_id = e.id AND img.image_type = 'hero')
+                WHERE (e.slug = :slug1 OR LOWER(e.name) = LOWER(:slug2)) AND e.is_relic = 1
+            ");
+            $stmt->execute(['slug1' => $paramId, 'slug2' => $paramId]);
+        }
         $relic = $stmt->fetch();
 
         if (!$relic) {
