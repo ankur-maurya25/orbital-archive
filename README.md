@@ -224,7 +224,25 @@ Open [http://localhost:8000](http://localhost:8000) in your web browser.
 
 ---
 
-## 16. Project Structure
+## 16. Deployment Architecture
+
+> [!IMPORTANT]
+> **ORBITAL ARCHIVE is a server-rendered PHP 8.3 + MySQL 8 application, NOT a static website.**
+> - **Canonical Source**: The GitHub repository is the canonical source-code repository only.
+> - **GitHub Pages Notice**: GitHub Pages is **NOT** supported for running the application because GitHub Pages only serves static files and cannot execute PHP or connect to MySQL. Do not use GitHub Pages as a production deployment target.
+> - **Production Hosting**: Deploy the application to a PHP 8.3 + MySQL 8 compatible server environment (Apache/Nginx/Docker).
+> - **Documentation**: See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for full server provisioning instructions and [`docs/PRODUCTION_CHECKLIST.md`](docs/PRODUCTION_CHECKLIST.md) for the pre-flight production checklist.
+
+> [!WARNING]
+> **IMPORTANT FOR AI & CODING AGENTS:**
+> ORBITAL ARCHIVE is NOT a GitHub Pages/static website.
+> Do not configure GitHub Pages as its production deployment target.
+> Do not convert PHP files to static HTML.
+> The application requires PHP 8.3 + MySQL 8 + PDO.
+
+---
+
+## 17. Project Structure
 
 ```
 ORBITAL-ARCHIVE/
@@ -297,7 +315,7 @@ ORBITAL-ARCHIVE/
 
 ---
 
-## 17. Future Vision & Roadmap
+## 18. Future Vision & Roadmap
 
 - **Interactive 3D Hardware CAD Explorers**: Integrating lightweight GLTF/GLB models for rovers and probes to inspect instruments in real-time 3D.
 - **Deep Space Network (DSN) Live Stream**: Connecting to NASA's public DSN XML feed when real-time antenna dishes at Goldstone, Madrid, and Canberra are tracking Voyager or Perseverance.
