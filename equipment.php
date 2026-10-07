@@ -559,7 +559,7 @@ require_once __DIR__ . '/includes/navbar.php';
               <?= strtoupper(htmlspecialchars($eq['current_status'])) ?>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-              Current Location: <span style="color: #fff;"><?= htmlspecialchars($eq['current_location'] ?? 'Space Coordinates Archived') ?></span>
+              <?= (strtoupper($eq['current_status']) === 'OPERATIONAL' || strtoupper($eq['current_status']) === 'ACTIVE') ? 'Current Reported Location' : 'Historical Resting Site' ?>: <span style="color: #fff;"><?= htmlspecialchars($eq['current_location'] ?? 'Space Coordinates Archived') ?></span>
             </p>
           </div>
         </div>
@@ -609,7 +609,8 @@ require_once __DIR__ . '/includes/navbar.php';
       </h2>
       <?php 
         $statusUpper = strtoupper($eq['current_status']);
-        $borderColor = ($statusUpper === 'OPERATIONAL' || $statusUpper === 'ACTIVE') 
+        $isOperational = ($statusUpper === 'OPERATIONAL' || $statusUpper === 'ACTIVE');
+        $borderColor = $isOperational 
           ? 'var(--accent-emerald)' 
           : (($statusUpper === 'LOST' || $statusUpper === 'DESTROYED') ? 'var(--accent-rose)' : 'var(--accent-orange)');
       ?>
@@ -620,15 +621,15 @@ require_once __DIR__ . '/includes/navbar.php';
               MISSION STATUS: <?= $statusUpper ?> // <?= $eq['is_relic'] ? 'CLASSIFICATION: OFF-WORLD RELIC' : 'ACTIVE FLIGHT PLATFORM' ?>
             </div>
             <h3 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin: 6px 0;">
-              LATEST VERIFIED REGION: <?= htmlspecialchars($eq['primary_region'] ?? $eq['d_name']) ?>
+              <?= $isOperational ? 'CURRENT LOCATION / REGION' : 'HISTORICAL TOUCHDOWN / RESTING SITE' ?>: <?= htmlspecialchars($eq['primary_region'] ?? $eq['d_name']) ?>
             </h3>
             <div style="font-size: 1rem; color: var(--text-primary); margin-top: 0.4rem;">
-              Coordinates / Site: <strong><?= htmlspecialchars($eq['current_location']) ?></strong>
+              <?= $isOperational ? 'Latest Verified Coordinates' : 'In Situ Resting Coordinates' ?>: <strong><?= htmlspecialchars($eq['current_location']) ?></strong>
             </div>
             
             <?php if (!empty($eq['fate'])): ?>
               <div style="background: rgba(5,7,11,0.6); padding: 12px 16px; border-radius: 2px; border-left: 2px solid <?= $borderColor ?>; margin-top: 1rem;">
-                <div class="mono-label" style="color: var(--accent-cyan); font-size: 0.68rem; margin-bottom: 4px;">FINAL FATE & DISPOSITION:</div>
+                <div class="mono-label" style="color: var(--accent-cyan); font-size: 0.68rem; margin-bottom: 4px;">PHYSICAL DISPOSITION & FATE:</div>
                 <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
                   <?= nl2br(htmlspecialchars($eq['fate'])) ?>
                 </p>
@@ -637,12 +638,14 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
 
           <div style="text-align: right;">
-            <div class="mono-label" style="color: var(--text-muted);">TELEMETRY INTEGRITY</div>
+            <div class="mono-label" style="color: var(--text-muted);">
+              <?= $isOperational ? 'PUBLIC RECORD VERIFICATION' : 'HISTORICAL MISSION RECORD' ?>
+            </div>
             <div class="mono-value" style="font-size: 1.1rem; color: var(--accent-cyan); font-weight: 700;">
               LAST VERIFIED: <?= formatTelemetryDate($eq['last_verified'] ?? '2026-03-20') ?>
             </div>
             <div class="mono-label" style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">
-              SOURCE: <?= strtoupper(htmlspecialchars($eq['a_code'] ?? 'OFFICIAL AGENCY')) ?> ARCHIVAL REGISTRY
+              <?= $isOperational ? 'LATEST PUBLICLY REPORTED CONTEXT' : 'IN SITU PRESERVATION CONTEXT' ?>
             </div>
           </div>
         </div>
